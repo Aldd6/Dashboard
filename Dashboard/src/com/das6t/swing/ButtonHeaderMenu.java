@@ -19,9 +19,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-public class ButtonMenu extends JButton {
-
-    Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
+public class ButtonHeaderMenu extends JButton{
+        Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
     
     /**
      * @return the radius
@@ -36,7 +35,7 @@ public class ButtonMenu extends JButton {
     public void setRadius(int radius) {
         this.radius = radius;
     }
-    public ButtonMenu() {
+    public ButtonHeaderMenu() {
         this.setContentAreaFilled(false);
         this.setBorder(new EmptyBorder(8,10,8,10));
         this.setHorizontalAlignment(LEFT);
@@ -45,6 +44,18 @@ public class ButtonMenu extends JButton {
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.setFont(robotoPlain);
         this.setFocusPainted(false);
+    }
+    
+    public ButtonHeaderMenu(String nombre) {
+        this.setContentAreaFilled(false);
+        this.setBorder(new EmptyBorder(8,10,8,10));
+        this.setHorizontalAlignment(LEFT);
+        this.setBackground(new Color(71,71,71));
+        this.setForeground(new Color(153,153,153));
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        this.setFont(robotoPlain);
+        this.setFocusPainted(false);
+        this.setText(nombre);
     }
     
     public int radius = 10;
@@ -67,4 +78,3 @@ public class ButtonMenu extends JButton {
         super.paint(graphs);
     }
 }
-
