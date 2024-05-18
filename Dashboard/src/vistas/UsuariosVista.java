@@ -4,15 +4,18 @@
  */
 package vistas;
 
-import com.formdev.flatlaf.IntelliJTheme;
 import java.awt.Color;
-import javax.swing.UIManager;
+import com.das6t.swing.ButtonHeaderMenu;
+import com.das6t.event.EventMenu;
+import java.util.ArrayList;
 
 /**
  *
- * @author DELL
+ * @author Daniel Aldana(DaS6T)
  */
 public class UsuariosVista extends javax.swing.JPanel {
+    
+    private ArrayList<ButtonHeaderMenu> buttons = new ArrayList<>();
 
     /**
      * Creates new form NewJPanel
@@ -20,8 +23,22 @@ public class UsuariosVista extends javax.swing.JPanel {
     public UsuariosVista() {
         initComponents();
         this.setOpaque(false);
-        this.setBackground(Color.red);
-        System.out.println("panel creado!");
+        buttons.add(new ButtonHeaderMenu("Nuevo usuario"));
+        buttons.add(new ButtonHeaderMenu("eliminar usuario"));
+        buttons.add(new ButtonHeaderMenu("Nuevo usuario"));
+        buttons.add(new ButtonHeaderMenu("eliminar usuario"));
+        buttons.add(new ButtonHeaderMenu("Nuevo usuario"));
+        buttons.add(new ButtonHeaderMenu("eliminar usuario"));
+        EventMenu evt = new EventMenu() {
+            @Override
+            public void selected(int index) {
+                if(index == 0){
+                    System.out.println("Panel creado");
+                }
+            }
+        };
+        headerMenu.initHeaderMenu(evt, buttons);
+        headerMenu.setViewName("Habitaciones");
     }
 
     /**
@@ -33,39 +50,39 @@ public class UsuariosVista extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        roundedPanel1 = new com.das6t.swing.RoundedPanel();
+        headerMenu = new com.das6t.component.HeaderMenu();
 
-        setMaximumSize(new java.awt.Dimension(932, 689));
-        setMinimumSize(new java.awt.Dimension(932, 689));
+        setMaximumSize(new java.awt.Dimension(936, 690));
+        setMinimumSize(new java.awt.Dimension(936, 690));
+        setOpaque(false);
+        setPreferredSize(new java.awt.Dimension(936, 690));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
-        jLabel2.setText("HOLA");
+        roundedPanel1.setBackground(new java.awt.Color(45, 42, 46));
+        roundedPanel1.setMaximumSize(new java.awt.Dimension(936, 690));
+        roundedPanel1.setMinimumSize(new java.awt.Dimension(936, 690));
+        roundedPanel1.setPreferredSize(new java.awt.Dimension(936, 690));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(423, 423, 423)
-                .addComponent(jLabel2)
-                .addContainerGap(472, Short.MAX_VALUE))
+        javax.swing.GroupLayout roundedPanel1Layout = new javax.swing.GroupLayout(roundedPanel1);
+        roundedPanel1.setLayout(roundedPanel1Layout);
+        roundedPanel1Layout.setHorizontalGroup(
+            roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(headerMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(260, 260, 260)
-                .addComponent(jLabel2)
-                .addContainerGap(413, Short.MAX_VALUE))
+        roundedPanel1Layout.setVerticalGroup(
+            roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundedPanel1Layout.createSequentialGroup()
+                .addComponent(headerMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 645, Short.MAX_VALUE))
         );
 
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        add(roundedPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 690));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
+    private com.das6t.component.HeaderMenu headerMenu;
+    private com.das6t.swing.RoundedPanel roundedPanel1;
     // End of variables declaration//GEN-END:variables
 }
