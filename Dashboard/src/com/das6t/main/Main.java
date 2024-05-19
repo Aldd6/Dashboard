@@ -8,7 +8,6 @@ package com.das6t.main;
  *
  * @author Daniel Aldana(DaS6T)
  */
-
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.IntelliJTheme;
@@ -21,42 +20,59 @@ import java.awt.Component;
 import java.awt.BorderLayout;
 import vistas.UsuariosVista;
 import javax.swing.UIManager;
+import vistas.HabitacionesVista;
 
 public class Main extends javax.swing.JFrame {
+
     Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
     Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
-    
-    Color fontColor = new Color(153,153,153);
-    
-    ImageIcon iconUser = new FlatSVGIcon("com/das6t/icons/account_circle.svg",48,48);
-    ImageIcon iconDash = new FlatSVGIcon("com/das6t/icons/dashboard.svg",48,48);
-    ImageIcon iconReserv = new FlatSVGIcon("com/das6t/icons/reservaciones.svg",48,48);
-    ImageIcon iconCliente = new FlatSVGIcon("com/das6t/icons/clientes.svg",48,48);
-    ImageIcon iconFactura = new FlatSVGIcon("com/das6t/icons/facturas.svg",48,48);
-    ImageIcon iconLogout = new FlatSVGIcon("com/das6t/icons/logout.svg",48,48);
-    ImageIcon iconHab = new FlatSVGIcon("com/das6t/icons/cama.svg",48,48);
-    ImageIcon iconUsuario = new FlatSVGIcon("com/das6t/icons/usuarios.svg",48,48);
+
+    Color fontColor = new Color(153, 153, 153);
+
+    ImageIcon iconUser = new FlatSVGIcon("com/das6t/icons/account_circle.svg", 48, 48);
+    ImageIcon iconDash = new FlatSVGIcon("com/das6t/icons/dashboard.svg", 48, 48);
+    ImageIcon iconReserv = new FlatSVGIcon("com/das6t/icons/reservaciones.svg", 48, 48);
+    ImageIcon iconCliente = new FlatSVGIcon("com/das6t/icons/clientes.svg", 48, 48);
+    ImageIcon iconFactura = new FlatSVGIcon("com/das6t/icons/facturas.svg", 48, 48);
+    ImageIcon iconLogout = new FlatSVGIcon("com/das6t/icons/logout.svg", 48, 48);
+    ImageIcon iconHab = new FlatSVGIcon("com/das6t/icons/cama.svg", 48, 48);
+    ImageIcon iconUsuario = new FlatSVGIcon("com/das6t/icons/usuarios.svg", 48, 48);
 
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
-        this.setBackground(new Color(0,0,0,0));
+        this.setBackground(new Color(0, 0, 0, 0));
         EventMenu evt = new EventMenu() {
             @Override
             public void selected(int index) {
-                if(index==0){
+                if (index == 0) {
                     UsuariosVista vs = new UsuariosVista();
                     vs.setSize(936, 689);
                     vs.setLocation(0, 0);
                     showPanel(vs);
                 }
+
+                switch (index) {
+                    case 0:
+                        break;
+                    case 1:
+                        HabitacionesVista habitaciones = new HabitacionesVista();
+                        habitaciones.setSize(936, 689);
+                        habitaciones.setLocation(0, 0);
+                        showPanel(habitaciones);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                }
+
             }
         };
         menu.initMenu(evt);
     }
-    
+
     private void showPanel(Component cmp) {
         contentPane.removeAll();
         contentPane.add(cmp, BorderLayout.CENTER);
@@ -197,7 +213,7 @@ public class Main extends javax.swing.JFrame {
             UIManager.put("Component.innerFocusWidth", 0);
             UIManager.put("Component.focusWidth", 2);
             UIManager.put("TextComponent.arc", 8);
-        }catch(Exception ex) {
+        } catch (Exception ex) {
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
