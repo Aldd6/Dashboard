@@ -13,7 +13,7 @@ import javax.swing.JInternalFrame;
  *
  * @author Daniel Aldana(DaS6T)
  */
-public class UsuariosVista extends javax.swing.JPanel {
+public class ReservacionesVista extends javax.swing.JPanel {
     
     private ArrayList<ButtonHeaderMenu> buttons = new ArrayList<>();
     JInternalFrame observador = null;
@@ -21,7 +21,7 @@ public class UsuariosVista extends javax.swing.JPanel {
     /**
      * Creates new form NewJPanel
      */
-    public UsuariosVista() {
+    public ReservacionesVista() {
         initComponents();
         this.setOpaque(false);
         EventMenu evt = new EventMenu() {
