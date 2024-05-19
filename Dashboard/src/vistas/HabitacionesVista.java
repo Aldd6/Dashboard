@@ -36,7 +36,7 @@ public class HabitacionesVista extends javax.swing.JPanel {
         }
 
         //Botones
-        buttons.add(new ButtonHeaderMenu("Crear"));
+        buttons.add(new ButtonHeaderMenu("Crear habitación"));
 
         EventMenu evt = new EventMenu() {
 

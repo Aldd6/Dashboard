@@ -97,7 +97,7 @@ public class HabitacionServicio {
         PreparedStatement stmt = null;
         try {
             conn = Conexion.getInstance().getConnection();
-            String query = "INSERT INTO habitacion (tipo_habitacion_id, estado_habitacion_id) VALUES (?,?)";
+            String query = "INSERT INTO habitacion (Tipo_habitacion_id, Estado_habitacion) VALUES (?,?)";
             stmt = conn.prepareStatement(query);
 
             stmt.setInt(1, tipoHabitacionId);
