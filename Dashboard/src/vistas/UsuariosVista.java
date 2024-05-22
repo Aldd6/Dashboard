@@ -8,6 +8,7 @@ import com.das6t.swing.ButtonHeaderMenu;
 import com.das6t.event.EventMenu;
 import java.util.ArrayList;
 import javax.swing.JInternalFrame;
+import servicios.Observador;
 
 /**
  *
@@ -16,7 +17,7 @@ import javax.swing.JInternalFrame;
 public class UsuariosVista extends javax.swing.JPanel {
     
     private ArrayList<ButtonHeaderMenu> buttons = new ArrayList<>();
-    JInternalFrame observador = null;
+    private JInternalFrame observador;
 
     /**
      * Creates new form NewJPanel
@@ -24,11 +25,17 @@ public class UsuariosVista extends javax.swing.JPanel {
     public UsuariosVista() {
         initComponents();
         this.setOpaque(false);
+        buttons.add(new ButtonHeaderMenu("Crear Usuario"));
         EventMenu evt = new EventMenu() {
             @Override
             public void selected(int index) {
                 switch(index){
                     case 0:
+                        observador.dispose();
+                        CrearUsuarios cu = new CrearUsuarios();
+                        jDesktopPane.add(cu);
+                        cu.setVisible(true);
+                        observador = cu;
                         break;
                     case 1:
                         break;
@@ -36,7 +43,11 @@ public class UsuariosVista extends javax.swing.JPanel {
             }
         };
         headerMenu.initHeaderMenu(evt, buttons);
-        headerMenu.setViewName(""); //escriba aqui el nombre de la vista por favor
+        headerMenu.setViewName("Usuarios"); //escriba aqui el nombre de la vista por favor
+        TablaUsuarios tbl = new TablaUsuarios();
+        jDesktopPane.add(tbl);
+        tbl.setVisible(true);
+        observador = tbl;
     }
 
     /**
