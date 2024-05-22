@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.naming.NamingException;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -163,5 +164,92 @@ public class Usuarios {
             }
         }
         return validationKey;
+    }
+    
+    public static ResultSet getCargos() {
+        try {
+            conn = Conexion.getInstance().getConnection();
+            qry = "SELECT cargo FROM cargo_empleado";
+            st = conn.prepareStatement(qry);
+            rs = st.executeQuery();
+        }catch(NamingException | SQLException ex) {
+            System.out.println(ex.getMessage());
+        }finally {
+            try {
+                st.close();
+                conn.close();
+            }catch(SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return rs;
+    }
+    
+    public static ResultSet getRoles() {
+        try {
+            conn = Conexion.getInstance().getConnection();
+            qry = "SELECT rol FROM rol_usuario";
+            st = conn.prepareStatement(qry);
+            rs = st.executeQuery();
+        }catch(NamingException | SQLException ex) {
+            System.out.println(ex.getMessage());
+        }finally {
+            try {
+                st.close();
+                conn.close();
+            }catch(SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return rs;
+    }
+    
+    public static void setCargo(int id, JComboBox bx) {
+        String cargo = "";
+        try {
+            conn = Conexion.getInstance().getConnection();
+            qry = "SELECT cargo FROM cargo_empleado c INNER JOIN autenticacion a ON"
+                    + "c.id_cargo = a.cargo_usuario_id WHERE id_usuario = ?";
+            st = conn.prepareStatement(qry);
+            st.setInt(1, id);
+            rs = st.executeQuery();
+            while(rs.next()) {
+                cargo = rs.getString("cargo");
+            }
+            bx.setSelectedItem((Object)cargo);
+        }catch(NamingException | SQLException ex) {
+            System.out.println(ex.getMessage());
+        }finally {
+            try {
+                st.close();
+                conn.close();
+            }catch(SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+    
+    public static void setRol(int id, JComboBox bx) {
+        String rol = "";
+        try {
+            conn = Conexion.getInstance().getConnection();
+            qry = "SELECT rol FROM rol_usuario r INNER JOIN autenticacion a ON"
+                    + "r.id_rol_usuario = a.rol_usuario_id WHERE id_usuario = ?";
+            st = conn.prepareStatement(qry);
+            rs = st.executeQuery();
+            while(rs.next()) {
+                rol = rs.getString("rol");
+            }
+            bx.setSelectedItem((Object)rol);
+        }catch(NamingException | SQLException ex) {
+            System.out.println(ex.getMessage());
+        }finally {
+            try {
+                st.close();
+                conn.close();
+            }catch(SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
     }
 }
