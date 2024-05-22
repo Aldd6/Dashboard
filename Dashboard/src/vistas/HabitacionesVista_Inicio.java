@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import servicios.HabitacionServicio;
 import java.util.List;
 import java.util.Locale;
-
+import javax.swing.JInternalFrame;
 
 /**
  *
@@ -35,11 +35,11 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
             HabitacionServicio habitacionServicio = new HabitacionServicio();
             List<HabitacionServicio> habitaciones = habitacionServicio.obtenerTodasLasHabitaciones();
 
-            NumberFormat quetzales = NumberFormat.getCurrencyInstance(new Locale("es","GT"));
-            
+            NumberFormat quetzales = NumberFormat.getCurrencyInstance(new Locale("es", "GT"));
+
             for (HabitacionServicio habitacion : habitaciones) {
                 String precioFormateado = quetzales.format(habitacion.getPrecioHabitacion());
-                
+
                 modeloTabla.addRow(new Object[]{
                     habitacion.getNumHabitacion(),
                     habitacion.getTipo(),
@@ -76,6 +76,11 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
         ));
         jTableDatos.setOpaque(false);
         jTableDatos.setShowGrid(false);
+        jTableDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableDatosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableDatos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -97,6 +102,25 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTableDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDatosMouseClicked
+        int filaSeleccionada = jTableDatos.getSelectedRow();
+
+        if (filaSeleccionada != -1) {
+            String noHabitacion = jTableDatos.getValueAt(filaSeleccionada, 0).toString();
+            String tipoHabitacion = jTableDatos.getValueAt(filaSeleccionada,1).toString();
+            String estadoHabitcion = jTableDatos.getValueAt(filaSeleccionada, 4).toString();
+            
+            HabitacionesVista_Editar editar = new HabitacionesVista_Editar();
+            //jDesktopPane.add(editar);
+            
+            /*observador.dispose();
+            HabitacionesVista_Crear crear = new HabitacionesVista_Crear();
+            jDesktopPane.add(crear);
+            crear.setVisible(true);
+            observador = crear;*/
+        }
+    }//GEN-LAST:event_jTableDatosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

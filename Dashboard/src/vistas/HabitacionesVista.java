@@ -25,6 +25,7 @@ public class HabitacionesVista extends javax.swing.JPanel {
         initComponents();
         this.setOpaque(false);
 
+        // Carga de vista HabitacionesVista
         try {
             HabitacionesVista_Inicio inicio = new HabitacionesVista_Inicio();
             jDesktopPane.add(inicio);

@@ -65,6 +65,9 @@
             <Property name="opaque" type="boolean" value="false"/>
             <Property name="showGrid" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableDatosMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
