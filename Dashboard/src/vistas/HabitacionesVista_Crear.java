@@ -32,7 +32,6 @@ public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
 
             for (TipoHabitacionServicio habitacion : tiposHabitaciones) {
                 selectTipoHabitacion.addItem(habitacion.getTipoHab());
-                System.out.println(habitacion.getTipoHab());
             }
 
         } catch (SQLException | NamingException ex) {
@@ -48,7 +47,6 @@ public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
 
             for (EstadoHabitacionServicio estadoHabitacion : estadoHabitaciones) {
                 selectEstadoDeHabitacion.addItem(estadoHabitacion.getDetalle_estado());
-                System.out.println(estadoHabitacion.getDetalle_estado());
             }
 
         } catch (SQLException | NamingException ex) {

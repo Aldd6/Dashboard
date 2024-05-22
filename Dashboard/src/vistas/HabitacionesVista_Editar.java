@@ -4,6 +4,8 @@
  */
 package vistas;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import static java.lang.Integer.parseInt;
 import java.util.List;
 import javax.swing.JOptionPane;
 import servicios.TipoHabitacionServicio;
@@ -11,6 +13,8 @@ import servicios.EstadoHabitacionServicio;
 import servicios.HabitacionServicio;
 import java.sql.SQLException;
 import javax.naming.NamingException;
+import javax.swing.ImageIcon;
+import vistas.HabitacionesVista;
 
 /**
  *
@@ -18,11 +22,25 @@ import javax.naming.NamingException;
  */
 public class HabitacionesVista_Editar extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form HabitacionesVista_Crear
-     */
-    public HabitacionesVista_Editar() {
+    private HabitacionesVista habitacionesVista;
+    private String noHabitacion;
+    private String tipoHabitacion;
+    private String estadoHabitacion;
+
+    public HabitacionesVista_Editar(HabitacionesVista habitacionesVista, String noHabitacion, String tipoHabitacion, String estadoHabitacion) {
+
         initComponents();
+        this.habitacionesVista = habitacionesVista;
+        this.noHabitacion = noHabitacion;
+        this.tipoHabitacion = tipoHabitacion;
+        this.estadoHabitacion = estadoHabitacion;
+
+        txtNoHabitacion.setText(noHabitacion);
+
+        ImageIcon iconoEliminar = new FlatSVGIcon("com/das6t/icons/delete_ivan.svg", 16, 16);
+        btnEliminar.setIcon(iconoEliminar);
+
+        txtNoHabitacion.requestFocus();
 
         try {
             List<TipoHabitacionServicio> tiposHabitaciones = TipoHabitacionServicio.visualizarTipo();
@@ -32,7 +50,14 @@ public class HabitacionesVista_Editar extends javax.swing.JInternalFrame {
 
             for (TipoHabitacionServicio habitacion : tiposHabitaciones) {
                 selectTipoHabitacion.addItem(habitacion.getTipoHab());
-                System.out.println(habitacion.getTipoHab());
+            }
+
+            for (int i = 0; i < selectTipoHabitacion.getItemCount(); i++) {
+                String item = (String) selectTipoHabitacion.getItemAt(i);
+                if (item.equals(tipoHabitacion)) {
+                    selectTipoHabitacion.setSelectedIndex(i);
+                    break;
+                }
             }
 
         } catch (SQLException | NamingException ex) {
@@ -46,9 +71,16 @@ public class HabitacionesVista_Editar extends javax.swing.JInternalFrame {
             selectEstadoDeHabitacion.removeAllItems();
             selectEstadoDeHabitacion.addItem("Selecciona un estado de habitación");
 
-            for (EstadoHabitacionServicio estadoHabitacion : estadoHabitaciones) {
-                selectEstadoDeHabitacion.addItem(estadoHabitacion.getDetalle_estado());
-                System.out.println(estadoHabitacion.getDetalle_estado());
+            for (EstadoHabitacionServicio stHabitacion : estadoHabitaciones) {
+                selectEstadoDeHabitacion.addItem(stHabitacion.getDetalle_estado());
+            }
+
+            for (int i = 0; i < selectEstadoDeHabitacion.getItemCount(); i++) {
+                String item = (String) selectEstadoDeHabitacion.getItemAt(i);
+                if (item.equals(estadoHabitacion)) {
+                    selectEstadoDeHabitacion.setSelectedIndex(i);
+                    break;
+                }
             }
 
         } catch (SQLException | NamingException ex) {
@@ -77,7 +109,7 @@ public class HabitacionesVista_Editar extends javax.swing.JInternalFrame {
         btnCancelar = new javax.swing.JButton();
         txtNoHabitacion = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         setMaximumSize(new java.awt.Dimension(916, 629));
         setMinimumSize(new java.awt.Dimension(916, 629));
@@ -95,7 +127,6 @@ public class HabitacionesVista_Editar extends javax.swing.JInternalFrame {
 
         selectEstadoDeHabitacion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,15 +134,24 @@ public class HabitacionesVista_Editar extends javax.swing.JInternalFrame {
             }
         });
 
-        btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
+        txtNoHabitacion.setEditable(false);
         txtNoHabitacion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNoHabitacion.setDisabledTextColor(new java.awt.Color(255, 255, 255));
+        txtNoHabitacion.setEnabled(false);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel4.setText("No de Habitación");
 
-        jButton1.setText("Elim");
+        btnEliminar.setText(" Eliminar");
+        btnEliminar.setFocusable(false);
+        btnEliminar.setPreferredSize(new java.awt.Dimension(27, 27));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -119,34 +159,37 @@ public class HabitacionesVista_Editar extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnCancelar)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnGuardar))
-                        .addComponent(selectEstadoDeHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtNoHabitacion, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(selectTipoHabitacion, javax.swing.GroupLayout.Alignment.LEADING, 0, 312, Short.MAX_VALUE))
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(576, 576, 576)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnCancelar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnGuardar))
+                            .addComponent(selectEstadoDeHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtNoHabitacion, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(selectTipoHabitacion, javax.swing.GroupLayout.Alignment.LEADING, 0, 312, Short.MAX_VALUE))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 844, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -165,7 +208,7 @@ public class HabitacionesVista_Editar extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnCancelar))
-                .addContainerGap(269, Short.MAX_VALUE))
+                .addContainerGap(273, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,6 +216,7 @@ public class HabitacionesVista_Editar extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
+            int id = parseInt(txtNoHabitacion.getText());
             int iTipoHabi = selectTipoHabitacion.getSelectedIndex();
             int iEstaHabi = selectEstadoDeHabitacion.getSelectedIndex();
 
@@ -186,12 +230,14 @@ public class HabitacionesVista_Editar extends javax.swing.JInternalFrame {
                 return;
             }
 
-            if (HabitacionServicio.crearHabitacion(iTipoHabi, iEstaHabi)) {
+            if (HabitacionServicio.modificarHabitacion(id, iTipoHabi, iEstaHabi)) {
 
-                JOptionPane.showMessageDialog(this, "Habitacion creada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Habitacion actualizada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                habitacionesVista.abrirInicio();
 
             } else {
-                JOptionPane.showMessageDialog(this, "No fue posible crear la habitación, consulta con tu administrador de sistemas", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No fue posible actualizar la habitación, consulta con tu administrador de sistemas", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (Exception ex) {
@@ -201,11 +247,14 @@ public class HabitacionesVista_Editar extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        habitacionesVista.abrirInicio();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

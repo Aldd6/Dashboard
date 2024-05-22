@@ -7,7 +7,7 @@ package vistas;
 import com.das6t.swing.ButtonHeaderMenu;
 import com.das6t.event.EventMenu;
 import java.util.ArrayList;
-import javax.swing.JInternalFrame;
+import servicios.Observador;
 
 /**
  *
@@ -16,28 +16,19 @@ import javax.swing.JInternalFrame;
 public class HabitacionesVista extends javax.swing.JPanel {
 
     private ArrayList<ButtonHeaderMenu> buttons = new ArrayList<>();
-    JInternalFrame observador = null;
 
-    /**
-     * Creates new form NewJPanel
-     */
     public HabitacionesVista() {
         initComponents();
         this.setOpaque(false);
 
-        // Carga de vista HabitacionesVista
-        try {
-            HabitacionesVista_Inicio inicio = new HabitacionesVista_Inicio();
-            jDesktopPane.add(inicio);
-            inicio.setVisible(true);
-            observador = inicio;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("Error al cargar la vista");
-        }
+        HabitacionesVista_Inicio inicio = new HabitacionesVista_Inicio(this);
+        jDesktopPane.add(inicio);
+        inicio.setVisible(true);
+        Observador.initObservador(inicio);
 
         //Botones
         buttons.add(new ButtonHeaderMenu("Crear habitación"));
+        buttons.add(new ButtonHeaderMenu("Editar"));
 
         EventMenu evt = new EventMenu() {
 
@@ -46,12 +37,20 @@ public class HabitacionesVista extends javax.swing.JPanel {
                 try {
                     switch (index) {
                         case 0:
-                            observador.dispose();
+                            Observador.closeObservador();
                             HabitacionesVista_Crear crear = new HabitacionesVista_Crear();
                             jDesktopPane.add(crear);
                             crear.setVisible(true);
-                            observador = crear;
+                            Observador.initObservador(crear);
                             break;
+                        case 1:
+                            System.out.println("hola 1");
+                           /* Observador.closeObservador();
+                            HabitacionesVista_Editar editar = new HabitacionesVista_Editar(HabitacionesVista.this);
+                            jDesktopPane.add(editar);
+                            editar.setVisible(true);
+                            Observador.initObservador(editar);
+                            break;*/
                         default:
                             System.out.println("Error al seleccionar un boton");
                     }
@@ -65,6 +64,29 @@ public class HabitacionesVista extends javax.swing.JPanel {
         headerMenu.setViewName("Habitaciones"); //escriba aqui el nombre de la vista por favor
     }
 
+    public void abrirInicio() {
+        Observador.closeObservador();
+        HabitacionesVista_Inicio inicio = new HabitacionesVista_Inicio(this);
+        jDesktopPane.add(inicio);
+        inicio.setVisible(true);
+        Observador.initObservador(inicio);
+    }
+
+    public void abrirEditar(String noHabitacion, String tipoHabitacion, String estadoHabitacion) {
+        Observador.closeObservador();
+        HabitacionesVista_Editar editar = new HabitacionesVista_Editar(this, noHabitacion, tipoHabitacion, estadoHabitacion);
+        jDesktopPane.add(editar);
+        editar.setVisible(true);
+        Observador.initObservador(editar);
+    }
+
+    /*public void abrirEditar(String noHabitacion, String tipoHabitacion, String estadoHabitacion) {
+        Observador.closeObservador();
+        HabitacionesVista_Editar editar = new HabitacionesVista_Editar(noHabitacion, tipoHabitacion, estadoHabitacion);
+        jDesktopPane.add(editar);
+        editar.setVisible(true);
+        Observador.initObservador(editar);
+    }*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
