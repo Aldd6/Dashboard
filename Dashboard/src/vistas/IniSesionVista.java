@@ -64,6 +64,11 @@ public class IniSesionVista extends javax.swing.JFrame {
         lblDescripcion.setFont(robotoPlain);
         lblDescripcion.setText("Por favor ingrese su usuario para Ingresar...");
 
+        txtUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        btnLogIn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLogIn.setText("Ingresar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

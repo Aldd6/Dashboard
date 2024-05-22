@@ -11,10 +11,10 @@ import javax.swing.JInternalFrame;
 
 /**
  *
- * @author Daniel Aldana(DaS6T)
+ * @author Ivan Hernandez
  */
 public class HabitacionesVista extends javax.swing.JPanel {
-    
+
     private ArrayList<ButtonHeaderMenu> buttons = new ArrayList<>();
     JInternalFrame observador = null;
 
@@ -24,19 +24,45 @@ public class HabitacionesVista extends javax.swing.JPanel {
     public HabitacionesVista() {
         initComponents();
         this.setOpaque(false);
+
+        // Carga de vista HabitacionesVista
+        try {
+            HabitacionesVista_Inicio inicio = new HabitacionesVista_Inicio();
+            jDesktopPane.add(inicio);
+            inicio.setVisible(true);
+            observador = inicio;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("Error al cargar la vista");
+        }
+
+        //Botones
+        buttons.add(new ButtonHeaderMenu("Crear habitación"));
+
         EventMenu evt = new EventMenu() {
+
             @Override
             public void selected(int index) {
-                switch(index){
-                    case 0:
-                        break;
-                    case 1:
-                        break;
+                try {
+                    switch (index) {
+                        case 0:
+                            observador.dispose();
+                            HabitacionesVista_Crear crear = new HabitacionesVista_Crear();
+                            jDesktopPane.add(crear);
+                            crear.setVisible(true);
+                            observador = crear;
+                            break;
+                        default:
+                            System.out.println("Error al seleccionar un boton");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    System.out.println("Error al cargar la vista");
                 }
             }
         };
         headerMenu.initHeaderMenu(evt, buttons);
-        headerMenu.setViewName(""); //escriba aqui el nombre de la vista por favor
+        headerMenu.setViewName("Habitaciones"); //escriba aqui el nombre de la vista por favor
     }
 
     /**
