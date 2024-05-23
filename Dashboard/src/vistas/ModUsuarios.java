@@ -14,21 +14,50 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Font;
 import com.das6t.component.PasswordVerify;
+import java.sql.SQLException;
+import java.util.List;
+import javax.naming.NamingException;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import servicios.Usuarios;
 
 public class ModUsuarios extends javax.swing.JInternalFrame {
     
     Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
     Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
-    ImageIcon deleteIcon = new FlatSVGIcon("/com/das6t/icons/delete.svg",24,24);
+    ImageIcon deleteIcon = new FlatSVGIcon("com/das6t/icons/delete.svg",24,24);
 
     /**
      * Creates new form CrearUsuarios
      */
-    public ModUsuarios() {
+    public ModUsuarios(int id) {
         initComponents();
         txtContrasenia.putClientProperty(FlatClientProperties.STYLE, "" + "showRevealButton:true");
         passwordVerify.initPassListener(txtContrasenia);
+        try {
+            List<String> cargosUsuarios = Usuarios.getCargos();
+            cmbCargos.removeAllItems();
+            cmbCargos.addItem("Seleccione un cargo de usuario");
+            for(String cargo:cargosUsuarios) {
+                cmbCargos.addItem(cargo);
+            }
+            Usuarios.setCargo(id, cmbCargos);
+        }catch(NamingException | SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al obtener los cargos.");
+        }
+        try {
+            List<String> rolesUsuarios = Usuarios.getRoles();
+            cmbRoles.removeAllItems();
+            cmbRoles.addItem("Seleccione un rol de usuario");
+            for(String rol:rolesUsuarios) {
+                cmbRoles.addItem(rol);
+            }
+            Usuarios.setRol(id, cmbRoles);
+        }catch(NamingException | SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al obtener los roles.");
+        }
     }
 
     /**
@@ -53,13 +82,19 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
         passwordVerify = new com.das6t.component.PasswordVerify();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cmbCargos = new javax.swing.JComboBox<>();
+        cmbRoles = new javax.swing.JComboBox<>();
         btnGuardar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        btnGuardar1 = new javax.swing.JButton();
 
         jLabel1.setFont(robotoBold);
         jLabel1.setText("Modificar Usuario");
+
+        txtNombres.setMinimumSize(new java.awt.Dimension(68, 30));
+        txtNombres.setPreferredSize(new java.awt.Dimension(68, 30));
+
+        txtApellidos.setPreferredSize(new java.awt.Dimension(68, 30));
 
         jLabel3.setFont(robotoPlain);
         jLabel3.setText("Nombres");
@@ -73,23 +108,35 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
         jLabel5.setFont(robotoPlain);
         jLabel5.setText("Contraseña");
 
+        txtUsuario.setPreferredSize(new java.awt.Dimension(68, 30));
+
+        txtContrasenia.setPreferredSize(new java.awt.Dimension(68, 30));
+
         jLabel6.setFont(robotoPlain);
         jLabel6.setText("Usuario");
 
         jLabel7.setFont(robotoPlain);
         jLabel7.setText("Rol");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCargos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCargos.setPreferredSize(new java.awt.Dimension(68, 30));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbRoles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbRoles.setPreferredSize(new java.awt.Dimension(68, 30));
 
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
 
-        jButton1.setBackground(new java.awt.Color(255, 51, 0));
+        jButton1.setBackground(new java.awt.Color(255, 51, 51));
+        jButton1.setFont(robotoPlain);
         jButton1.setIcon(deleteIcon);
+        jButton1.setText("Eliminar");
         jButton1.setMaximumSize(new java.awt.Dimension(50, 50));
         jButton1.setMinimumSize(new java.awt.Dimension(50, 50));
         jButton1.setPreferredSize(new java.awt.Dimension(50, 50));
+
+        btnGuardar1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnGuardar1.setText("Cancelar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,21 +148,24 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 844, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnGuardar)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnGuardar1)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnGuardar))
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel3)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
-                                        .addComponent(txtNombres, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addComponent(txtNombres, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addGap(372, 372, 372)))
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cmbCargos, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(8, 8, 8)
                                     .addComponent(jLabel6)))
@@ -123,11 +173,11 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(passwordVerify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel5)
-                                .addComponent(txtApellidos)
+                                .addComponent(txtApellidos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel2)
                                 .addComponent(txtContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                                 .addComponent(jLabel7)
-                                .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(cmbRoles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -135,7 +185,7 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
+                        .addGap(9, 9, 9)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -166,11 +216,13 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbCargos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbRoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
-                .addComponent(btnGuardar)
-                .addContainerGap(183, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnGuardar1))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
 
         pack();
@@ -179,9 +231,10 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnGuardar1;
+    private javax.swing.JComboBox<String> cmbCargos;
+    private javax.swing.JComboBox<String> cmbRoles;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

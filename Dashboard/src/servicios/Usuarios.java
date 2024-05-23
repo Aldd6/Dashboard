@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.naming.NamingException;
 import javax.swing.JComboBox;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -166,12 +168,16 @@ public class Usuarios {
         return validationKey;
     }
     
-    public static ResultSet getCargos() {
+    public static List<String> getCargos() throws NamingException, SQLException{
+        List<String> cargos = new ArrayList<>();
         try {
             conn = Conexion.getInstance().getConnection();
             qry = "SELECT cargo FROM cargo_empleado";
             st = conn.prepareStatement(qry);
             rs = st.executeQuery();
+            while(rs.next()) {
+                cargos.add(rs.getString("cargo_empleado"));
+            }
         }catch(NamingException | SQLException ex) {
             System.out.println(ex.getMessage());
         }finally {
@@ -182,15 +188,19 @@ public class Usuarios {
                 System.out.println(ex.getMessage());
             }
         }
-        return rs;
+        return cargos;
     }
     
-    public static ResultSet getRoles() {
+    public static List<String> getRoles() throws NamingException, SQLException{
+        List<String> roles = new ArrayList<>();
         try {
             conn = Conexion.getInstance().getConnection();
             qry = "SELECT rol FROM rol_usuario";
             st = conn.prepareStatement(qry);
             rs = st.executeQuery();
+            while(rs.next()) {
+                roles.add(rs.getString("rol_usuario"));
+            }
         }catch(NamingException | SQLException ex) {
             System.out.println(ex.getMessage());
         }finally {
@@ -201,7 +211,7 @@ public class Usuarios {
                 System.out.println(ex.getMessage());
             }
         }
-        return rs;
+        return roles;
     }
     
     public static void setCargo(int id, JComboBox bx) {

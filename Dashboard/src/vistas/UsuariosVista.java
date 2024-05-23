@@ -26,6 +26,7 @@ public class UsuariosVista extends javax.swing.JPanel {
         initComponents();
         this.setOpaque(false);
         buttons.add(new ButtonHeaderMenu("Crear Usuario"));
+        buttons.add(new ButtonHeaderMenu("Modificar Usuario"));
         EventMenu evt = new EventMenu() {
             @Override
             public void selected(int index) {
@@ -38,6 +39,7 @@ public class UsuariosVista extends javax.swing.JPanel {
                         observador = cu;
                         break;
                     case 1:
+                        
                         break;
                 }
             }
