@@ -9,7 +9,6 @@ import javax.swing.table.DefaultTableModel;
 import servicios.HabitacionServicio;
 import java.util.List;
 import java.util.Locale;
-import javax.swing.JInternalFrame;
 
 /**
  *
@@ -17,10 +16,13 @@ import javax.swing.JInternalFrame;
  */
 public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
 
+    private HabitacionesVista habitacionesVista;
+
     DefaultTableModel modeloTabla;
 
-    public HabitacionesVista_Inicio() {
+    public HabitacionesVista_Inicio(HabitacionesVista habitacionesVista) {
         initComponents();
+        this.habitacionesVista = habitacionesVista;
 
         modeloTabla = new DefaultTableModel(new String[]{"No. Habitación", "Tipo de Habitación", "Detalle Habitación", "Precio Habitación", "Estado de Habitación"}, 0);
         jTableDatos.setModel(modeloTabla);
@@ -108,17 +110,12 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
 
         if (filaSeleccionada != -1) {
             String noHabitacion = jTableDatos.getValueAt(filaSeleccionada, 0).toString();
-            String tipoHabitacion = jTableDatos.getValueAt(filaSeleccionada,1).toString();
-            String estadoHabitcion = jTableDatos.getValueAt(filaSeleccionada, 4).toString();
-            
-            HabitacionesVista_Editar editar = new HabitacionesVista_Editar();
-            //jDesktopPane.add(editar);
-            
-            /*observador.dispose();
-            HabitacionesVista_Crear crear = new HabitacionesVista_Crear();
-            jDesktopPane.add(crear);
-            crear.setVisible(true);
-            observador = crear;*/
+            String tipoHabitacion = jTableDatos.getValueAt(filaSeleccionada, 1).toString();
+            String estadoHabitacion = jTableDatos.getValueAt(filaSeleccionada, 4).toString();
+
+            //habitacionesVista.abrirEditar();
+            //habitacionesVista.abrirEditar(this, noHabitacion, tipoHabitacion, estadoHabitacion);
+            habitacionesVista.abrirEditar(noHabitacion, tipoHabitacion, estadoHabitacion);
         }
     }//GEN-LAST:event_jTableDatosMouseClicked
 
