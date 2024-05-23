@@ -5,8 +5,11 @@
         <group>
             <file>file:/C:/Programs/NetBeans/DashboardRepo/Dashboard/src/vistas/UsuariosVista.java</file>
             <file>file:/C:/Programs/NetBeans/DashboardRepo/Dashboard/src/vistas/ModUsuarios.java</file>
+            <file>file:/C:/Programs/NetBeans/DashboardRepo/Dashboard/src/vistas/TablaUsuarios.java</file>
             <file>file:/C:/Programs/NetBeans/DashboardRepo/Dashboard/src/vistas/CrearUsuarios.java</file>
-            <file>file:/C:/Programs/NetBeans/DashboardRepo/Dashboard/src/com/das6t/component/Menu.java</file>
+            <file>file:/C:/Programs/NetBeans/DashboardRepo/Dashboard/src/vistas/HabitacionesVista_Inicio.java</file>
+            <file>file:/C:/Programs/NetBeans/DashboardRepo/Dashboard/src/servicios/Usuarios.java</file>
+            <file>file:/C:/Programs/NetBeans/DashboardRepo/Dashboard/src/conexion/dbProp.properties</file>
         </group>
     </open-files>
 </project-private>
