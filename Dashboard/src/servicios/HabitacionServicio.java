@@ -134,7 +134,7 @@ public class HabitacionServicio {
 
         try {
             conn = Conexion.getInstance().getConnection();
-            String query = "UPDATE habitacion SET tipo_habitacion_id=?, estado_habitacion_id=? WHERE no_habitacion=?";
+            String query = "UPDATE habitacion SET Tipo_habitacion_id=?, Estado_habitacion=? WHERE no_habitacion=?";
             stmt = conn.prepareStatement(query);
 
             stmt.setInt(1, tipoHabitacionId);
@@ -212,7 +212,8 @@ public class HabitacionServicio {
             String query = "SELECT h.No_habitacion, th.Tipo, th.Detalle_habitacion, th.Precio_habitacion, eh.Detalle_estado "
                 + "FROM Habitacion h "
                 + "JOIN Tipo_habitacion th ON h.tipo_habitacion_id = th.id_tipo_habitacion "
-                + "JOIN Estado_habitacion eh ON h.estado_habitacion = eh.id_estado_habitacion;";
+                + "JOIN Estado_habitacion eh ON h.estado_habitacion = eh.id_estado_habitacion "
+                + "ORDER BY h.No_habitacion ASC;";
             stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
