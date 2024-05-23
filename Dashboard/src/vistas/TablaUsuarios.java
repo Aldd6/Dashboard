@@ -6,15 +6,52 @@ package vistas;
 
 /**
  *
- * @author DELL
+ * @author Daniel Aldana
  */
+
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import servicios.Usuarios;
+
 public class TablaUsuarios extends javax.swing.JInternalFrame {
+    
+    DefaultTableModel modeloTabla;
+    ResultSet tableData;
 
     /**
      * Creates new form TablaUsuarios
      */
     public TablaUsuarios() {
         initComponents();
+        
+        modeloTabla = (DefaultTableModel)tblUsuarios.getModel();
+        llenarTabla();
+    }
+    
+    private void llenarTabla() {
+        String estado;
+        tableData = Usuarios.visualizarUsuarios();
+        try {
+            while(tableData.next()) {
+                if(tableData.getBoolean("estado_usuario")) {
+                    estado = "Activo";
+                }else {
+                    estado = "Archivado";
+                }
+                modeloTabla.addRow(new Object[] {
+                    tableData.getString("id_usuario"),
+                    tableData.getString("nombre_usuario"),
+                    tableData.getString("apellido_usuario"),
+                    tableData.getString("usuario"),
+                    tableData.getString("cargo_usuario_id"),
+                    tableData.getString("rol_usuario_id"),
+                    estado
+                });
+            }
+        }catch(SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**

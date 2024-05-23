@@ -14,12 +14,17 @@ import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Font;
 import com.das6t.component.PasswordVerify;
 import java.awt.Color;
+import javax.naming.NamingException;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import servicios.Usuarios;
+import java.util.List;
+
 
 public class CrearUsuarios extends javax.swing.JInternalFrame {
     
     Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
     Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
-    private static Color accentColor = new Color(255,216,102);
 
     /**
      * Creates new form CrearUsuarios
@@ -28,6 +33,28 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
         initComponents();
         txtContrasenia.putClientProperty(FlatClientProperties.STYLE, "" + "showRevealButton:true");
         passwordVerify.initPassListener(txtContrasenia);
+        try {
+            List<String> cargosUsuarios = Usuarios.getCargos();
+            cmbCargos.removeAllItems();
+            cmbCargos.addItem("Seleccione un cargo de usuario");
+            for(String cargo:cargosUsuarios) {
+                cmbCargos.addItem(cargo);
+            }
+        }catch(NamingException | SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al obtener los cargos.");
+        }
+        try {
+            List<String> rolesUsuarios = Usuarios.getRoles();
+            cmbRoles.removeAllItems();
+            cmbRoles.addItem("Seleccione un rol de usuario");
+            for(String rol:rolesUsuarios) {
+                cmbRoles.addItem(rol);
+            }
+        }catch(NamingException | SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al obtener los roles.");
+        }
     }
 
     /**
@@ -52,12 +79,17 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
         passwordVerify = new com.das6t.component.PasswordVerify();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cmbCargos = new javax.swing.JComboBox<>();
+        cmbRoles = new javax.swing.JComboBox<>();
         btnGuardar = new javax.swing.JButton();
+        btnGuardar1 = new javax.swing.JButton();
 
         jLabel1.setFont(robotoBold);
         jLabel1.setText("Nuevo Usuario");
+
+        txtNombres.setPreferredSize(new java.awt.Dimension(68, 30));
+
+        txtApellidos.setPreferredSize(new java.awt.Dimension(68, 30));
 
         jLabel3.setFont(robotoPlain);
         jLabel3.setText("Nombres");
@@ -71,17 +103,28 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
         jLabel5.setFont(robotoPlain);
         jLabel5.setText("Contraseña");
 
+        txtUsuario.setPreferredSize(new java.awt.Dimension(68, 30));
+
+        txtContrasenia.setPreferredSize(new java.awt.Dimension(68, 30));
+
         jLabel6.setFont(robotoPlain);
         jLabel6.setText("Usuario");
 
         jLabel7.setFont(robotoPlain);
         jLabel7.setText("Rol");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCargos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCargos.setPreferredSize(new java.awt.Dimension(76, 30));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbRoles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbRoles.setPreferredSize(new java.awt.Dimension(76, 30));
 
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.setPreferredSize(new java.awt.Dimension(84, 31));
+
+        btnGuardar1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnGuardar1.setText("Eliminar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,22 +132,25 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 844, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnGuardar)
                         .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnGuardar1))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel3)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
-                                        .addComponent(txtNombres, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addComponent(txtNombres, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addGap(372, 372, 372)))
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cmbCargos, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(8, 8, 8)
                                     .addComponent(jLabel6)))
@@ -112,11 +158,11 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(passwordVerify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel5)
-                                .addComponent(txtApellidos)
+                                .addComponent(txtApellidos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel2)
                                 .addComponent(txtContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                                 .addComponent(jLabel7)
-                                .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(cmbRoles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -150,11 +196,13 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addComponent(btnGuardar)
-                .addContainerGap(183, Short.MAX_VALUE))
+                    .addComponent(cmbCargos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbRoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar1))
+                .addContainerGap(169, Short.MAX_VALUE))
         );
 
         pack();
@@ -163,8 +211,9 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JButton btnGuardar1;
+    private javax.swing.JComboBox<String> cmbCargos;
+    private javax.swing.JComboBox<String> cmbRoles;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
