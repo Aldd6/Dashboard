@@ -8,63 +8,74 @@ package com.das6t.main;
  *
  * @author Daniel Aldana(DaS6T)
  */
-
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import com.formdev.flatlaf.IntelliJTheme;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import javax.swing.ImageIcon;
 import com.das6t.event.EventMenu;
 import java.awt.Component;
+import java.awt.BorderLayout;
+import vistas.UsuariosVista;
+import javax.swing.UIManager;
+import vistas.HabitacionesVista;
 
 public class Main extends javax.swing.JFrame {
+
     Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
     Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
-    
-    Color fontColor = new Color(153,153,153);
-    
-    ImageIcon iconUser = new FlatSVGIcon("com/das6t/icons/account_circle.svg",48,48);
-    ImageIcon iconDash = new FlatSVGIcon("com/das6t/icons/dashboard.svg",48,48);
-    ImageIcon iconReserv = new FlatSVGIcon("com/das6t/icons/reservaciones.svg",48,48);
-    ImageIcon iconCliente = new FlatSVGIcon("com/das6t/icons/clientes.svg",48,48);
-    ImageIcon iconFactura = new FlatSVGIcon("com/das6t/icons/facturas.svg",48,48);
-    ImageIcon iconLogout = new FlatSVGIcon("com/das6t/icons/logout.svg",48,48);
-    ImageIcon iconHab = new FlatSVGIcon("com/das6t/icons/cama.svg",48,48);
-    ImageIcon iconUsuario = new FlatSVGIcon("com/das6t/icons/usuarios.svg",48,48);
+
+    Color fontColor = new Color(153, 153, 153);
+
+    ImageIcon iconUser = new FlatSVGIcon("com/das6t/icons/account_circle.svg", 48, 48);
+    ImageIcon iconDash = new FlatSVGIcon("com/das6t/icons/dashboard.svg", 48, 48);
+    ImageIcon iconReserv = new FlatSVGIcon("com/das6t/icons/reservaciones.svg", 48, 48);
+    ImageIcon iconCliente = new FlatSVGIcon("com/das6t/icons/clientes.svg", 48, 48);
+    ImageIcon iconFactura = new FlatSVGIcon("com/das6t/icons/facturas.svg", 48, 48);
+    ImageIcon iconLogout = new FlatSVGIcon("com/das6t/icons/logout.svg", 48, 48);
+    ImageIcon iconHab = new FlatSVGIcon("com/das6t/icons/cama.svg", 48, 48);
+    ImageIcon iconUsuario = new FlatSVGIcon("com/das6t/icons/usuarios.svg", 48, 48);
 
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
-        this.setBackground(new Color(0,0,0,0));
+        this.setBackground(new Color(0, 0, 0, 0));
         EventMenu evt = new EventMenu() {
             @Override
             public void selected(int index) {
-                System.out.println("Index: "+index);
-                switch(index){
+                if (index == 0) {
+                    UsuariosVista vs = new UsuariosVista();
+                    vs.setSize(936, 689);
+                    vs.setLocation(0, 0);
+                    showPanel(vs);
+                }
+
+                switch (index) {
+                    case 0:
+                        break;
                     case 1:
+                        HabitacionesVista habitaciones = new HabitacionesVista();
+                        habitaciones.setSize(936, 689);
+                        habitaciones.setLocation(0, 0);
+                        showPanel(habitaciones);
                         break;
                     case 2:
                         break;
                     case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        break;
-                    case 6:
-                        break;
                 }
+
             }
         };
         menu.initMenu(evt);
     }
-    
+
     private void showPanel(Component cmp) {
         contentPane.removeAll();
-        contentPane.add(cmp);
+        contentPane.add(cmp, BorderLayout.CENTER);
         contentPane.revalidate();
         contentPane.repaint();
     }
@@ -83,7 +94,7 @@ public class Main extends javax.swing.JFrame {
         btnExit = new com.das6t.swing.ButtonBadge();
         btnMinimize = new com.das6t.swing.ButtonBadge();
         menu = new com.das6t.component.Menu();
-        contentPane = new com.das6t.swing.RoundedPanel();
+        contentPane = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(21, 21, 21));
@@ -128,13 +139,16 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        contentPane.setBackground(new java.awt.Color(61, 61, 61));
+        contentPane.setMaximumSize(new java.awt.Dimension(936, 689));
+        contentPane.setMinimumSize(new java.awt.Dimension(936, 689));
+        contentPane.setOpaque(false);
+        contentPane.setPreferredSize(new java.awt.Dimension(936, 689));
 
         javax.swing.GroupLayout contentPaneLayout = new javax.swing.GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
             contentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 932, Short.MAX_VALUE)
+            .addGap(0, 940, Short.MAX_VALUE)
         );
         contentPaneLayout.setVerticalGroup(
             contentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,9 +163,9 @@ public class Main extends javax.swing.JFrame {
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(contentPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(contentPane, javax.swing.GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +174,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
-                    .addComponent(contentPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(contentPane, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -193,6 +207,14 @@ public class Main extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        try {
+            IntelliJTheme.setup(Main.class.getResourceAsStream("/com/formdev/flatlaf/intellijthemes/themes/Monokai_Pro.default.theme.json"));
+            UIManager.put("Button.arc", 8);
+            UIManager.put("Component.innerFocusWidth", 0);
+            UIManager.put("Component.focusWidth", 2);
+            UIManager.put("TextComponent.arc", 8);
+        } catch (Exception ex) {
+        }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Main().setVisible(true);
@@ -203,7 +225,7 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.das6t.swing.ButtonBadge btnExit;
     private com.das6t.swing.ButtonBadge btnMinimize;
-    private com.das6t.swing.RoundedPanel contentPane;
+    private javax.swing.JPanel contentPane;
     private com.das6t.component.Header header;
     private com.das6t.swing.RoundedPanel mainPanel;
     private com.das6t.component.Menu menu;
