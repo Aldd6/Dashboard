@@ -26,22 +26,33 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
     Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
     Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
     ImageIcon deleteIcon = new FlatSVGIcon("com/das6t/icons/delete.svg",24,24);
-
-    /**
-     * Creates new form CrearUsuarios
-     */
-    public ModUsuarios(int id) {
+    
+    private Usuarios usuarioActivo;
+    private String nombres;
+    private String apellidos;
+    private String usuario;
+    private String contrasenia;
+    private String rol;
+    private String cargo;
+    
+    public ModUsuarios(Usuarios usuarioActivo, String nombres, String apellidos, String usuario, String contrasenia, String rol, String cargo) {
         initComponents();
         txtContrasenia.putClientProperty(FlatClientProperties.STYLE, "" + "showRevealButton:true");
         passwordVerify.initPassListener(txtContrasenia);
+        this.usuarioActivo = usuarioActivo;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.usuario = usuario;
+        this.contrasenia = contrasenia;
+        this.rol = rol;
+        this.cargo = cargo;
         try {
             List<String> cargosUsuarios = Usuarios.getCargos();
             cmbCargos.removeAllItems();
             cmbCargos.addItem("Seleccione un cargo de usuario");
-            for(String cargo:cargosUsuarios) {
-                cmbCargos.addItem(cargo);
+            for(String cargos:cargosUsuarios) {
+                cmbCargos.addItem(cargos);
             }
-            Usuarios.setCargo(id, cmbCargos);
         }catch(NamingException | SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al obtener los cargos.");
@@ -50,14 +61,20 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
             List<String> rolesUsuarios = Usuarios.getRoles();
             cmbRoles.removeAllItems();
             cmbRoles.addItem("Seleccione un rol de usuario");
-            for(String rol:rolesUsuarios) {
-                cmbRoles.addItem(rol);
+            for(String roles:rolesUsuarios) {
+                cmbRoles.addItem(roles);
             }
-            Usuarios.setRol(id, cmbRoles);
         }catch(NamingException | SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al obtener los roles.");
         }
+        txtNombres.setText(nombres);
+        txtApellidos.setText(apellidos);
+        txtUsuario.setText(usuario);
+        txtContrasenia.setText(contrasenia);
+        cmbCargos.setSelectedItem((Object)cargo);
+        cmbRoles.setSelectedItem((Object)rol);
+        
     }
 
     /**
@@ -127,7 +144,6 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
 
-        jButton1.setBackground(new java.awt.Color(255, 51, 51));
         jButton1.setFont(robotoPlain);
         jButton1.setIcon(deleteIcon);
         jButton1.setText("Eliminar");
