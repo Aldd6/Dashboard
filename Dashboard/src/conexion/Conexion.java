@@ -43,7 +43,7 @@ public class Conexion {
 
     // Este metodo carga las el archivo properties con la configuración
     private void cargarProperties() {
-        try (InputStream in = Files.newInputStream(Path.of("D:\\Documentos del SSD\\Documents\\NetBeansProjects\\UMG_PROY1_PG1\\src\\conexion\\dbProp.properties"))) {
+        try (InputStream in = Files.newInputStream(Path.of("C:\\Programs\\NetBeans\\DashboardRepo\\Dashboard\\src\\conexion\\dbProp.properties"))) {
             props.load(in);
         } catch (IOException ex) {
             ex.printStackTrace();
