@@ -13,7 +13,6 @@ import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Font;
 import com.das6t.component.PasswordVerify;
-import java.awt.Color;
 import javax.naming.NamingException;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -25,7 +24,8 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
     
     Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
     Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
-
+    int idCargo;
+    int idRol;
     /**
      * Creates new form CrearUsuarios
      */
@@ -55,6 +55,7 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al obtener los roles.");
         }
+        btnGuardar.putClientProperty(FlatClientProperties.STYLE, "hoverBackground:#ffd966");
     }
 
     /**
@@ -82,7 +83,7 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
         cmbCargos = new javax.swing.JComboBox<>();
         cmbRoles = new javax.swing.JComboBox<>();
         btnGuardar = new javax.swing.JButton();
-        btnGuardar1 = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         jLabel1.setFont(robotoBold);
         jLabel1.setText("Nuevo Usuario");
@@ -115,16 +116,30 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
 
         cmbCargos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbCargos.setPreferredSize(new java.awt.Dimension(76, 30));
+        cmbCargos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbCargosItemStateChanged(evt);
+            }
+        });
 
         cmbRoles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbRoles.setPreferredSize(new java.awt.Dimension(76, 30));
+        cmbRoles.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbRolesItemStateChanged(evt);
+            }
+        });
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
-        btnGuardar.setPreferredSize(new java.awt.Dimension(84, 31));
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
-        btnGuardar1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnGuardar1.setText("Eliminar");
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnCancelar.setText("Cancelar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,19 +152,18 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGuardar)
                             .addGap(18, 18, 18)
-                            .addComponent(btnGuardar1))
+                            .addComponent(btnCancelar))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel3)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
-                                        .addComponent(txtNombres, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel4)
-                                        .addGap(372, 372, 372)))
+                                        .addGap(372, 372, 372))
+                                    .addComponent(txtNombres, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addComponent(cmbCargos, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(8, 8, 8)
@@ -200,18 +214,80 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
                     .addComponent(cmbRoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardar1))
+                    .addComponent(btnGuardar)
+                    .addComponent(btnCancelar))
                 .addContainerGap(169, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cmbCargosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbCargosItemStateChanged
+        // TODO add your handling code here:
+        idCargo = cmbCargos.getSelectedIndex();
+    }//GEN-LAST:event_cmbCargosItemStateChanged
+
+    private void cmbRolesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbRolesItemStateChanged
+        // TODO add your handling code here:
+        idRol = cmbRoles.getSelectedIndex();
+    }//GEN-LAST:event_cmbRolesItemStateChanged
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        boolean fieldName = (
+                (!(txtNombres.getText().isEmpty())) && (!(txtApellidos.getText().isEmpty())) &&
+                (txtNombres.getText().matches("^[a-zA-Z\\s]+$")) && (txtApellidos.getText().matches("^[a-zA-Z\\s]+$"))
+        );
+        boolean fieldUser = (
+                (!(txtUsuario.getText().isEmpty())) && (txtUsuario.getText().matches("^[a-zA-Z0-9_.]+$"))
+        );
+        boolean fieldPass = (
+                (txtContrasenia.getPassword().length != 0)
+        );
+        boolean fieldCargo = (idCargo != 0);
+        boolean fieldRol = (idRol != 0);
+        int affectedRows = -1;
+        
+        if(fieldName && fieldUser && fieldPass && fieldCargo && fieldRol) {
+            affectedRows = Usuarios.crearUsuario(idRol, idCargo, txtUsuario.getText(), String.valueOf(txtContrasenia.getPassword()), txtNombres.getText(), txtApellidos.getText());
+            JOptionPane.showMessageDialog(this, "Se han insertado " + affectedRows + " registro(s)","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+        }else {
+            if(!fieldName){
+                txtNombres.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
+                txtApellidos.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
+            }else {
+                txtNombres.putClientProperty(FlatClientProperties.OUTLINE, null);
+                txtApellidos.putClientProperty(FlatClientProperties.OUTLINE, null);
+            }
+            if(!fieldUser){
+                txtUsuario.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
+            }else {
+                txtUsuario.putClientProperty(FlatClientProperties.OUTLINE, null);
+            }
+            if(!fieldPass){
+                txtContrasenia.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
+            }else {
+                txtContrasenia.putClientProperty(FlatClientProperties.OUTLINE, null);
+            }
+            if(!fieldCargo){
+                cmbCargos.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
+            }else {
+                cmbCargos.putClientProperty(FlatClientProperties.OUTLINE, null);
+            }
+            if(!fieldRol){
+                cmbRoles.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
+            }else {
+                cmbRoles.putClientProperty(FlatClientProperties.OUTLINE, null);
+            }
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos","Alerta",JOptionPane.WARNING_MESSAGE);
+            System.out.println(fieldName +" "+ fieldUser +" "+fieldPass+" "+ fieldCargo + " " + fieldRol);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnGuardar1;
     private javax.swing.JComboBox<String> cmbCargos;
     private javax.swing.JComboBox<String> cmbRoles;
     private javax.swing.JLabel jLabel1;

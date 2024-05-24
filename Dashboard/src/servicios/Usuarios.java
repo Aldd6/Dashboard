@@ -19,19 +19,199 @@ import java.util.ArrayList;
  * @author Daniel Aldana (DaS6T)
  */
 public class Usuarios {
+
+    /**
+     * @return the estadoUsuario
+     */
+    public boolean isEstadoUsuario() {
+        return estadoUsuario;
+    }
+
+    /**
+     * @param estadoUsuario the estadoUsuario to set
+     */
+    public void setEstadoUsuario(boolean estadoUsuario) {
+        this.estadoUsuario = estadoUsuario;
+    }
+
+    /**
+     * @return the rol
+     */
+    public String getRol() {
+        return rol;
+    }
+
+    /**
+     * @param rol the rol to set
+     */
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    /**
+     * @return the cargo
+     */
+    public String getCargo() {
+        return cargo;
+    }
+
+    /**
+     * @param cargo the cargo to set
+     */
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    /**
+     * @return the qry
+     */
+    public static String getQry() {
+        return qry;
+    }
+
+    /**
+     * @param aQry the qry to set
+     */
+    public static void setQry(String aQry) {
+        qry = aQry;
+    }
+
+    /**
+     * @return the idUsuario
+     */
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    /**
+     * @param idUsuario the idUsuario to set
+     */
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    /**
+     * @return the rolUsuario
+     */
+    public int getRolUsuario() {
+        return rolUsuario;
+    }
+
+    /**
+     * @param rolUsuario the rolUsuario to set
+     */
+    public void setRolUsuario(int rolUsuario) {
+        this.rolUsuario = rolUsuario;
+    }
+
+    /**
+     * @return the cargoUsuario
+     */
+    public int getCargoUsuario() {
+        return cargoUsuario;
+    }
+
+    /**
+     * @param cargoUsuario the cargoUsuario to set
+     */
+    public void setCargoUsuario(int cargoUsuario) {
+        this.cargoUsuario = cargoUsuario;
+    }
+
+    /**
+     * @return the Usuario
+     */
+    public String getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * @param Usuario the Usuario to set
+     */
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    /**
+     * @return the contrasenia
+     */
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    /**
+     * @param contrasenia the contrasenia to set
+     */
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+
+    /**
+     * @return the nombres
+     */
+    public String getNombres() {
+        return nombres;
+    }
+
+    /**
+     * @param nombres the nombres to set
+     */
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    /**
+     * @return the apellidos
+     */
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    /**
+     * @param apellidos the apellidos to set
+     */
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
     
-    private static String qry = "";
-    private static Connection conn = null;
-    private static PreparedStatement st = null;
-    private static ResultSet rs = null;
+    public static String qry = "";
+    public int idUsuario;
+    public int rolUsuario;
+    public String rol;
+    public int cargoUsuario;
+    public String cargo;
+    public String usuario;
+    public String contrasenia;
+    public String nombres;
+    public String apellidos;
+    public boolean estadoUsuario;
+    
+    public Usuarios() {
+    }
+    
+    public Usuarios(int idUsuario, int rolUsuario, String rol, int cargoUsuario, String cargo, String usuario, String contrasenia, String nombres, String apellidos, boolean estadoUsuario) {
+        this.idUsuario = idUsuario;
+        this.rolUsuario = rolUsuario;
+        this.rol = rol;
+        this.cargoUsuario = cargoUsuario;
+        this.cargo = cargo;
+        this.usuario = usuario;
+        this.contrasenia = contrasenia;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.estadoUsuario = estadoUsuario;
+    }
     
     public static int crearUsuario(int rolId, int cargoId, String usuario, String contrasenia, String nombres, String apellidos){
         int affectedRows = -1;
+        Connection conn = null;
+        PreparedStatement st = null;
+        
         try {
             conn = Conexion.getInstance().getConnection();
-            qry = "INSERT INTO autenticacion(rol_usuario_id,cargo_usuario_id,usuario,contrasenia,nombre_usuario,apellido_usuario)"
-                    +"VALUES (?,?,?,?,?,?)";
-            st = conn.prepareStatement(qry);
+            setQry("INSERT INTO autenticacion(rol_usuario_id,cargo_usuario_id,usuario,contrasenia,nombre_usuario,apellido_usuario)"
+                    +"VALUES (?,?,?,?,?,?)");
+            st = conn.prepareStatement(getQry());
             st.setInt(1, rolId);
             st.setInt(2, cargoId);
             st.setString(3,usuario);
@@ -55,12 +235,15 @@ public class Usuarios {
     //TODO programar logica de convertir rolId y cargoId de texto en form a int
     public static int modificarUsuario(int id, int rolId, int cargoId, String usuario, String contrasenia, String nombres, String apellidos){
         int affectedRows = -1;
+        Connection conn = null;
+        PreparedStatement st = null;
+        
         try {
             conn = Conexion.getInstance().getConnection();
-            qry = "UPDATE autenticacion(rol_usuario_id,cargo_usuario_id,usuario,contrasenia,nombre_usuario,apellido_usuario) SET"
+            setQry("UPDATE autenticacion(rol_usuario_id,cargo_usuario_id,usuario,contrasenia,nombre_usuario,apellido_usuario) SET"
                     +"rol_usuario_id = ?,cargo_usuario_id = ?,usuario = ?,contrasenia = ?, nombre_usuario = ?,apellido_usuario = ?"
-                    +"WHERE id = ?";
-            st = conn.prepareStatement(qry);
+                    +"WHERE id = ?");
+            st = conn.prepareStatement(getQry());
             st.setInt(1, rolId);
             st.setInt(2, cargoId);
             st.setString(3, usuario);
@@ -84,10 +267,13 @@ public class Usuarios {
     
     public static int eliminarUsuario(int id) {
         int affectedRows = -1;
+        Connection conn = null;
+        PreparedStatement st = null;
+        
         try {
             conn = Conexion.getInstance().getConnection();
-            qry = "UPDATE autenticacion(estado_usuario) SET estado_usuario = ? WHERE id_usuario = ?";
-            st = conn.prepareStatement(qry);
+            setQry("UPDATE autenticacion(estado_usuario) SET estado_usuario = ? WHERE id_usuario = ?");
+            st = conn.prepareStatement(getQry());
             st.setBoolean(1, false);
             st.setInt(2, id);
             affectedRows = st.executeUpdate();
@@ -104,14 +290,30 @@ public class Usuarios {
         return affectedRows;
     }
     
-    public static ResultSet visualizarUsuarios() {
+    public static List<Usuarios> visualizarUsuarios() {
+        List<Usuarios> usuarios = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        
         try {
             conn = Conexion.getInstance().getConnection();
-            qry = "SELECT id_usuario,rol,cargo,usuario,nombre_usuario,apellido_usuario,estado_usuario FROM rol_usuario r"
-                    + "INNER JOIN autenticacion a ON r.id_rol_usuario = a.rol_usuario_id INNER JOIN cargo_empleado c ON"
-                    + "c.id_cargo = a.cargo_usuario_id";
-            st = conn.prepareStatement(qry);
+            setQry("SELECT id_usuario,rol,cargo,usuario,nombre_usuario,apellido_usuario,estado_usuario FROM rol_usuario r "
+                    + "INNER JOIN autenticacion a ON r.id_rol_usuario = a.rol_usuario_id INNER JOIN cargo_empleado c ON "
+                    + "c.id_cargo = a.cargo_usuario_id");
+            st = conn.prepareStatement(getQry());
             rs = st.executeQuery();
+            while(rs.next()){
+                Usuarios usuario = new Usuarios();
+                usuario.setIdUsuario(rs.getInt("id_usuario"));
+                usuario.setRol(rs.getString("rol"));
+                usuario.setCargo(rs.getString("cargo"));
+                usuario.setUsuario(rs.getString("usuario"));
+                usuario.setNombres(rs.getString("nombre_usuario"));
+                usuario.setApellidos(rs.getString("apellido_usuario"));
+                usuario.setEstadoUsuario(rs.getBoolean("estado_usuario"));
+                usuarios.add(usuario);
+            }
         }catch(SQLException | NamingException ex) {
             System.out.println(ex.getMessage());
         }finally {
@@ -122,16 +324,33 @@ public class Usuarios {
                 System.out.println(ex.getMessage());
             }
         }
-        return rs;
+        return usuarios;
     }
     
-    public static ResultSet visualizarUsuario(int id) {
+    public static Usuarios visualizarUsuario(int id) {
+        Usuarios usuario = new Usuarios();
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        
         try {
             conn = Conexion.getInstance().getConnection();
-            qry = "SELECT * FROM autenticacion WHERE id = ?";
-            st = conn.prepareStatement(qry);
+            setQry("SELECT rol,cargo,usuario,nombre_usuario,apellido_usuario,contrasenia,estado_usuario FROM rol_usuario r "
+                    + "INNER JOIN autenticacion a ON r.id_rol_usuario = a.rol_usuario_id INNER JOIN cargo_empleado c ON "
+                    + "c.id_cargo = a.cargo_usuario_id WHERE id_usuario = ?");
+            st = conn.prepareStatement(getQry());
             st.setInt(1, id);
             rs = st.executeQuery();
+            while(rs.next()) {
+                usuario.setIdUsuario(id);
+                usuario.setNombres(rs.getString("nombre_usuario"));
+                usuario.setApellidos(rs.getString("apellido_usuario"));
+                usuario.setUsuario(rs.getString("usuario"));
+                usuario.setContrasenia(rs.getString("contrasenia"));
+                usuario.setCargo(rs.getString("cargo"));
+                usuario.setRol(rs.getString("rol"));
+                usuario.setEstadoUsuario(rs.getBoolean("estado_usuario"));
+            }
         }catch(SQLException | NamingException ex) {
             System.out.println(ex.getMessage());
         }finally {
@@ -142,15 +361,19 @@ public class Usuarios {
                 System.out.println(ex.getMessage());
             }
         }
-        return rs;
+        return usuario;
     }
     
     public static boolean usuarioUnico(String usuario) {
         boolean validationKey = false;
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        
         try {
             conn = Conexion.getInstance().getConnection();
-            qry = "SELECT COUNT(*) FROM autenticacion WHERE usuario = ?";
-            st = conn.prepareStatement(qry);
+            setQry("SELECT COUNT(*) FROM autenticacion WHERE usuario = ?");
+            st = conn.prepareStatement(getQry());
             rs = st.executeQuery();
             while(rs.next()) {
                 validationKey = rs.getInt(1) == 0;
@@ -170,13 +393,17 @@ public class Usuarios {
     
     public static List<String> getCargos() throws NamingException, SQLException{
         List<String> cargos = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        
         try {
             conn = Conexion.getInstance().getConnection();
-            qry = "SELECT cargo FROM cargo_empleado";
-            st = conn.prepareStatement(qry);
+            setQry("SELECT cargo FROM cargo_empleado");
+            st = conn.prepareStatement(getQry());
             rs = st.executeQuery();
             while(rs.next()) {
-                cargos.add(rs.getString("cargo_empleado"));
+                cargos.add(rs.getString("cargo"));
             }
         }catch(NamingException | SQLException ex) {
             System.out.println(ex.getMessage());
@@ -193,13 +420,17 @@ public class Usuarios {
     
     public static List<String> getRoles() throws NamingException, SQLException{
         List<String> roles = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        
         try {
             conn = Conexion.getInstance().getConnection();
-            qry = "SELECT rol FROM rol_usuario";
-            st = conn.prepareStatement(qry);
+            setQry("SELECT rol FROM rol_usuario");
+            st = conn.prepareStatement(getQry());
             rs = st.executeQuery();
             while(rs.next()) {
-                roles.add(rs.getString("rol_usuario"));
+                roles.add(rs.getString("rol"));
             }
         }catch(NamingException | SQLException ex) {
             System.out.println(ex.getMessage());
@@ -216,11 +447,15 @@ public class Usuarios {
     
     public static void setCargo(int id, JComboBox bx) {
         String cargo = "";
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        
         try {
             conn = Conexion.getInstance().getConnection();
-            qry = "SELECT cargo FROM cargo_empleado c INNER JOIN autenticacion a ON"
-                    + "c.id_cargo = a.cargo_usuario_id WHERE id_usuario = ?";
-            st = conn.prepareStatement(qry);
+            setQry("SELECT cargo FROM cargo_empleado c INNER JOIN autenticacion a ON"
+                    + "c.id_cargo = a.cargo_usuario_id WHERE id_usuario = ?");
+            st = conn.prepareStatement(getQry());
             st.setInt(1, id);
             rs = st.executeQuery();
             while(rs.next()) {
@@ -241,11 +476,15 @@ public class Usuarios {
     
     public static void setRol(int id, JComboBox bx) {
         String rol = "";
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        
         try {
             conn = Conexion.getInstance().getConnection();
-            qry = "SELECT rol FROM rol_usuario r INNER JOIN autenticacion a ON"
-                    + "r.id_rol_usuario = a.rol_usuario_id WHERE id_usuario = ?";
-            st = conn.prepareStatement(qry);
+            setQry("SELECT rol FROM rol_usuario r INNER JOIN autenticacion a ON"
+                    + "r.id_rol_usuario = a.rol_usuario_id WHERE id_usuario = ?");
+            st = conn.prepareStatement(getQry());
             rs = st.executeQuery();
             while(rs.next()) {
                 rol = rs.getString("rol");
@@ -261,5 +500,51 @@ public class Usuarios {
                 System.out.println(ex.getMessage());
             }
         }
+    }
+    
+    public static int crearCargo(String cargo) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        int affectedRows = -1;
+        try{
+            conn = Conexion.getInstance().getConnection();
+            qry = "INSERT INTO cargo_empleado(cargo) VALUES (?)";
+            st = conn.prepareStatement(qry);
+            st.setString(1, cargo);
+            affectedRows = st.executeUpdate();
+        }catch(NamingException | SQLException ex) {
+            ex.printStackTrace();
+        }finally {
+            try {
+                st.close();
+                conn.close();
+            }catch(SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return affectedRows;
+    }
+    
+    public static int crearRol(String rol) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        int affectedRows = -1;
+        try{
+            conn = Conexion.getInstance().getConnection();
+            qry = "INSERT INTO rol_usuario(rol) VALUES (?)";
+            st = conn.prepareStatement(qry);
+            st.setString(1, rol);
+            affectedRows = st.executeUpdate();
+        }catch(NamingException | SQLException ex) {
+            ex.printStackTrace();
+        }finally {
+            try {
+                st.close();
+                conn.close();
+            }catch(SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return affectedRows;
     }
 }

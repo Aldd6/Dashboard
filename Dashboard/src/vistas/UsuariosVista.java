@@ -17,39 +17,57 @@ import servicios.Observador;
 public class UsuariosVista extends javax.swing.JPanel {
     
     private ArrayList<ButtonHeaderMenu> buttons = new ArrayList<>();
-    private JInternalFrame observador;
 
-    /**
-     * Creates new form NewJPanel
-     */
     public UsuariosVista() {
         initComponents();
         this.setOpaque(false);
+        
+        TablaUsuarios tbl = new TablaUsuarios();
+        jDesktopPane.add(tbl);
+        tbl.setVisible(true);
+        Observador.initObservador(tbl);
+        
         buttons.add(new ButtonHeaderMenu("Crear Usuario"));
-        buttons.add(new ButtonHeaderMenu("Modificar Usuario"));
+        buttons.add(new ButtonHeaderMenu("Crear Cargo"));
+        buttons.add(new ButtonHeaderMenu("Crear Rol"));
         EventMenu evt = new EventMenu() {
             @Override
             public void selected(int index) {
                 switch(index){
                     case 0:
-                        observador.dispose();
-                        CrearUsuarios cu = new CrearUsuarios();
-                        jDesktopPane.add(cu);
-                        cu.setVisible(true);
-                        observador = cu;
+                        Observador.closeObservador();
+                        CrearUsuarios crear = new CrearUsuarios();
+                        jDesktopPane.add(crear);
+                        crear.setVisible(true);
+                        Observador.initObservador(crear);
                         break;
                     case 1:
-                        
+                        Observador.closeObservador();
+                        CrearCargoUsuario crearCargo = new CrearCargoUsuario();
+                        jDesktopPane.add(crearCargo);
+                        crearCargo.setVisible(true);
+                        Observador.initObservador(crearCargo);
+                        break;
+                    case 2:
+                        Observador.closeObservador();
+                        CrearRolUsuario crearRol = new CrearRolUsuario();
+                        jDesktopPane.add(crearRol);
+                        crearRol.setVisible(true);
+                        Observador.initObservador(crearRol);
                         break;
                 }
             }
         };
         headerMenu.initHeaderMenu(evt, buttons);
         headerMenu.setViewName("Usuarios"); //escriba aqui el nombre de la vista por favor
+    }
+    
+    public void abrirTabla() {
+        Observador.closeObservador();
         TablaUsuarios tbl = new TablaUsuarios();
         jDesktopPane.add(tbl);
         tbl.setVisible(true);
-        observador = tbl;
+        Observador.initObservador(tbl);
     }
 
     /**

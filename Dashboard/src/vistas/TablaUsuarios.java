@@ -10,14 +10,16 @@ package vistas;
  */
 
 import javax.swing.table.DefaultTableModel;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.JLabel;
+import java.util.List;
 import servicios.Usuarios;
 
 public class TablaUsuarios extends javax.swing.JInternalFrame {
     
     DefaultTableModel modeloTabla;
-    ResultSet tableData;
+    List<Usuarios> tableData;
+    DefaultTableCellRenderer render = new DefaultTableCellRenderer();
 
     /**
      * Creates new form TablaUsuarios
@@ -25,6 +27,7 @@ public class TablaUsuarios extends javax.swing.JInternalFrame {
     public TablaUsuarios() {
         initComponents();
         
+        render.setHorizontalAlignment(JLabel.CENTER);
         modeloTabla = (DefaultTableModel)tblUsuarios.getModel();
         llenarTabla();
     }
@@ -32,25 +35,21 @@ public class TablaUsuarios extends javax.swing.JInternalFrame {
     private void llenarTabla() {
         String estado;
         tableData = Usuarios.visualizarUsuarios();
-        try {
-            while(tableData.next()) {
-                if(tableData.getBoolean("estado_usuario")) {
-                    estado = "Activo";
-                }else {
-                    estado = "Archivado";
-                }
-                modeloTabla.addRow(new Object[] {
-                    tableData.getString("id_usuario"),
-                    tableData.getString("nombre_usuario"),
-                    tableData.getString("apellido_usuario"),
-                    tableData.getString("usuario"),
-                    tableData.getString("cargo_usuario_id"),
-                    tableData.getString("rol_usuario_id"),
-                    estado
-                });
+        for(Usuarios usuario:tableData) {
+            if(usuario.isEstadoUsuario()){
+                estado = "Activo";
+            }else {
+                estado = "Archivado";
             }
-        }catch(SQLException ex) {
-            ex.printStackTrace();
+            modeloTabla.addRow(new Object[] {
+                usuario.getIdUsuario(),
+                usuario.getNombres(),
+                usuario.getApellidos(),
+                usuario.getUsuario(),
+                usuario.getCargo(),
+                usuario.getRol(),
+                estado
+            });
         }
     }
 
@@ -88,10 +87,17 @@ public class TablaUsuarios extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblUsuarios);
         if (tblUsuarios.getColumnModel().getColumnCount() > 0) {
             tblUsuarios.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblUsuarios.getColumnModel().getColumn(0).setCellRenderer(render);
+            tblUsuarios.getColumnModel().getColumn(1).setCellRenderer(null);
+            tblUsuarios.getColumnModel().getColumn(2).setCellRenderer(null);
             tblUsuarios.getColumnModel().getColumn(3).setPreferredWidth(20);
+            tblUsuarios.getColumnModel().getColumn(3).setCellRenderer(null);
             tblUsuarios.getColumnModel().getColumn(4).setPreferredWidth(30);
+            tblUsuarios.getColumnModel().getColumn(4).setCellRenderer(null);
             tblUsuarios.getColumnModel().getColumn(5).setPreferredWidth(20);
+            tblUsuarios.getColumnModel().getColumn(5).setCellRenderer(null);
             tblUsuarios.getColumnModel().getColumn(6).setPreferredWidth(20);
+            tblUsuarios.getColumnModel().getColumn(6).setCellRenderer(null);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
