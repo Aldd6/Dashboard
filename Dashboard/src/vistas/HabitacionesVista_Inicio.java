@@ -113,8 +113,6 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
             String tipoHabitacion = jTableDatos.getValueAt(filaSeleccionada, 1).toString();
             String estadoHabitacion = jTableDatos.getValueAt(filaSeleccionada, 4).toString();
 
-            //habitacionesVista.abrirEditar();
-            //habitacionesVista.abrirEditar(this, noHabitacion, tipoHabitacion, estadoHabitacion);
             habitacionesVista.abrirEditar(noHabitacion, tipoHabitacion, estadoHabitacion);
         }
     }//GEN-LAST:event_jTableDatosMouseClicked

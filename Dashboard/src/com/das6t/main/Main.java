@@ -47,15 +47,9 @@ public class Main extends javax.swing.JFrame {
         EventMenu evt = new EventMenu() {
             @Override
             public void selected(int index) {
-                if (index == 0) {
-                    UsuariosVista vs = new UsuariosVista();
-                    vs.setSize(936, 689);
-                    vs.setLocation(0, 0);
-                    showPanel(vs);
-                }
-
                 switch (index) {
                     case 0:
+
                         break;
                     case 1:
                         HabitacionesVista habitaciones = new HabitacionesVista();
@@ -66,6 +60,15 @@ public class Main extends javax.swing.JFrame {
                     case 2:
                         break;
                     case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        UsuariosVista vs = new UsuariosVista();
+                        vs.setSize(936, 689);
+                        vs.setLocation(0, 0);
+                        showPanel(vs);
+                        break;
                 }
 
             }
