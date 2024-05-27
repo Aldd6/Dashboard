@@ -20,7 +20,9 @@ import java.awt.Component;
 import java.awt.BorderLayout;
 import vistas.UsuariosVista;
 import javax.swing.UIManager;
+import vistas.ClientesVista;
 import vistas.HabitacionesVista;
+import vistas.ReservacionesVista;
 
 public class Main extends javax.swing.JFrame {
 
@@ -49,17 +51,26 @@ public class Main extends javax.swing.JFrame {
             public void selected(int index) {
                 switch (index) {
                     case 0:
-
+                        System.out.println("Dashboard");
                         break;
                     case 1:
+                        //[26/05/2024][Inicio][Ivan Hernández][Se agregaron los ventanas de inicio al switch principal]
                         HabitacionesVista habitaciones = new HabitacionesVista();
                         habitaciones.setSize(936, 689);
                         habitaciones.setLocation(0, 0);
                         showPanel(habitaciones);
                         break;
                     case 2:
+                        ReservacionesVista reservaciones = new ReservacionesVista();
+                        reservaciones.setSize(936, 689);
+                        reservaciones.setLocation(0, 0);
+                        showPanel(reservaciones);
                         break;
                     case 3:
+                        ClientesVista clientes = new ClientesVista();
+                        clientes.setSize(936, 689);
+                        clientes.setLocation(0, 0);
+                        showPanel(clientes);
                         break;
                     case 4:
                         break;
@@ -69,6 +80,7 @@ public class Main extends javax.swing.JFrame {
                         vs.setLocation(0, 0);
                         showPanel(vs);
                         break;
+                    //[26/05/2024][Fin][Ivan Hernández]
                 }
 
             }

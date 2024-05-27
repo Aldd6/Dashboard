@@ -146,7 +146,7 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTableDatosMouseClicked
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        habitacionesVista.crearTipoHabitacion();
+        habitacionesVista.abrirCrear();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
 

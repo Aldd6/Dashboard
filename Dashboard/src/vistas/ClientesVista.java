@@ -16,7 +16,6 @@ import javax.swing.JInternalFrame;
 public class ClientesVista extends javax.swing.JPanel {
     
     private ArrayList<ButtonHeaderMenu> buttons = new ArrayList<>();
-    JInternalFrame observador = null;
 
     /**
      * Creates new form NewJPanel
@@ -36,7 +35,7 @@ public class ClientesVista extends javax.swing.JPanel {
             }
         };
         headerMenu.initHeaderMenu(evt, buttons);
-        headerMenu.setViewName(""); //escriba aqui el nombre de la vista por favor
+        headerMenu.setViewName("Clientes"); //escriba aqui el nombre de la vista por favor
     }
 
     /**
