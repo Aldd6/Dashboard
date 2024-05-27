@@ -4,11 +4,13 @@
  */
 package vistas;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.text.NumberFormat;
 import javax.swing.table.DefaultTableModel;
 import servicios.HabitacionServicio;
 import java.util.List;
 import java.util.Locale;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -23,6 +25,9 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
     public HabitacionesVista_Inicio(HabitacionesVista habitacionesVista) {
         initComponents();
         this.habitacionesVista = habitacionesVista;
+        
+        ImageIcon iconoNuevo = new FlatSVGIcon("com/das6t/icons/nuevoCirculo.svg", 16, 16);
+        btnNuevo.setIcon(iconoNuevo);
 
         modeloTabla = new DefaultTableModel(new String[]{"No. Habitación", "Tipo de Habitación", "Detalle Habitación", "Precio Habitación", "Estado de Habitación"}, 0);
         jTableDatos.setModel(modeloTabla);
@@ -61,6 +66,8 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableDatos = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        btnNuevo = new javax.swing.JButton();
 
         setFocusable(false);
         setMaximumSize(new java.awt.Dimension(919, 629));
@@ -85,20 +92,41 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(jTableDatos);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("Habitaciones");
+
+        btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(btnNuevo))
+                .addGap(14, 14, 14)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -117,8 +145,14 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTableDatosMouseClicked
 
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        habitacionesVista.crearTipoHabitacion();
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNuevo;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableDatos;
     // End of variables declaration//GEN-END:variables

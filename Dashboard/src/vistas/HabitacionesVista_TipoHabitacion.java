@@ -101,7 +101,7 @@ public class HabitacionesVista_TipoHabitacion extends javax.swing.JInternalFrame
         });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Tipos de Habitación");
+        jLabel1.setText("Tipo de Habitaciones");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

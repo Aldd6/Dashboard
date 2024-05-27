@@ -27,7 +27,7 @@ public class HabitacionesVista extends javax.swing.JPanel {
         Observador.initObservador(inicio);
 
         //Botones
-        buttons.add(new ButtonHeaderMenu("Nueva habitación"));
+        buttons.add(new ButtonHeaderMenu("Habitaciones"));
         buttons.add(new ButtonHeaderMenu("Tipo de habitación"));
         buttons.add(new ButtonHeaderMenu("Estado de habitación"));
 
@@ -39,10 +39,10 @@ public class HabitacionesVista extends javax.swing.JPanel {
                     switch (index) {
                         case 0:
                             Observador.closeObservador();
-                            HabitacionesVista_Crear crear = new HabitacionesVista_Crear(HabitacionesVista.this);
-                            jDesktopPane.add(crear);
-                            crear.setVisible(true);
-                            Observador.initObservador(crear);
+                            HabitacionesVista_Inicio inicio = new HabitacionesVista_Inicio(HabitacionesVista.this);
+                            jDesktopPane.add(inicio);
+                            inicio.setVisible(true);
+                            Observador.initObservador(inicio);
                             break;
                         case 1:
                             Observador.closeObservador();
@@ -72,6 +72,14 @@ public class HabitacionesVista extends javax.swing.JPanel {
         jDesktopPane.add(inicio);
         inicio.setVisible(true);
         Observador.initObservador(inicio);
+    }
+
+    public void abrirCrear() {
+        Observador.closeObservador();
+        HabitacionesVista_Crear crear = new HabitacionesVista_Crear(HabitacionesVista.this);
+        jDesktopPane.add(crear);
+        crear.setVisible(true);
+        Observador.initObservador(crear);
     }
 
     public void abrirEditar(String noHabitacion, String tipoHabitacion, String estadoHabitacion) {
