@@ -38,20 +38,13 @@ public class HabitacionesVista extends javax.swing.JPanel {
                 try {
                     switch (index) {
                         case 0:
-                            Observador.closeObservador();
-                            HabitacionesVista_Inicio inicio = new HabitacionesVista_Inicio(HabitacionesVista.this);
-                            jDesktopPane.add(inicio);
-                            inicio.setVisible(true);
-                            Observador.initObservador(inicio);
+                            abrirInicio();
                             break;
                         case 1:
-                            Observador.closeObservador();
-                            HabitacionesVista_TipoHabitacion tipoHabitacion = new HabitacionesVista_TipoHabitacion(HabitacionesVista.this);
-                            jDesktopPane.add(tipoHabitacion);
-                            tipoHabitacion.setVisible(true);
-                            Observador.initObservador(tipoHabitacion);
+                            abrirTipoHabitacion();
                             break;
                         case 2:
+                            abrirEstadoHabitacion();
                             break;
                         default:
                             System.out.println("Error al seleccionar un boton");
@@ -66,6 +59,7 @@ public class HabitacionesVista extends javax.swing.JPanel {
         headerMenu.setViewName("Habitaciones"); //escriba aqui el nombre de la vista por favor
     }
 
+    //Metodos para Habitaciones, Ver, Crear y Editar --------------------------------------------------------------------------------------
     public void abrirInicio() {
         Observador.closeObservador();
         HabitacionesVista_Inicio inicio = new HabitacionesVista_Inicio(this);
@@ -90,6 +84,7 @@ public class HabitacionesVista extends javax.swing.JPanel {
         Observador.initObservador(editar);
     }
 
+    //Metodos para Tipos de Habitación, Ver, Crear y Editar --------------------------------------------------------------------------------------
     public void abrirTipoHabitacion() {
         Observador.closeObservador();
         HabitacionesVista_TipoHabitacion tipoHabitacion = new HabitacionesVista_TipoHabitacion(this);
@@ -113,6 +108,32 @@ public class HabitacionesVista extends javax.swing.JPanel {
         jDesktopPane.add(tipoHabitacionEditar);
         tipoHabitacionEditar.setVisible(true);
         Observador.initObservador(tipoHabitacionEditar);
+    }
+
+    //Metodos para Estado de Habitación, Ver, Crear y Editar --------------------------------------------------------------------------------------
+    public void abrirEstadoHabitacion() {
+        Observador.closeObservador();
+        HabitacionesVista_EstadoHabitacion estadoHabitacion = new HabitacionesVista_EstadoHabitacion(HabitacionesVista.this);
+        jDesktopPane.add(estadoHabitacion);
+        estadoHabitacion.setVisible(true);
+        Observador.initObservador(estadoHabitacion);
+    }
+
+    public void crearEstadoHabitacion() {
+        Observador.closeObservador();
+        HabitacionesVista_EstadoHabitacionCrear estadoHabitacionCrear = new HabitacionesVista_EstadoHabitacionCrear(this);
+        jDesktopPane.add(estadoHabitacionCrear);
+        estadoHabitacionCrear.setVisible(true);
+        Observador.initObservador(estadoHabitacionCrear);
+    }
+
+    public void editarEstadoHabitacion(String id, String estadoHab) {
+
+        Observador.closeObservador();
+        HabitacionesVista_EstadoHabitacionEditar estadoHabitacionEditar = new HabitacionesVista_EstadoHabitacionEditar(this, id, estadoHab);
+        jDesktopPane.add(estadoHabitacionEditar);
+        estadoHabitacionEditar.setVisible(true);
+        Observador.initObservador(estadoHabitacionEditar);
     }
 
     /**
