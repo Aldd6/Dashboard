@@ -11,6 +11,7 @@ package com.das6t.component;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.ImageIcon;
@@ -88,6 +89,11 @@ public class Menu extends javax.swing.JPanel {
         }
         menu.setSelected(true);
     }
+    
+    public void setUserInfo(String usuario, String rol) {
+        lblUsuario.setText(usuario);
+        lblRol.setText(rol);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -113,9 +119,9 @@ public class Menu extends javax.swing.JPanel {
         lblUsuario.setFont(robotoBold);
         lblUsuario.setForeground(fontColor);
         lblUsuario.setText("Usuario");
-        lblUsuario.setMaximumSize(new java.awt.Dimension(85, 16));
-        lblUsuario.setMinimumSize(new java.awt.Dimension(85, 16));
-        lblUsuario.setPreferredSize(new java.awt.Dimension(85, 16));
+        lblUsuario.setMaximumSize(new java.awt.Dimension(184, 16));
+        lblUsuario.setMinimumSize(new java.awt.Dimension(184, 16));
+        lblUsuario.setPreferredSize(new java.awt.Dimension(184, 16));
 
         lblRol.setFont(robotoPlain);
         lblRol.setForeground(fontColor);
@@ -134,9 +140,11 @@ public class Menu extends javax.swing.JPanel {
                 .addComponent(lblUsuarioImg, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(105, Short.MAX_VALUE))
+                    .addGroup(roundedPanel1Layout.createSequentialGroup()
+                        .addComponent(lblRol, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(lblUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         roundedPanel1Layout.setVerticalGroup(
             roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +168,7 @@ public class Menu extends javax.swing.JPanel {
         panelMenu.setLayout(panelMenuLayout);
         panelMenuLayout.setHorizontalGroup(
             panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 230, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         panelMenuLayout.setVerticalGroup(
             panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

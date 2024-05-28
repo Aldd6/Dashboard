@@ -15,11 +15,17 @@ import com.formdev.flatlaf.FlatClientProperties;
 import javax.swing.UIManager;
 import java.awt.Font;
 import java.awt.Color;
+import servicios.InicioSesion;
+import com.das6t.main.Main;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class IniSesionVista extends javax.swing.JFrame {
     
     Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
     Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 24);
+    ImageIcon logo = new FlatSVGIcon("com/das6t/icons/logoInnSight.svg", 200, 200);
     private static Color accentColor = new Color(255,216,102);
     private static Color foregroundColor = new Color(45,42,46);
 
@@ -47,6 +53,7 @@ public class IniSesionVista extends javax.swing.JFrame {
         txtUser = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
         btnLogIn = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("InnSight");
@@ -70,13 +77,22 @@ public class IniSesionVista extends javax.swing.JFrame {
 
         btnLogIn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLogIn.setText("Ingresar");
+        btnLogIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogInActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setIcon(logo);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(16, 37, Short.MAX_VALUE)
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(lblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -90,16 +106,21 @@ public class IniSesionVista extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(lblTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDescripcion)
-                .addGap(44, 44, 44)
-                .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnLogIn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(lblTitulo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblDescripcion)
+                        .addGap(44, 44, 44)
+                        .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLogIn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
 
@@ -110,6 +131,20 @@ public class IniSesionVista extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setLocationRelativeTo(null);
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
+        boolean isValidUser = InicioSesion.validarCredenciales(txtUser.getText(), String.valueOf(txtPassword.getPassword()));
+        if(isValidUser) {
+            InicioSesion.cargarSesion(txtUser.getText());
+            Main dashboard = new Main();
+            this.dispose();
+            dashboard.setVisible(true);
+        }else {
+            JOptionPane.showMessageDialog(this, "Usuario y/o contraseña incorrecta. Por favor vuelva a intentar","Alerta",JOptionPane.WARNING_MESSAGE);
+            txtUser.setText(null);
+            txtPassword.setText(null);
+        }
+    }//GEN-LAST:event_btnLogInActionPerformed
 
     /**
      * @param args the command line arguments
@@ -124,7 +159,7 @@ public class IniSesionVista extends javax.swing.JFrame {
             UIManager.put("Button.arc", 10);
             UIManager.put("TextComponent.arc", 10);
             UIManager.put("Button.hoverBackground", accentColor);
-            UIManager.put("Button.hoverForeground", foregroundColor);
+            //UIManager.put("Button.hoverForeground", foregroundColor);
         }catch(Exception ex){
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -136,6 +171,7 @@ public class IniSesionVista extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogIn;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblDescripcion;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPasswordField txtPassword;

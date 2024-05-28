@@ -21,6 +21,8 @@ import java.awt.BorderLayout;
 import vistas.UsuariosVista;
 import javax.swing.UIManager;
 import vistas.HabitacionesVista;
+import vistas.FacturasVista;
+import Session.Session;
 
 public class Main extends javax.swing.JFrame {
 
@@ -66,11 +68,19 @@ public class Main extends javax.swing.JFrame {
                     case 2:
                         break;
                     case 3:
+                        break;
+                    case 4:
+                        FacturasVista facturas = new FacturasVista();
+                        facturas.setSize(936, 689);
+                        facturas.setLocation(0, 0);
+                        showPanel(facturas);
+                        break;
                 }
 
             }
         };
         menu.initMenu(evt);
+        menu.setUserInfo(Session.getNombre(), Session.getRolUsuario());
     }
 
     private void showPanel(Component cmp) {
