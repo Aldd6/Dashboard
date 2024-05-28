@@ -5,12 +5,10 @@
 package vistas;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import java.text.NumberFormat;
+import static java.lang.Integer.parseInt;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
-import java.util.Locale;
 import javax.swing.ImageIcon;
-import servicios.TipoHabitacionServicio;
 import servicios.ReservacionServicio;
 
 /**
@@ -152,7 +150,10 @@ public class ReservacionesVista_Reservaciones extends javax.swing.JInternalFrame
             String total = jTableDatos.getValueAt(filaSeleccionada, 7).toString();
             String observaciones = jTableDatos.getValueAt(filaSeleccionada, 8).toString();
 
-            reservacionesVista.editarReservacion(id, noHab, nombreCli, apellidoCli, estado, estado, fechaInicio, fechaFinal, total, observaciones);
+            int idRs = parseInt(id);
+            
+            
+            reservacionesVista.editarReservacion(idRs);
         }
 
 

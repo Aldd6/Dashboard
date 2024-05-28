@@ -215,6 +215,52 @@ public class ReservacionServicio {
 
     }
 
+    public static ReservacionServicio obtenerReservacion(int idReservacion) throws SQLException, NamingException {
+        ReservacionServicio reservacion = null;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = Conexion.getInstance().getConnection();
+            String query = "SELECT rs.id_reservacion, hb.no_habitacion, cl.documento_identificacion, cl.nombre_cliente, cl.apellido_cliente, er.detalle_estado, rs.fecha_ingreso, rs.fecha_salida, rs.total_pago, rs.observaciones "
+                + "FROM reservacion rs "
+                + "JOIN habitacion hb ON rs.habitacion_id = hb.no_habitacion "
+                + "JOIN cliente cl ON rs.cliente_id = cl.documento_identificacion "
+                + "JOIN estado_reservacion er ON rs.estado_reservacion_id = er.id_estado_reservacion "
+                + "WHERE rs.id_reservacion = ?;";
+
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, idReservacion);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                reservacion = new ReservacionServicio();
+                reservacion.setId(rs.getInt("id_reservacion"));
+                reservacion.setNumHab(rs.getInt("no_habitacion"));
+                reservacion.setNumHab(rs.getInt("documento_identificacion"));                
+                reservacion.setNomCliente(rs.getString("nombre_cliente"));
+                reservacion.setApeCliente(rs.getString("apellido_cliente"));
+                reservacion.setDetalle(rs.getString("detalle_estado"));
+                reservacion.setFechaIngreso(rs.getString("fecha_ingreso"));
+                reservacion.setFechaSalida(rs.getString("fecha_salida"));
+                reservacion.setTotal(rs.getDouble("total_pago"));
+                reservacion.setObservaciones(rs.getString("observaciones"));
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return reservacion;
+    }
+
     public static boolean crearReservacion(int numHab, int clienteId, int estadoReserva, String fechaIngreso, String fechaSalida, double total, String observaciones) throws SQLException, NamingException {
         Connection conn = null;
         PreparedStatement stmt = null;

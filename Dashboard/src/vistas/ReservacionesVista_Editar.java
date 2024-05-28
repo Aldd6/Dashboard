@@ -21,85 +21,20 @@ import servicios.ReservacionServicio;
 public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
 
     private ReservacionesVista reservacionesVista;
-    private String idReservacion;
-    private String numHab;
-    private String clienteId;
-    private String nombreCli;
-    private String apellidoCli;
-    private String estadoReserva;
-    private String fechaIngreso;
-    private String fechaSalida;
-    private String total;
-    private String observaciones;
+    private int id;
 
     DatePicker dtIngreso = new DatePicker();
     DatePicker dtSalida = new DatePicker();
 
-    public ReservacionesVista_Editar(ReservacionesVista reservacionesVista, String idReservacion, String numHab, String clienteId, String nombreCli, String apellidoCli, String estadoReserva, String fechaIngreso, String fechaSalida, String total, String observaciones) {
+    public ReservacionesVista_Editar(ReservacionesVista reservacionesVista, int id) {
         initComponents();
 
         this.reservacionesVista = reservacionesVista;
-        this.idReservacion = idReservacion;
-        this.numHab = numHab;
-        this.clienteId = clienteId;
-        this.nombreCli = nombreCli;
-        this.apellidoCli = apellidoCli;
-        this.estadoReserva = estadoReserva;
-        this.fechaIngreso = fechaIngreso;
-        this.fechaSalida = fechaSalida;
-        this.total = total;
-        this.observaciones = observaciones;
+        this.id = id;
 
-        txtIdReserva.setText(idReservacion);
-        txtFechaIngreso.setText(fechaIngreso);
-        txtFechaSalida.setText(fechaSalida);
-        txtIdCliente.setText(clienteId);
-        txtTotalPagar.setText(total);
-        txtObservaciones.setText(observaciones);
         
+
         
-        dtIngreso.setEditor(txtFechaIngreso);
-        dtSalida.setEditor(txtFechaSalida);
-
-        try {
-            List<ReservacionServicio> habitaciones = ReservacionServicio.obtenerTipoHabitacion();
-            selectHabitacion.removeAllItems();
-            selectHabitacion.addItem("Selecciona una habitación");
-
-            for (ReservacionServicio habitacion : habitaciones) {
-                selectHabitacion.addItem("No. " + habitacion.getNumHab() + " - " + habitacion.getTipo() + " - " + habitacion.getTotal());
-                
-            }
-            
-            for (int i = 0; i < selectHabitacion.getItemCount(); i++) {
-                String item = (String) selectHabitacion.getItemAt(i);
-                if (item.equals(numHab)) {
-                    selectHabitacion.setSelectedIndex(i);
-                    break;
-                }
-            }
-
-
-            List<EstadoReservacionServicio> estados = EstadoReservacionServicio.obtenerEstadosReservacion();
-            selectReservacion.removeAllItems();
-            selectReservacion.addItem("Selecciona una habitación");
-
-            for (EstadoReservacionServicio estado : estados) {
-                selectReservacion.addItem(estado.getDetalleEstado());
-            }
-            
-            for (int i = 0; i < selectReservacion.getItemCount(); i++) {
-                String item = (String) selectReservacion.getItemAt(i);
-                if (item.equals(estadoReserva)) {
-                    selectReservacion.setSelectedIndex(i);
-                    break;
-                }
-            }
-
-        } catch (SQLException | NamingException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al obtener los tipos de habitaciones.");
-        }
     }
 
     /**

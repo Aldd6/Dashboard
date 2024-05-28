@@ -60,8 +60,8 @@ public class ReservacionesVista extends javax.swing.JPanel {
 
     }
 
-    public void editarReservacion(String idReservacion, String numHab, String clienteId, String nombreCli, String apellidoCli, String estadoReserva, String fechaIngreso, String fechaSalida, String total, String observaciones) {
-        ReservacionesVista_Editar editar = new ReservacionesVista_Editar(this, idReservacion, numHab, clienteId, nombreCli, apellidoCli, estadoReserva, fechaIngreso, fechaSalida, total, observaciones);
+    public void editarReservacion(int id) {
+        ReservacionesVista_Editar editar = new ReservacionesVista_Editar(this, id);
         jDesktopPane.add(editar);
         editar.setVisible(true);
         Observador.initObservador(editar);
