@@ -193,12 +193,12 @@ public class ReservacionServicio {
     }
 
     public void crearReservacion(ReservacionServicio reservacion) throws SQLException, NamingException {
-        String query = "INSERT INTO Reservacion (Habitacion_id, Cliente_id, Estado_reservacion_id, Fecha_ingreso, Fecha_salida, Total_pago, Observaciones) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
 
-            Connection conn = Conexion.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query);
+            conn = Conexion.getInstance().getConnection();
+            query = "INSERT INTO Reservacion (Habitacion_id, Cliente_id, Estado_reservacion_id, Fecha_ingreso, Fecha_salida, Total_pago, Observaciones) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            stmt = conn.prepareStatement(query);
 
             stmt.setInt(1, reservacion.getNumHab());
             stmt.setInt(2, reservacion.getClienteId());
@@ -224,12 +224,12 @@ public class ReservacionServicio {
     }
 
     public void actualizarReservacion(ReservacionServicio reservacion) throws SQLException, NamingException {
-        String query = "UPDATE Reservacion SET Habitacion_id = ?, Cliente_id = ?, Estado_reservacion_id = ?, Fecha_ingreso = ?, Fecha_salida = ?, Total_pago = ?, Observaciones = ? WHERE id_reservacion = ?";
 
         try {
 
-            Connection conn = Conexion.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query);
+            conn = Conexion.getInstance().getConnection();
+            query = "UPDATE Reservacion SET Habitacion_id = ?, Cliente_id = ?, Estado_reservacion_id = ?, Fecha_ingreso = ?, Fecha_salida = ?, Total_pago = ?, Observaciones = ? WHERE id_reservacion = ?";
+            stmt = conn.prepareStatement(query);
 
             stmt.setInt(1, reservacion.getNumHab());
             stmt.setInt(2, reservacion.getClienteId());
@@ -267,7 +267,7 @@ public class ReservacionServicio {
                 + "JOIN tipo_habitacion th ON hb.tipo_habitacion_id = th.id_tipo_habitacion "
                 + "ORDER BY hb.no_habitacion ASC;";
 
-            stmt = conn.prepareCall(query);
+            stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
             ReservacionServicio tipoHabitacion = new ReservacionServicio();
