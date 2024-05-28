@@ -30,7 +30,7 @@ public class ReservacionesVista_Reservaciones extends javax.swing.JInternalFrame
         ImageIcon iconoNuevo = new FlatSVGIcon("com/das6t/icons/nuevoCirculo.svg", 16, 16);
         btnNuevo.setIcon(iconoNuevo);
 
-        modeloTabla = new DefaultTableModel(new String[]{"Id", "No. Habitación", "Nombre Cliente", "Apellido Cliente","Estado","Fecha Ingreso","Fecha Salida","Total Pago","Observaciones"}, 0);
+        modeloTabla = new DefaultTableModel(new String[]{"Id", "No. Habitación", "Nombre Cliente", "Apellido Cliente", "Estado", "Fecha Ingreso", "Fecha Salida", "Total Pago", "Observaciones"}, 0);
         jTableDatos.setModel(modeloTabla);
         llenarTabla();
 
@@ -42,22 +42,22 @@ public class ReservacionesVista_Reservaciones extends javax.swing.JInternalFrame
         try {
             ReservacionServicio reservacion = new ReservacionServicio();
             List<ReservacionServicio> reservaciones = reservacion.obtenerReservaciones();
-         
+
             for (ReservacionServicio reserva : reservaciones) {
                 modeloTabla.addRow(new Object[]{
                     reserva.getId(),
                     reserva.getNumHab(),
                     reserva.getNomCliente(),
                     reserva.getApeCliente(),
-                    reserva.getEstadoReserva(),
+                    reserva.getDetalle(),
                     reserva.getFechaIngreso(),
                     reserva.getFechaSalida(),
                     reserva.getTotal(),
                     reserva.getObservaciones()
                 });
-                
+
                 System.out.println(reserva.getId());
-                
+
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -140,14 +140,20 @@ public class ReservacionesVista_Reservaciones extends javax.swing.JInternalFrame
 
     private void jTableDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDatosMouseClicked
         int filaSeleccionada = jTableDatos.getSelectedRow();
-
-        /*if (filaSeleccionada != -1) {
+        
+        if (filaSeleccionada != -1) {
             String id = jTableDatos.getValueAt(filaSeleccionada, 0).toString();
-            String tipoHabitacion = jTableDatos.getValueAt(filaSeleccionada, 1).toString();
-            String detalleHabitacion = jTableDatos.getValueAt(filaSeleccionada, 2).toString();
+            String noHab = jTableDatos.getValueAt(filaSeleccionada, 1).toString();
+            String nombreCli = jTableDatos.getValueAt(filaSeleccionada, 2).toString();
+            String apellidoCli = jTableDatos.getValueAt(filaSeleccionada, 3).toString();
+            String estado = jTableDatos.getValueAt(filaSeleccionada, 4).toString();
+            String fechaInicio = jTableDatos.getValueAt(filaSeleccionada, 5).toString();
+            String fechaFinal = jTableDatos.getValueAt(filaSeleccionada, 6).toString();
+            String total = jTableDatos.getValueAt(filaSeleccionada, 7).toString();
+            String observaciones = jTableDatos.getValueAt(filaSeleccionada, 8).toString();
 
-            habitacionesVista.editarTipoHabitacion(id, tipoHabitacion, detalleHabitacion, precioHabitacion);
-        }*/
+            reservacionesVista.editarReservacion(id, noHab, nombreCli, apellidoCli, estado, estado, fechaInicio, fechaFinal, total, observaciones);
+        }
 
 
     }//GEN-LAST:event_jTableDatosMouseClicked

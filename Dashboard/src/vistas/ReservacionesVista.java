@@ -8,6 +8,7 @@ import com.das6t.swing.ButtonHeaderMenu;
 import com.das6t.event.EventMenu;
 import java.util.ArrayList;
 import servicios.Observador;
+import servicios.ReservacionServicio;
 
 /**
  *
@@ -25,9 +26,8 @@ public class ReservacionesVista extends javax.swing.JPanel {
         jDesktopPane.add(reservaciones);
         reservaciones.setVisible(true);
         Observador.initObservador(reservaciones);
-        
+
         buttons.add(new ButtonHeaderMenu("Reservaciones"));
-        
 
         EventMenu evt = new EventMenu() {
             @Override
@@ -51,13 +51,20 @@ public class ReservacionesVista extends javax.swing.JPanel {
         reservaciones.setVisible(true);
         Observador.initObservador(reservaciones);
     }
-    
-    public void crearReservacion(){
+
+    public void crearReservacion() {
         ReservacionesVista_Crear crear = new ReservacionesVista_Crear(this);
         jDesktopPane.add(crear);
         crear.setVisible(true);
         Observador.initObservador(crear);
-        
+
+    }
+
+    public void editarReservacion(String idReservacion, String numHab, String clienteId, String nombreCli, String apellidoCli, String estadoReserva, String fechaIngreso, String fechaSalida, String total, String observaciones) {
+        ReservacionesVista_Editar editar = new ReservacionesVista_Editar(this, idReservacion, numHab, clienteId, nombreCli, apellidoCli, estadoReserva, fechaIngreso, fechaSalida, total, observaciones);
+        jDesktopPane.add(editar);
+        editar.setVisible(true);
+        Observador.initObservador(editar);
     }
 
     @SuppressWarnings("unchecked")

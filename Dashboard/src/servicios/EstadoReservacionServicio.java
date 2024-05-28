@@ -56,7 +56,7 @@ public class EstadoReservacionServicio {
         this.archivadoReservacion = archivadoReservacion;
     }
 
-    public List<EstadoReservacionServicio> obtenerEstadosReservacion() throws SQLException, NamingException {
+    public static List<EstadoReservacionServicio> obtenerEstadosReservacion() throws SQLException, NamingException {
         List<EstadoReservacionServicio> estados = new ArrayList<>();
 
         Connection conn = null;

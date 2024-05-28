@@ -253,7 +253,7 @@ public class ReservacionServicio {
         }
     }
 
-    public static boolean actualizarReservacion(ReservacionServicio reservacion) throws SQLException, NamingException {
+    public static boolean actualizarReservacion(int idReservacion, int numHab, int clienteId, int estadoReserva, String fechaIngreso, String fechaSalida, double total, String observaciones) throws SQLException, NamingException {
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -262,14 +262,14 @@ public class ReservacionServicio {
             String query = "UPDATE Reservacion SET Habitacion_id = ?, Cliente_id = ?, Estado_reservacion_id = ?, Fecha_ingreso = ?, Fecha_salida = ?, Total_pago = ?, Observaciones = ? WHERE id_reservacion = ?";
             stmt = conn.prepareStatement(query);
 
-            stmt.setInt(1, reservacion.getNumHab());
-            stmt.setInt(2, reservacion.getClienteId());
-            stmt.setInt(3, reservacion.getEstadoReserva());
-            stmt.setDate(4, convertirFechaSql(reservacion.getFechaIngreso()));
-            stmt.setDate(5, convertirFechaSql(reservacion.getFechaSalida()));
-            stmt.setDouble(6, reservacion.getTotal());
-            stmt.setString(7, reservacion.getObservaciones());
-            stmt.setInt(8, reservacion.getId());
+            stmt.setInt(1, numHab);
+            stmt.setInt(2, clienteId);
+            stmt.setInt(3, estadoReserva);
+            stmt.setDate(4, convertirFechaSql(fechaIngreso));
+            stmt.setDate(5, convertirFechaSql(fechaSalida));
+            stmt.setDouble(6, total);
+            stmt.setString(7, observaciones);
+            stmt.setInt(8, idReservacion);
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -299,7 +299,7 @@ public class ReservacionServicio {
 
         try {
             conn = Conexion.getInstance().getConnection();
-            String query = "SELECT hb.no_habitacion, th.tipo "
+            String query = "SELECT hb.no_habitacion, th.tipo, th.precio_habitacion "
                 + "FROM habitacion hb "
                 + "JOIN tipo_habitacion th ON hb.tipo_habitacion_id = th.id_tipo_habitacion "
                 + "ORDER BY hb.no_habitacion ASC;";
@@ -310,6 +310,7 @@ public class ReservacionServicio {
                 ReservacionServicio tipoHabitacion = new ReservacionServicio();
                 tipoHabitacion.setNumHab(rs.getInt("no_habitacion"));
                 tipoHabitacion.setTipo(rs.getString("tipo"));
+                tipoHabitacion.setTotal(rs.getDouble("precio_habitacion"));
                 tipoHabitaciones.add(tipoHabitacion);
             }
         } catch (SQLException ex) {
