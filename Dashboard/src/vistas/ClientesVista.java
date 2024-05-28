@@ -7,6 +7,9 @@ package vistas;
 import com.das6t.swing.ButtonHeaderMenu;
 import com.das6t.event.EventMenu;
 import java.util.ArrayList;
+import javax.swing.JInternalFrame;
+import servicios.Observador;
+
 
 /**
  *
@@ -23,31 +26,50 @@ public class ClientesVista extends javax.swing.JPanel {
         initComponents();
         this.setOpaque(false);
         
+        System.out.println("Inicio Carga Vista");
+        TablaClientes tbl = new TablaClientes(this);
+        jDesktopPane.add(tbl);
+        tbl.setVisible(true);
+        Observador.initObservador(tbl);
         
+
+        
+        System.out.println("Fin Carga de Vista");
+        
+        buttons.add(new ButtonHeaderMenu("Crear Cliente"));
         EventMenu evt = new EventMenu() {
             @Override
             public void selected(int index) {
                 switch(index){
                     case 0:
+                        Observador.closeObservador();
+                         CrearClientes crear = new CrearClientes(ClientesVista.this);
+                        jDesktopPane.add(crear);
+                        crear.setVisible(true);
+                        Observador.initObservador(crear);
                         break;
                     case 1:
                         break;
-                }
+                } 
             }
         };
         headerMenu.initHeaderMenu(evt, buttons);
         headerMenu.setViewName("Clientes"); //escriba aqui el nombre de la vista por favor
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
+    public void abrirTabla() {
+        Observador.closeObservador();
+        TablaClientes tbl = new TablaClientes(this); 
+        jDesktopPane.add(tbl);
+        tbl.setVisible(true);
+        Observador.initObservador(tbl);
+    }
+        public void abrirEditar(int id, int Documento, String nit, String nombre, String apellido, String direccion, String correo, String telefono, String fecha) {
+        Observador.closeObservador();
+        ModClientes md = new ModClientes(this,id, Documento, nit, nombre, apellido, direccion, correo, telefono);
+        jDesktopPane.add(md);
+        md.setVisible(true);
+        Observador.initObservador(md);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
