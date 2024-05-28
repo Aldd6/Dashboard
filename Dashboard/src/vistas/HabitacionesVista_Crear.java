@@ -18,11 +18,12 @@ import javax.naming.NamingException;
  */
 public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form HabitacionesVista_Crear
-     */
-    public HabitacionesVista_Crear() {
+    private HabitacionesVista habitacionesVista;
+    
+    public HabitacionesVista_Crear(HabitacionesVista habitacionesVista) {
         initComponents();
+        
+        this.habitacionesVista = habitacionesVista;
 
         try {
             List<TipoHabitacionServicio> tiposHabitaciones = TipoHabitacionServicio.visualizarTipo();
@@ -100,6 +101,11 @@ public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -175,6 +181,10 @@ public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
 
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        habitacionesVista.abrirInicio();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

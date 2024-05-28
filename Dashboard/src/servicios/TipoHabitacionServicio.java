@@ -131,15 +131,16 @@ public class TipoHabitacionServicio {
         }
     }
 
-    public static boolean eliminarTipo(int id) throws SQLException, NamingException {
+    public static boolean eliminarTipo(int id, boolean eliminar) throws SQLException, NamingException {
         Connection conn = null;
         PreparedStatement stmt = null;
 
         try {
             conn = Conexion.getInstance().getConnection();
-            String query = "DELETE FROM Tipo_habitacion WHERE id_tipo_habitacion = ?";
+            String query = "UPDATE tipo_habitacion SET estado = ? WHERE id_tipo_habitacion = ?";
             stmt = conn.prepareStatement(query);
-            stmt.setInt(1, id);
+            stmt.setBoolean(1, eliminar);
+            stmt.setInt(2, id);
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -171,7 +172,7 @@ public class TipoHabitacionServicio {
 
         try {
             conn = Conexion.getInstance().getConnection();
-            String query = "SELECT * FROM Tipo_habitacion ORDER BY id_tipo_habitacion ASC";
+            String query = "SELECT * FROM Tipo_habitacion WHERE estado = True ORDER BY id_tipo_habitacion ASC";
             stmt = conn.prepareStatement(query);
             rs = stmt.executeQuery();
 

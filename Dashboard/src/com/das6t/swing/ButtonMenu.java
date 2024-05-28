@@ -9,6 +9,7 @@ package com.das6t.swing;
  * @author Daniel Aldana(DaS6T)
  */
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;

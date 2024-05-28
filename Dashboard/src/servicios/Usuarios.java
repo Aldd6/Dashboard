@@ -232,7 +232,6 @@ public class Usuarios {
         return affectedRows;
     }
     
-    //TODO programar logica de convertir rolId y cargoId de texto en form a int
     public static int modificarUsuario(int id, int rolId, int cargoId, String usuario, String contrasenia, String nombres, String apellidos){
         int affectedRows = -1;
         Connection conn = null;
@@ -240,9 +239,7 @@ public class Usuarios {
         
         try {
             conn = Conexion.getInstance().getConnection();
-            setQry("UPDATE autenticacion(rol_usuario_id,cargo_usuario_id,usuario,contrasenia,nombre_usuario,apellido_usuario) SET"
-                    +"rol_usuario_id = ?,cargo_usuario_id = ?,usuario = ?,contrasenia = ?, nombre_usuario = ?,apellido_usuario = ?"
-                    +"WHERE id = ?");
+            setQry("UPDATE autenticacion SET rol_usuario_id = ?,cargo_usuario_id = ?,usuario = ?,contrasenia = ?, nombre_usuario = ?,apellido_usuario = ? WHERE id_usuario = ?");
             st = conn.prepareStatement(getQry());
             st.setInt(1, rolId);
             st.setInt(2, cargoId);
@@ -251,6 +248,7 @@ public class Usuarios {
             st.setString(5, nombres);
             st.setString(6, apellidos);
             st.setInt(7, id);
+            System.out.println("Consulta SQL: " + st);
             affectedRows = st.executeUpdate();
         }catch(SQLException | NamingException ex){
             System.out.println(ex.getMessage());
@@ -272,7 +270,7 @@ public class Usuarios {
         
         try {
             conn = Conexion.getInstance().getConnection();
-            setQry("UPDATE autenticacion(estado_usuario) SET estado_usuario = ? WHERE id_usuario = ?");
+            setQry("UPDATE autenticacion SET estado_usuario = ? WHERE id_usuario = ?");
             st = conn.prepareStatement(getQry());
             st.setBoolean(1, false);
             st.setInt(2, id);
@@ -300,7 +298,7 @@ public class Usuarios {
             conn = Conexion.getInstance().getConnection();
             setQry("SELECT id_usuario,rol,cargo,usuario,nombre_usuario,apellido_usuario,estado_usuario FROM rol_usuario r "
                     + "INNER JOIN autenticacion a ON r.id_rol_usuario = a.rol_usuario_id INNER JOIN cargo_empleado c ON "
-                    + "c.id_cargo = a.cargo_usuario_id");
+                    + "c.id_cargo = a.cargo_usuario_id ORDER BY id_usuario ASC");
             st = conn.prepareStatement(getQry());
             rs = st.executeQuery();
             while(rs.next()){
@@ -546,5 +544,32 @@ public class Usuarios {
             }
         }
         return affectedRows;
+    }
+    
+    public static String getContrasenia(int id){
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        String contrasenia = "";
+        try{
+            conn = Conexion.getInstance().getConnection();
+            setQry("SELECT contrasenia FROM autenticacion WHERE id_usuario = ?");
+            st = conn.prepareStatement(qry);
+            st.setInt(1, id);
+            rs = st.executeQuery();
+            while(rs.next()) {
+                contrasenia = rs.getString("contrasenia");
+            }
+        }catch(NamingException | SQLException ex) {
+            ex.printStackTrace();
+        }finally {
+            try {
+                st.close();
+                conn.close();
+            }catch(SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return contrasenia;
     }
 }
