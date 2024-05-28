@@ -27,6 +27,7 @@ public class ReservacionServicio {
     private Date fechaSalida;
     private double total;
     private String observaciones;
+    private String tipo;
 
     public ReservacionServicio() {
     }
@@ -73,6 +74,14 @@ public class ReservacionServicio {
 
     public void setNumHab(int numHab) {
         this.numHab = numHab;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getNomCliente() {
@@ -246,4 +255,42 @@ public class ReservacionServicio {
         }
     }
 
+    public List<ReservacionServicio> obtenerTipoHabitacion() throws SQLException {
+
+        List<ReservacionServicio> tipoHabitaciones = new ArrayList<>();
+
+        try {
+
+            conn = Conexion.getInstance().getConnection();
+            query = "SELECT hb.no_habitacion, th.tipo"
+                + "FROM habitacion hb "
+                + "JOIN tipo_habitacion th ON hb.tipo_habitacion_id = th.id_tipo_habitacion "
+                + "ORDER BY hb.no_habitacion ASC;";
+
+            stmt = conn.prepareCall(query);
+            ResultSet rs = stmt.executeQuery();
+
+            ReservacionServicio tipoHabitacion = new ReservacionServicio();
+
+            while (rs.next()) {
+                tipoHabitacion.setNumHab(rs.getInt("no_habitacion"));
+                tipoHabitacion.setTipo(rs.getString("tipo"));
+                tipoHabitaciones.add(tipoHabitacion);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return tipoHabitaciones;
+
+    }
 }
