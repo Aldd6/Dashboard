@@ -56,16 +56,15 @@ public class EstadoReservacionServicio {
         this.archivadoReservacion = archivadoReservacion;
     }
 
-    Connection conn = null;
-    PreparedStatement stmt = null;
-    String query = "";
-
     public List<EstadoReservacionServicio> obtenerEstadosReservacion() throws SQLException, NamingException {
         List<EstadoReservacionServicio> estados = new ArrayList<>();
 
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
         try {
             conn = Conexion.getInstance().getConnection();
-            query = "SELECT id_estado_reservacion, Detalle_estado, archivado_reservacion FROM Estado_reservacion";
+            String query = "SELECT id_estado_reservacion, Detalle_estado, archivado_reservacion FROM Estado_reservacion";
             stmt = conn.prepareStatement(query);
 
             ResultSet rs = stmt.executeQuery();
@@ -93,7 +92,11 @@ public class EstadoReservacionServicio {
         return estados;
     }
 
-    public void crearEstadoReservacion(EstadoReservacionServicio estado) throws SQLException, NamingException {
+    public static boolean crearEstadoReservacion(String detalleEstado) throws SQLException, NamingException {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        String query = "";
 
         try {
 
@@ -101,10 +104,16 @@ public class EstadoReservacionServicio {
             query = "INSERT INTO Estado_reservacion (Detalle_estado, archivado_reservacion) VALUES (?, ?)";
             stmt = conn.prepareStatement(query);
 
-            stmt.setString(1, estado.getDetalleEstado());
-            stmt.setBoolean(2, estado.isArchivadoReservacion());
+            stmt.setString(1, detalleEstado);
 
-            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Reservación creada con éxito.");
+                return true;
+            } else {
+                System.out.println("Error: No se pudo crear la reservación.");
+                return false;
+            }
         } catch (SQLException | NamingException e) {
             e.printStackTrace();
             throw e;
@@ -119,19 +128,28 @@ public class EstadoReservacionServicio {
         }
     }
 
-    public void actualizarEstadoReservacion(EstadoReservacionServicio estado) throws SQLException, NamingException {
+    public static boolean actualizarEstadoReservacion(int id, String detalleEstado) throws SQLException, NamingException {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
 
         try {
 
             conn = Conexion.getInstance().getConnection();
-            query = "UPDATE Estado_reservacion SET Detalle_estado = ?, archivado_reservacion = ? WHERE id_estado_reservacion = ?";
+            String query = "UPDATE Estado_reservacion SET Detalle_estado = ? WHERE id_estado_reservacion = ?";
             stmt = conn.prepareStatement(query);
 
-            stmt.setString(1, estado.getDetalleEstado());
-            stmt.setBoolean(2, estado.isArchivadoReservacion());
-            stmt.setInt(3, estado.getId());
+            stmt.setString(1, detalleEstado);
+            stmt.setInt(2, id);
 
-            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Estado de reservación actualizado con éxito.");
+                return true;
+            } else {
+                System.out.println("Error: No se pudo actualizar el estado de la reservación.");
+                return false;
+            }
         } catch (SQLException | NamingException e) {
             e.printStackTrace();
             throw e;
@@ -146,15 +164,23 @@ public class EstadoReservacionServicio {
         }
     }
 
-    public void eliminarEstadoReservacion(int idEstado) throws SQLException, NamingException {
-
+    public static boolean eliminarEstadoReservacion(int idEstado) throws SQLException, NamingException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
         try {
             conn = Conexion.getInstance().getConnection();
-            query = "DELETE FROM Estado_reservacion WHERE id_estado_reservacion = ?";
+            String query = "DELETE FROM Estado_reservacion WHERE id_estado_reservacion = ?";
             stmt = conn.prepareStatement(query);
             stmt.setInt(1, idEstado);
 
-            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Estado de reservación eliminado con éxito.");
+                return true;
+            } else {
+                System.out.println("Error: No se pudo eliminar el estado de la reservación.");
+                return false;
+            }
         } catch (SQLException | NamingException e) {
             e.printStackTrace();
             throw e;

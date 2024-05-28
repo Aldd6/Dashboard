@@ -4,12 +4,12 @@
  */
 package vistas;
 
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
-import java.awt.Font;
+import java.sql.SQLException;
+import java.util.List;
+import javax.naming.NamingException;
 import javax.swing.JOptionPane;
 import raven.datetime.component.date.DatePicker;
-import servicios.TipoHabitacionServicio;
-
+import servicios.ReservacionServicio;
 
 /**
  *
@@ -18,7 +18,7 @@ import servicios.TipoHabitacionServicio;
 public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
 
     private ReservacionesVista reservacionesVista;
-    
+
     DatePicker dtIngreso = new DatePicker();
     DatePicker dtSalida = new DatePicker();
 
@@ -26,10 +26,28 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
         initComponents();
 
         this.reservacionesVista = reservacionesVista;
-        
+
         dtIngreso.setEditor(txtFechaIngreso);
         dtSalida.setEditor(txtFechaSalida);
 
+        try {
+            List<ReservacionServicio> habitaciones = ReservacionServicio.obtenerTipoHabitacion();
+
+            selectHabitacion.removeAllItems();
+            selectHabitacion.addItem("Selecciona una habitación");
+
+            for (ReservacionServicio habitacion : habitaciones) {
+                selectHabitacion.addItem("No. "+ habitacion.getNumHab() + " - " + habitacion.getTipo());
+            }
+            
+            List<EstadoReservacionServicio> estado =  EstadoReservacionServicio();
+            
+            
+
+        } catch (SQLException | NamingException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al obtener los tipos de habitaciones.");
+        }
     }
 
     /**
@@ -48,8 +66,8 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         txtPrecioHab = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        selectHabitacion = new javax.swing.JComboBox<>();
+        selectReservacion = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtPrecioHab1 = new javax.swing.JTextField();
@@ -96,9 +114,9 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
             }
         });
 
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        selectHabitacion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jComboBox2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        selectReservacion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel5.setText("Estado de Reservación");
@@ -150,8 +168,8 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtPrecioHab1, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, 455, Short.MAX_VALUE)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(selectReservacion, javax.swing.GroupLayout.Alignment.LEADING, 0, 455, Short.MAX_VALUE)
+                                .addComponent(selectHabitacion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtPrecioHab, javax.swing.GroupLayout.Alignment.LEADING))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnGuardar)
@@ -192,11 +210,11 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(selectHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(selectReservacion, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -267,8 +285,6 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -280,6 +296,8 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JComboBox<String> selectHabitacion;
+    private javax.swing.JComboBox<String> selectReservacion;
     private javax.swing.JFormattedTextField txtFechaIngreso;
     private javax.swing.JFormattedTextField txtFechaSalida;
     private javax.swing.JTextField txtPrecioHab;
