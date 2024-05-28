@@ -27,8 +27,9 @@ public class HabitacionesVista extends javax.swing.JPanel {
         Observador.initObservador(inicio);
 
         //Botones
-        buttons.add(new ButtonHeaderMenu("Crear habitación"));
-        buttons.add(new ButtonHeaderMenu("Editar"));
+        buttons.add(new ButtonHeaderMenu("Habitaciones"));
+        buttons.add(new ButtonHeaderMenu("Tipo de habitación"));
+        buttons.add(new ButtonHeaderMenu("Estado de habitación"));
 
         EventMenu evt = new EventMenu() {
 
@@ -37,20 +38,14 @@ public class HabitacionesVista extends javax.swing.JPanel {
                 try {
                     switch (index) {
                         case 0:
-                            Observador.closeObservador();
-                            HabitacionesVista_Crear crear = new HabitacionesVista_Crear();
-                            jDesktopPane.add(crear);
-                            crear.setVisible(true);
-                            Observador.initObservador(crear);
+                            abrirInicio();
                             break;
                         case 1:
-                            System.out.println("hola 1");
-                           /* Observador.closeObservador();
-                            HabitacionesVista_Editar editar = new HabitacionesVista_Editar(HabitacionesVista.this);
-                            jDesktopPane.add(editar);
-                            editar.setVisible(true);
-                            Observador.initObservador(editar);
-                            break;*/
+                            abrirTipoHabitacion();
+                            break;
+                        case 2:
+                            abrirEstadoHabitacion();
+                            break;
                         default:
                             System.out.println("Error al seleccionar un boton");
                     }
@@ -64,12 +59,21 @@ public class HabitacionesVista extends javax.swing.JPanel {
         headerMenu.setViewName("Habitaciones"); //escriba aqui el nombre de la vista por favor
     }
 
+    //Metodos para Habitaciones, Ver, Crear y Editar --------------------------------------------------------------------------------------
     public void abrirInicio() {
         Observador.closeObservador();
         HabitacionesVista_Inicio inicio = new HabitacionesVista_Inicio(this);
         jDesktopPane.add(inicio);
         inicio.setVisible(true);
         Observador.initObservador(inicio);
+    }
+
+    public void abrirCrear() {
+        Observador.closeObservador();
+        HabitacionesVista_Crear crear = new HabitacionesVista_Crear(HabitacionesVista.this);
+        jDesktopPane.add(crear);
+        crear.setVisible(true);
+        Observador.initObservador(crear);
     }
 
     public void abrirEditar(String noHabitacion, String tipoHabitacion, String estadoHabitacion) {
@@ -80,13 +84,58 @@ public class HabitacionesVista extends javax.swing.JPanel {
         Observador.initObservador(editar);
     }
 
-    /*public void abrirEditar(String noHabitacion, String tipoHabitacion, String estadoHabitacion) {
+    //Metodos para Tipos de Habitación, Ver, Crear y Editar --------------------------------------------------------------------------------------
+    public void abrirTipoHabitacion() {
         Observador.closeObservador();
-        HabitacionesVista_Editar editar = new HabitacionesVista_Editar(noHabitacion, tipoHabitacion, estadoHabitacion);
-        jDesktopPane.add(editar);
-        editar.setVisible(true);
-        Observador.initObservador(editar);
-    }*/
+        HabitacionesVista_TipoHabitacion tipoHabitacion = new HabitacionesVista_TipoHabitacion(this);
+        jDesktopPane.add(tipoHabitacion);
+        tipoHabitacion.setVisible(true);
+        Observador.initObservador(tipoHabitacion);
+    }
+
+    public void crearTipoHabitacion() {
+        Observador.closeObservador();
+        HabitacionesVista_TipoHabitacionCrear tipoHabitacionCrear = new HabitacionesVista_TipoHabitacionCrear(this);
+        jDesktopPane.add(tipoHabitacionCrear);
+        tipoHabitacionCrear.setVisible(true);
+        Observador.initObservador(tipoHabitacionCrear);
+    }
+
+    public void editarTipoHabitacion(String id, String tipoHab, String detalleHab, String precioHab) {
+
+        Observador.closeObservador();
+        HabitacionesVista_TipoHabitacionEditar tipoHabitacionEditar = new HabitacionesVista_TipoHabitacionEditar(this, id, tipoHab, detalleHab, precioHab);
+        jDesktopPane.add(tipoHabitacionEditar);
+        tipoHabitacionEditar.setVisible(true);
+        Observador.initObservador(tipoHabitacionEditar);
+    }
+
+    //Metodos para Estado de Habitación, Ver, Crear y Editar --------------------------------------------------------------------------------------
+    public void abrirEstadoHabitacion() {
+        Observador.closeObservador();
+        HabitacionesVista_EstadoHabitacion estadoHabitacion = new HabitacionesVista_EstadoHabitacion(HabitacionesVista.this);
+        jDesktopPane.add(estadoHabitacion);
+        estadoHabitacion.setVisible(true);
+        Observador.initObservador(estadoHabitacion);
+    }
+
+    public void crearEstadoHabitacion() {
+        Observador.closeObservador();
+        HabitacionesVista_EstadoHabitacionCrear estadoHabitacionCrear = new HabitacionesVista_EstadoHabitacionCrear(this);
+        jDesktopPane.add(estadoHabitacionCrear);
+        estadoHabitacionCrear.setVisible(true);
+        Observador.initObservador(estadoHabitacionCrear);
+    }
+
+    public void editarEstadoHabitacion(String id, String estadoHab) {
+
+        Observador.closeObservador();
+        HabitacionesVista_EstadoHabitacionEditar estadoHabitacionEditar = new HabitacionesVista_EstadoHabitacionEditar(this, id, estadoHab);
+        jDesktopPane.add(estadoHabitacionEditar);
+        estadoHabitacionEditar.setVisible(true);
+        Observador.initObservador(estadoHabitacionEditar);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

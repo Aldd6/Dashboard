@@ -7,29 +7,30 @@ package vistas;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.text.NumberFormat;
 import javax.swing.table.DefaultTableModel;
-import servicios.HabitacionServicio;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.ImageIcon;
+import servicios.EstadoHabitacionServicio;
+import servicios.TipoHabitacionServicio;
 
 /**
  *
  * @author Salvador Hernández
  */
-public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
+public class HabitacionesVista_EstadoHabitacion extends javax.swing.JInternalFrame {
 
     private HabitacionesVista habitacionesVista;
 
     DefaultTableModel modeloTabla;
 
-    public HabitacionesVista_Inicio(HabitacionesVista habitacionesVista) {
+    public HabitacionesVista_EstadoHabitacion(HabitacionesVista habitacionesVista) {
         initComponents();
         this.habitacionesVista = habitacionesVista;
 
         ImageIcon iconoNuevo = new FlatSVGIcon("com/das6t/icons/nuevoCirculo.svg", 16, 16);
         btnNuevo.setIcon(iconoNuevo);
 
-        modeloTabla = new DefaultTableModel(new String[]{"No. Habitación", "Tipo de Habitación", "Detalle Habitación", "Precio Habitación", "Estado de Habitación"}, 0);
+        modeloTabla = new DefaultTableModel(new String[]{"Id", "Descripción"}, 0);
         jTableDatos.setModel(modeloTabla);
         llenarTabla();
 
@@ -39,20 +40,14 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
         modeloTabla.setRowCount(0);
 
         try {
-            HabitacionServicio habitacionServicio = new HabitacionServicio();
-            List<HabitacionServicio> habitaciones = habitacionServicio.obtenerTodasLasHabitaciones();
+            EstadoHabitacionServicio estadoHabitacionServicio = new EstadoHabitacionServicio();
+            List<EstadoHabitacionServicio> estadoHabitaciones = estadoHabitacionServicio.obtenerTodosLosEstados();
 
-            NumberFormat quetzales = NumberFormat.getCurrencyInstance(new Locale("es", "GT"));
-
-            for (HabitacionServicio habitacion : habitaciones) {
-                String precioFormateado = quetzales.format(habitacion.getPrecioHabitacion());
-
+            for (EstadoHabitacionServicio estadoHabitacion : estadoHabitaciones) {
+                
                 modeloTabla.addRow(new Object[]{
-                    habitacion.getNumHabitacion(),
-                    habitacion.getTipo(),
-                    habitacion.getDetalleHabitacion(),
-                    precioFormateado,
-                    habitacion.getDetalleEstado()
+                    estadoHabitacion.getId_estado_habitacion(),
+                    estadoHabitacion.getDetalle_estado()
                 });
             }
         } catch (Exception ex) {
@@ -66,8 +61,8 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableDatos = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
         btnNuevo = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setFocusable(false);
         setMaximumSize(new java.awt.Dimension(919, 629));
@@ -85,6 +80,7 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
         ));
         jTableDatos.setOpaque(false);
         jTableDatos.setShowGrid(false);
+        jTableDatos.setShowVerticalLines(true);
         jTableDatos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableDatosMouseClicked(evt);
@@ -92,15 +88,15 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(jTableDatos);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Habitaciones");
-
         btnNuevo.setText("Nuevo");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
             }
         });
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("Estado de Habitaciones");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -113,20 +109,20 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22))))
+                        .addGap(16, 16, 16))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(btnNuevo))
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -137,16 +133,17 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
         int filaSeleccionada = jTableDatos.getSelectedRow();
 
         if (filaSeleccionada != -1) {
-            String noHabitacion = jTableDatos.getValueAt(filaSeleccionada, 0).toString();
-            String tipoHabitacion = jTableDatos.getValueAt(filaSeleccionada, 1).toString();
-            String estadoHabitacion = jTableDatos.getValueAt(filaSeleccionada, 4).toString();
-
-            habitacionesVista.abrirEditar(noHabitacion, tipoHabitacion, estadoHabitacion);
+            String id = jTableDatos.getValueAt(filaSeleccionada, 0).toString();
+            String detalleEstado = jTableDatos.getValueAt(filaSeleccionada, 1).toString();
+            
+            habitacionesVista.editarEstadoHabitacion(id, detalleEstado);
         }
+
+
     }//GEN-LAST:event_jTableDatosMouseClicked
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        habitacionesVista.abrirCrear();
+        habitacionesVista.crearEstadoHabitacion();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
 

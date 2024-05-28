@@ -4,56 +4,22 @@
  */
 package vistas;
 
-import java.util.List;
 import javax.swing.JOptionPane;
 import servicios.TipoHabitacionServicio;
-import servicios.EstadoHabitacionServicio;
-import servicios.HabitacionServicio;
-import java.sql.SQLException;
-import javax.naming.NamingException;
+
 
 /**
  *
  * @author Salvador Hernández
  */
-public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
+public class HabitacionesVista_TipoHabitacionCrear extends javax.swing.JInternalFrame {
 
     private HabitacionesVista habitacionesVista;
-    
-    public HabitacionesVista_Crear(HabitacionesVista habitacionesVista) {
+
+    public HabitacionesVista_TipoHabitacionCrear(HabitacionesVista habitacionesVista) {
         initComponents();
-        
+
         this.habitacionesVista = habitacionesVista;
-
-        try {
-            List<TipoHabitacionServicio> tiposHabitaciones = TipoHabitacionServicio.visualizarTipo();
-
-            selectTipoHabitacion.removeAllItems();
-            selectTipoHabitacion.addItem("Selecciona un tipo de habitación");
-
-            for (TipoHabitacionServicio habitacion : tiposHabitaciones) {
-                selectTipoHabitacion.addItem(habitacion.getTipoHab());
-            }
-
-        } catch (SQLException | NamingException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al obtener los tipos de habitaciones.");
-        }
-
-        try {
-            List<EstadoHabitacionServicio> estadoHabitaciones = EstadoHabitacionServicio.obtenerTodosLosEstados();
-
-            selectEstadoDeHabitacion.removeAllItems();
-            selectEstadoDeHabitacion.addItem("Selecciona un estado de habitación");
-
-            for (EstadoHabitacionServicio estadoHabitacion : estadoHabitaciones) {
-                selectEstadoDeHabitacion.addItem(estadoHabitacion.getDetalle_estado());
-            }
-
-        } catch (SQLException | NamingException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al obtener los estados de habitaciones.");
-        }
 
     }
 
@@ -69,27 +35,26 @@ public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
-        selectTipoHabitacion = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        selectEstadoDeHabitacion = new javax.swing.JComboBox<>();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        txtTipoHab = new javax.swing.JTextField();
+        txtPrecioHab = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDetalleHab = new javax.swing.JTextArea();
 
         setMaximumSize(new java.awt.Dimension(916, 629));
         setMinimumSize(new java.awt.Dimension(916, 629));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Nueva Habitación");
+        jLabel1.setText("Nuevo Tipo de Habitación");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel2.setText("Tipo de Habitación");
 
-        selectTipoHabitacion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        jLabel3.setText("Estado de Habitación");
-
-        selectEstadoDeHabitacion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Precio de Habitación");
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
@@ -107,6 +72,28 @@ public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
             }
         });
 
+        txtTipoHab.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTipoHab.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTipoHabKeyTyped(evt);
+            }
+        });
+
+        txtPrecioHab.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtPrecioHab.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioHabKeyTyped(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        jLabel4.setText("Detalle de Habitación");
+
+        txtDetalleHab.setColumns(20);
+        txtDetalleHab.setLineWrap(true);
+        txtDetalleHab.setRows(5);
+        jScrollPane1.setViewportView(txtDetalleHab);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -114,17 +101,20 @@ public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrecioHab, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTipoHab, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 844, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectTipoHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(132, 132, 132)
                             .addComponent(btnGuardar)
                             .addGap(18, 18, 18)
-                            .addComponent(btnCancelar))
-                        .addComponent(selectEstadoDeHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnCancelar))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -137,16 +127,20 @@ public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(selectTipoHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTipoHab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(selectEstadoDeHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPrecioHab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnGuardar))
-                .addContainerGap(350, Short.MAX_VALUE))
+                .addContainerGap(222, Short.MAX_VALUE))
         );
 
         pack();
@@ -154,25 +148,27 @@ public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
-            int iTipoHabi = selectTipoHabitacion.getSelectedIndex();
-            int iEstaHabi = selectEstadoDeHabitacion.getSelectedIndex();
 
-            if (iTipoHabi == 0) {
-                JOptionPane.showMessageDialog(this, "Selecciona un Tipo de Habitacion.", "Error", JOptionPane.ERROR_MESSAGE);
+            String tipoHab = txtTipoHab.getText();
+            String detalleHab = txtDetalleHab.getText();
+            String precioHab = txtPrecioHab.getText();
+
+            if (tipoHab.isEmpty() || detalleHab.isEmpty() || precioHab.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+
                 return;
             }
+            
+            double dPrecioHab = Double.parseDouble(precioHab);
 
-            if (iEstaHabi == 0) {
-                JOptionPane.showMessageDialog(this, "Selecciona un Estado de Habitacion.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+            if (TipoHabitacionServicio.crearTipo(tipoHab, detalleHab, dPrecioHab)) {
 
-            if (HabitacionServicio.crearHabitacion(iTipoHabi, iEstaHabi)) {
+                JOptionPane.showMessageDialog(this, "Tipo de Habitación creada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-                JOptionPane.showMessageDialog(this, "Habitacion creada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                habitacionesVista.abrirTipoHabitacion();
 
             } else {
-                JOptionPane.showMessageDialog(this, "No fue posible crear la habitación, consulta con tu administrador de sistemas", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No fue posible crear el Tipo de Habitación, consulta con tu administrador de sistemas", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (Exception ex) {
@@ -183,8 +179,24 @@ public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        habitacionesVista.abrirInicio();
+        habitacionesVista.abrirTipoHabitacion();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtTipoHabKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTipoHabKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtTipoHabKeyTyped
+
+    private void txtPrecioHabKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioHabKeyTyped
+        char c = evt.getKeyChar();
+
+        if ((c < '0' || c > '9') && (c != '.' || txtPrecioHab.getText().contains("."))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPrecioHabKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -193,8 +205,11 @@ public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JComboBox<String> selectEstadoDeHabitacion;
-    private javax.swing.JComboBox<String> selectTipoHabitacion;
+    private javax.swing.JTextArea txtDetalleHab;
+    private javax.swing.JTextField txtPrecioHab;
+    private javax.swing.JTextField txtTipoHab;
     // End of variables declaration//GEN-END:variables
 }
