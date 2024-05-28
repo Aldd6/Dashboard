@@ -154,6 +154,11 @@ public class CrearFactura extends javax.swing.JInternalFrame {
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
@@ -343,13 +348,17 @@ public class CrearFactura extends javax.swing.JInternalFrame {
             double totalFactura = Double.valueOf(lblTotalPagar.getText());
             System.out.println(idCliente+" "+reservaId+" "+fecha+" "+descFactura+" "+totalFactura+" "+idHabitacion);
             int affectedRows = Factura.crearFactura(idCliente, reservaId, fecha, descFactura, totalFactura);
-            Factura.cambiarEstadoReservacion(idCliente);
-            Factura.cambiarEstadoHabitacion(idHabitacion);
+            Factura.cambiarEstadoReservacion(idCliente,3,1);
+            Factura.cambiarEstadoHabitacion(idHabitacion,1);
             JOptionPane.showMessageDialog(this, "Se ha creado exitosamente "+affectedRows+" registro(s)","Mensaje",JOptionPane.INFORMATION_MESSAGE);
         }else {
             JOptionPane.showMessageDialog(this, "No hay ninguna reservación indicada, por favor ingrese un cliente con una reservacion activa","Alerta",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        facturasVista.abrirTablaFacturas();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

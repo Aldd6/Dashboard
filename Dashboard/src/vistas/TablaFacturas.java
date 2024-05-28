@@ -38,8 +38,14 @@ public class TablaFacturas extends javax.swing.JInternalFrame {
         
         NumberFormat quetzales = NumberFormat.getCurrencyInstance(new Locale("es", "GT"));
         String precioFormateado;
+        String estado;
         
         for(Factura factura:tableData) {
+            if(factura.isEstadoFactura()){
+                estado = "Emitida";
+            }else {
+                estado = "Anulada";
+            }
             precioFormateado = quetzales.format(factura.getTotalFactura());
             modeloTabla.addRow(new Object[] {
                 factura.getIdFactura(),
@@ -48,7 +54,9 @@ public class TablaFacturas extends javax.swing.JInternalFrame {
                 factura.getIdReservacion(),
                 factura.getNombreCliente(),
                 factura.getApellidoCliente(),
-                precioFormateado
+                factura.getDireccionCliente(),
+                precioFormateado,
+                estado
             });
         }
     }
@@ -73,11 +81,11 @@ public class TablaFacturas extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Ref.", "Numero", "Serie", "Reservación", "Nombres", "Apellidos", "Total"
+                "Ref.", "Numero", "Serie", "Reserv.", "Nombres", "Apellidos", "Direccion", "Total", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -93,13 +101,17 @@ public class TablaFacturas extends javax.swing.JInternalFrame {
         if (tblFacturas.getColumnModel().getColumnCount() > 0) {
             tblFacturas.getColumnModel().getColumn(0).setPreferredWidth(5);
             tblFacturas.getColumnModel().getColumn(0).setCellRenderer(render);
+            tblFacturas.getColumnModel().getColumn(1).setPreferredWidth(70);
             tblFacturas.getColumnModel().getColumn(1).setCellRenderer(render);
+            tblFacturas.getColumnModel().getColumn(2).setPreferredWidth(70);
             tblFacturas.getColumnModel().getColumn(2).setCellRenderer(render);
-            tblFacturas.getColumnModel().getColumn(3).setPreferredWidth(5);
+            tblFacturas.getColumnModel().getColumn(3).setPreferredWidth(25);
             tblFacturas.getColumnModel().getColumn(3).setCellRenderer(render);
             tblFacturas.getColumnModel().getColumn(4).setCellRenderer(render);
             tblFacturas.getColumnModel().getColumn(5).setCellRenderer(render);
-            tblFacturas.getColumnModel().getColumn(6).setCellRenderer(render);
+            tblFacturas.getColumnModel().getColumn(7).setPreferredWidth(50);
+            tblFacturas.getColumnModel().getColumn(7).setCellRenderer(render);
+            tblFacturas.getColumnModel().getColumn(8).setPreferredWidth(20);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

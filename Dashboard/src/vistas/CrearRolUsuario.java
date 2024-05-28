@@ -23,13 +23,15 @@ public class CrearRolUsuario extends javax.swing.JInternalFrame {
     
     Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
     Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
+    UsuariosVista usuariosVista;
     DefaultTableModel modeloTabla;
     List<String> roles;
     DefaultTableCellRenderer render = new DefaultTableCellRenderer();
    
-    public CrearRolUsuario() {
+    public CrearRolUsuario(UsuariosVista usuariosVista) {
         initComponents();
         render.setHorizontalAlignment(JLabel.CENTER);
+        this.usuariosVista = usuariosVista;
         try{
             roles = Usuarios.getRoles();
             modeloTabla = (DefaultTableModel)tblRoles.getModel();
@@ -75,6 +77,11 @@ public class CrearRolUsuario extends javax.swing.JInternalFrame {
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
@@ -166,6 +173,10 @@ public class CrearRolUsuario extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos","Alerta",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        usuariosVista.abrirTabla();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void tableDataChanged(){
         render.setHorizontalAlignment(JLabel.CENTER);
