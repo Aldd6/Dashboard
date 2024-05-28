@@ -24,13 +24,15 @@ public class CrearCargoUsuario extends javax.swing.JInternalFrame {
     Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
     Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
     DefaultTableModel modeloTabla;
+    private UsuariosVista usuariosVista;
     List<String> cargos;
     DefaultTableCellRenderer render = new DefaultTableCellRenderer();
     
    
-    public CrearCargoUsuario() {
+    public CrearCargoUsuario(UsuariosVista usuariosVista) {
         initComponents();
         render.setHorizontalAlignment(JLabel.CENTER);
+        this.usuariosVista = usuariosVista;
         try{
             cargos = Usuarios.getCargos();
             modeloTabla = (DefaultTableModel)tblCargos.getModel();
@@ -76,6 +78,11 @@ public class CrearCargoUsuario extends javax.swing.JInternalFrame {
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
@@ -167,6 +174,10 @@ public class CrearCargoUsuario extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos","Alerta",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        usuariosVista.abrirTabla();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void tableDataChanged(){
         render.setHorizontalAlignment(JLabel.CENTER);

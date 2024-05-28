@@ -24,13 +24,15 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
     
     Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
     Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
+    private UsuariosVista usuariosVista;
     int idCargo;
     int idRol;
     /**
      * Creates new form CrearUsuarios
      */
-    public CrearUsuarios() {
+    public CrearUsuarios(UsuariosVista usuariosVista) {
         initComponents();
+        this.usuariosVista = usuariosVista;
         txtContrasenia.putClientProperty(FlatClientProperties.STYLE, "" + "showRevealButton:true");
         passwordVerify.initPassListener(txtContrasenia);
         try {
@@ -140,6 +142,11 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -283,6 +290,10 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
             System.out.println(fieldName +" "+ fieldUser +" "+fieldPass+" "+ fieldCargo + " " + fieldRol);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        usuariosVista.abrirTabla();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
