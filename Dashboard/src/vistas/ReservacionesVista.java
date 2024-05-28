@@ -7,27 +7,34 @@ package vistas;
 import com.das6t.swing.ButtonHeaderMenu;
 import com.das6t.event.EventMenu;
 import java.util.ArrayList;
-import javax.swing.JInternalFrame;
+import servicios.Observador;
 
 /**
  *
  * @author Daniel Aldana(DaS6T)
  */
 public class ReservacionesVista extends javax.swing.JPanel {
-    
+
     private ArrayList<ButtonHeaderMenu> buttons = new ArrayList<>();
 
-    /**
-     * Creates new form NewJPanel
-     */
     public ReservacionesVista() {
         initComponents();
         this.setOpaque(false);
+
+        ReservacionesVista_Reservaciones reservaciones = new ReservacionesVista_Reservaciones(this);
+        jDesktopPane.add(reservaciones);
+        reservaciones.setVisible(true);
+        Observador.initObservador(reservaciones);
+        
+        buttons.add(new ButtonHeaderMenu("Reservaciones"));
+        
+
         EventMenu evt = new EventMenu() {
             @Override
             public void selected(int index) {
-                switch(index){
+                switch (index) {
                     case 0:
+                        abrirReservacion();
                         break;
                     case 1:
                         break;
@@ -38,8 +45,13 @@ public class ReservacionesVista extends javax.swing.JPanel {
         headerMenu.setViewName("Reservaciones"); //escriba aqui el nombre de la vista por favor
     }
 
-    
-    
+    public void abrirReservacion() {
+        ReservacionesVista_Reservaciones reservaciones = new ReservacionesVista_Reservaciones(this);
+        jDesktopPane.add(reservaciones);
+        reservaciones.setVisible(true);
+        Observador.initObservador(reservaciones);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

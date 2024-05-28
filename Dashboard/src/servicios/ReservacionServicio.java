@@ -158,11 +158,11 @@ public class ReservacionServicio {
                 + "JOIN estado_reservacion er ON rs.estado_reservacion_id = er.id_estado_reservacion "
                 + "ORDER BY no_habitacion ASC;";
 
-            stmt = conn.prepareCall(query);
+            stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
-            ReservacionServicio reservacion = new ReservacionServicio();
 
             while (rs.next()) {
+                ReservacionServicio reservacion = new ReservacionServicio();
                 reservacion.setId(rs.getInt("id_reservacion"));
                 reservacion.setNumHab(rs.getInt("no_habitacion"));
                 reservacion.setNomCliente(rs.getString("nombre_cliente"));
