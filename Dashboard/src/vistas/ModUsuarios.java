@@ -27,25 +27,30 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
     Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
     ImageIcon deleteIcon = new FlatSVGIcon("com/das6t/icons/delete.svg",24,24);
     
-    private Usuarios usuarioActivo;
+    private UsuariosVista usuariosVista;
+    private int id;
     private String nombres;
     private String apellidos;
     private String usuario;
     private String contrasenia;
     private String rol;
     private String cargo;
+    private boolean estado;
     
-    public ModUsuarios(Usuarios usuarioActivo, String nombres, String apellidos, String usuario, String contrasenia, String rol, String cargo) {
+    public ModUsuarios(UsuariosVista usuariosVista, int id, String nombres, String apellidos, String usuario, String contrasenia, String rol, String cargo, boolean estado) {
         initComponents();
         txtContrasenia.putClientProperty(FlatClientProperties.STYLE, "" + "showRevealButton:true");
         passwordVerify.initPassListener(txtContrasenia);
-        this.usuarioActivo = usuarioActivo;
+        btnEliminar.putClientProperty(FlatClientProperties.STYLE, "hoverBackground:#fc3d3d");
+        this.usuariosVista = usuariosVista;
+        this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.usuario = usuario;
         this.contrasenia = contrasenia;
         this.rol = rol;
         this.cargo = cargo;
+        this.estado = estado;
         try {
             List<String> cargosUsuarios = Usuarios.getCargos();
             cmbCargos.removeAllItems();
@@ -74,7 +79,7 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
         txtContrasenia.setText(contrasenia);
         cmbCargos.setSelectedItem((Object)cargo);
         cmbRoles.setSelectedItem((Object)rol);
-        
+        btnEliminar.setFocusPainted(false);
     }
 
     /**
@@ -102,8 +107,8 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
         cmbCargos = new javax.swing.JComboBox<>();
         cmbRoles = new javax.swing.JComboBox<>();
         btnGuardar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        btnGuardar1 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         jLabel1.setFont(robotoBold);
         jLabel1.setText("Modificar Usuario");
@@ -143,16 +148,31 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
-        jButton1.setFont(robotoPlain);
-        jButton1.setIcon(deleteIcon);
-        jButton1.setText("Eliminar");
-        jButton1.setMaximumSize(new java.awt.Dimension(50, 50));
-        jButton1.setMinimumSize(new java.awt.Dimension(50, 50));
-        jButton1.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnEliminar.setFont(robotoPlain);
+        btnEliminar.setIcon(deleteIcon);
+        btnEliminar.setText("Eliminar");
+        btnEliminar.setMaximumSize(new java.awt.Dimension(50, 50));
+        btnEliminar.setMinimumSize(new java.awt.Dimension(50, 50));
+        btnEliminar.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
-        btnGuardar1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnGuardar1.setText("Cancelar");
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -164,11 +184,11 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 844, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnGuardar1)
+                            .addComponent(btnCancelar)
                             .addGap(18, 18, 18)
                             .addComponent(btnGuardar))
                         .addGroup(layout.createSequentialGroup()
@@ -205,7 +225,7 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
@@ -237,20 +257,56 @@ public class ModUsuarios extends javax.swing.JInternalFrame {
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
-                    .addComponent(btnGuardar1))
+                    .addComponent(btnCancelar))
                 .addContainerGap(167, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        usuariosVista.abrirTabla();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if(estado){
+            int accept = (JOptionPane.showConfirmDialog(this, "Este elemento pasará a un estado de archivado ¿Esta seguro que desea continuar?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE));
+            if(accept==0) {
+                int affectedRows = Usuarios.eliminarUsuario(id);
+                JOptionPane.showMessageDialog(this, "Se han alterado " + affectedRows + " registro(s)","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                usuariosVista.abrirTabla();
+            }
+        }else {
+            JOptionPane.showMessageDialog(this, "Este registro ya se encuentra archivado","Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        int rolId = cmbRoles.getSelectedIndex();
+        int cargoId = cmbCargos.getSelectedIndex();
+        if(estado) {
+            int accept = (JOptionPane.showConfirmDialog(this, "Esta a punto de alterar el registro actual ¿Esta seguro que desea continuar?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE));
+            if(accept==0) {
+                this.usuario = txtUsuario.getText();
+                this.contrasenia = String.valueOf(txtContrasenia.getPassword());
+                this.nombres = txtNombres.getText();
+                this.apellidos = txtApellidos.getText();
+                int affectedRows = Usuarios.modificarUsuario(id, rolId, cargoId, usuario, contrasenia, nombres, apellidos);
+                JOptionPane.showMessageDialog(this, "Se han alterado " + affectedRows + " registro(s)","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+                usuariosVista.abrirTabla();
+            }
+        }else {
+            JOptionPane.showMessageDialog(this, "Este registro se encuentra archivado y no es posible modificarlo","Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnGuardar1;
     private javax.swing.JComboBox<String> cmbCargos;
     private javax.swing.JComboBox<String> cmbRoles;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -22,7 +22,7 @@ public class UsuariosVista extends javax.swing.JPanel {
         initComponents();
         this.setOpaque(false);
         
-        TablaUsuarios tbl = new TablaUsuarios();
+        TablaUsuarios tbl = new TablaUsuarios(this);
         jDesktopPane.add(tbl);
         tbl.setVisible(true);
         Observador.initObservador(tbl);
@@ -64,10 +64,18 @@ public class UsuariosVista extends javax.swing.JPanel {
     
     public void abrirTabla() {
         Observador.closeObservador();
-        TablaUsuarios tbl = new TablaUsuarios();
+        TablaUsuarios tbl = new TablaUsuarios(this);
         jDesktopPane.add(tbl);
         tbl.setVisible(true);
         Observador.initObservador(tbl);
+    }
+    
+    public void abrirEditar(int id, String nombres, String apellidos, String usuario, String contrasenia, String rol, String cargo, boolean estado) {
+        Observador.closeObservador();
+        ModUsuarios md = new ModUsuarios(this,id,nombres,apellidos,usuario,contrasenia,rol,cargo,estado);
+        jDesktopPane.add(md);
+        md.setVisible(true);
+        Observador.initObservador(md);
     }
 
     /**
