@@ -12,14 +12,14 @@ import servicios.TipoHabitacionServicio;
  *
  * @author Salvador Hernández
  */
-public class HabitacionesVista_TipoHabitacionCrear extends javax.swing.JInternalFrame {
+public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
 
-    private HabitacionesVista habitacionesVista;
+    private ReservacionesVista reservacionesVista;
 
-    public HabitacionesVista_TipoHabitacionCrear(HabitacionesVista habitacionesVista) {
+    public ReservacionesVista_Crear(ReservacionesVista reservacionesVista) {
         initComponents();
 
-        this.habitacionesVista = habitacionesVista;
+        this.reservacionesVista = reservacionesVista;
 
     }
 
@@ -48,7 +48,7 @@ public class HabitacionesVista_TipoHabitacionCrear extends javax.swing.JInternal
         setMinimumSize(new java.awt.Dimension(916, 629));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Nuevo Tipo de Habitación");
+        jLabel1.setText("Nueva Reservación");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel2.setText("Tipo de Habitación");
@@ -165,7 +165,7 @@ public class HabitacionesVista_TipoHabitacionCrear extends javax.swing.JInternal
 
                 JOptionPane.showMessageDialog(this, "Tipo de Habitación creada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-                habitacionesVista.abrirTipoHabitacion();
+                //habitacionesVista.abrirTipoHabitacion();
 
             } else {
                 JOptionPane.showMessageDialog(this, "No fue posible crear el Tipo de Habitación, consulta con tu administrador de sistemas", "Error", JOptionPane.ERROR_MESSAGE);
@@ -179,7 +179,7 @@ public class HabitacionesVista_TipoHabitacionCrear extends javax.swing.JInternal
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        habitacionesVista.abrirTipoHabitacion();
+        //habitacionesVista.abrirTipoHabitacion();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtTipoHabKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTipoHabKeyTyped

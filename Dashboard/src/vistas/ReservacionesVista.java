@@ -51,6 +51,14 @@ public class ReservacionesVista extends javax.swing.JPanel {
         reservaciones.setVisible(true);
         Observador.initObservador(reservaciones);
     }
+    
+    public void crearReservacion(){
+        ReservacionesVista_Crear crear = new ReservacionesVista_Crear(this);
+        jDesktopPane.add(crear);
+        crear.setVisible(true);
+        Observador.initObservador(crear);
+        
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

@@ -145,10 +145,6 @@ public class ReservacionesVista_Reservaciones extends javax.swing.JInternalFrame
             String id = jTableDatos.getValueAt(filaSeleccionada, 0).toString();
             String tipoHabitacion = jTableDatos.getValueAt(filaSeleccionada, 1).toString();
             String detalleHabitacion = jTableDatos.getValueAt(filaSeleccionada, 2).toString();
-            String precioHabitacion = jTableDatos.getValueAt(filaSeleccionada, 3).toString();
-            System.out.println(tipoHabitacion);
-            System.out.println(detalleHabitacion);
-            System.out.println(precioHabitacion);
 
             habitacionesVista.editarTipoHabitacion(id, tipoHabitacion, detalleHabitacion, precioHabitacion);
         }*/
@@ -157,7 +153,7 @@ public class ReservacionesVista_Reservaciones extends javax.swing.JInternalFrame
     }//GEN-LAST:event_jTableDatosMouseClicked
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        //habitacionesVista.crearTipoHabitacion();
+        reservacionesVista.crearReservacion();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
 
