@@ -7,7 +7,6 @@ package vistas;
 import com.das6t.swing.ButtonHeaderMenu;
 import com.das6t.event.EventMenu;
 import java.util.ArrayList;
-import javax.swing.JInternalFrame;
 
 /**
  *
@@ -23,6 +22,8 @@ public class ClientesVista extends javax.swing.JPanel {
     public ClientesVista() {
         initComponents();
         this.setOpaque(false);
+        
+        
         EventMenu evt = new EventMenu() {
             @Override
             public void selected(int index) {
@@ -37,6 +38,15 @@ public class ClientesVista extends javax.swing.JPanel {
         headerMenu.initHeaderMenu(evt, buttons);
         headerMenu.setViewName("Clientes"); //escriba aqui el nombre de la vista por favor
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

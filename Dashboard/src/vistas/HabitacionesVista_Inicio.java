@@ -25,7 +25,7 @@ public class HabitacionesVista_Inicio extends javax.swing.JInternalFrame {
     public HabitacionesVista_Inicio(HabitacionesVista habitacionesVista) {
         initComponents();
         this.habitacionesVista = habitacionesVista;
-        
+
         ImageIcon iconoNuevo = new FlatSVGIcon("com/das6t/icons/nuevoCirculo.svg", 16, 16);
         btnNuevo.setIcon(iconoNuevo);
 

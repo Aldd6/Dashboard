@@ -10,7 +10,6 @@ import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.ImageIcon;
-import javax.swing.table.TableColumnModel;
 import servicios.TipoHabitacionServicio;
 
 /**

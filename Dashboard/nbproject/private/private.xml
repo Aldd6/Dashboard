@@ -5,10 +5,7 @@
         <group>
             <file>file:/D:/Documentos%20del%20SSD/Documents/NetBeansProjects/DashboardRepo/Dashboard/src/vistas/HabitacionesVista.java</file>
             <file>file:/D:/Documentos%20del%20SSD/Documents/NetBeansProjects/DashboardRepo/Dashboard/src/vistas/HabitacionesVista_Inicio.java</file>
-            <file>file:/D:/Documentos%20del%20SSD/Documents/NetBeansProjects/DashboardRepo/Dashboard/nbproject/private/private.xml</file>
-            <file>file:/D:/Documentos%20del%20SSD/Documents/NetBeansProjects/DashboardRepo/Dashboard/src/vistas/HabitacionesVista_Editar.java</file>
-            <file>file:/D:/Documentos%20del%20SSD/Documents/NetBeansProjects/DashboardRepo/Dashboard/src/servicios/HabitacionServicio.java</file>
-            <file>file:/D:/Documentos%20del%20SSD/Documents/NetBeansProjects/DashboardRepo/Dashboard/src/servicios/Observador.java</file>
+            <file>file:/D:/Documentos%20del%20SSD/Documents/NetBeansProjects/DashboardRepo/Dashboard/src/vistas/HabitacionesVista_TipoHabitacion.java</file>
         </group>
     </open-files>
 </project-private>
