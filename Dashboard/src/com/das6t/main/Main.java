@@ -26,6 +26,7 @@ import vistas.FacturasVista;
 import vistas.HabitacionesVista;
 import vistas.ReservacionesVista;
 import vistas.FacturasVista;
+import vistas.DashboardVista;
 import Session.Session;
 import vistas.ReservacionesVista;
 
@@ -56,7 +57,10 @@ public class Main extends javax.swing.JFrame {
             public void selected(int index) {
                 switch (index) {
                     case 0:
-                        System.out.println("Dashboard");
+                        DashboardVista dashboard = new DashboardVista();
+                        dashboard.setSize(936,689);
+                        dashboard.setLocation(0, 0);
+                        showPanel(dashboard);
                         break;
                     case 1:
                         //[26/05/2024][Inicio][Ivan Hernández][Se agregaron los ventanas de inicio al switch principal]
