@@ -7,7 +7,11 @@ package vistas;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.naming.NamingException;
 import javax.swing.JOptionPane;
 import raven.datetime.component.date.DatePicker;
@@ -21,6 +25,8 @@ import servicios.ReservacionServicio;
 public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
 
     private ReservacionesVista reservacionesVista;
+    List<ReservacionServicio> habitaciones;
+    List<EstadoReservacionServicio> estados;
 
     DatePicker dtIngreso = new DatePicker();
     DatePicker dtSalida = new DatePicker();
@@ -34,16 +40,16 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
         dtSalida.setEditor(txtFechaSalida);
 
         try {
-            List<ReservacionServicio> habitaciones = ReservacionServicio.obtenerTipoHabitacion();
+            habitaciones = ReservacionServicio.obtenerTipoHabitacion();
             selectHabitacion.removeAllItems();
             selectHabitacion.addItem("Selecciona una habitación");
 
             for (ReservacionServicio habitacion : habitaciones) {
                 selectHabitacion.addItem("No. " + habitacion.getNumHab() + " - " + habitacion.getTipo() + " - " + habitacion.getTotal());
-                
+
             }
 
-            List<EstadoReservacionServicio> estados = EstadoReservacionServicio.obtenerEstadosReservacion();
+            estados = EstadoReservacionServicio.obtenerEstadosReservacion();
             selectReservacion.removeAllItems();
             selectReservacion.addItem("Selecciona una habitación");
 
@@ -136,7 +142,9 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel4.setText("Total a Pagar");
 
+        txtTotalPagar.setEditable(false);
         txtTotalPagar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTotalPagar.setEnabled(false);
         txtTotalPagar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtTotalPagarKeyTyped(evt);
@@ -250,6 +258,7 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
         try {
             String fechaIngreso = txtFechaIngreso.getText();
             String fechaSalida = txtFechaSalida.getText();
+
             String idCliente = txtIdCliente.getText();
             int habitacion = selectHabitacion.getSelectedIndex();
             int stReservacion = selectReservacion.getSelectedIndex();
@@ -309,9 +318,35 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtTotalPagarKeyTyped
 
     private void selectHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectHabitacionActionPerformed
-        int i = selectHabitacion.getSelectedIndex();
-        String valor = selectHabitacion.getItemAt(i);
-        System.out.println(valor);
+        int selectedIndex = selectHabitacion.getSelectedIndex();
+
+        if (selectedIndex > 0 && !"--/--/----".equals(txtFechaIngreso.getText()) && !"--/--/----".equals(txtFechaSalida.getText())) {
+            ReservacionServicio selectedHabitacion = habitaciones.get(selectedIndex - 1);
+
+            String fechaIngresoStr = txtFechaIngreso.getText();
+            System.out.println(fechaIngresoStr);
+            String fechaSalidaStr = txtFechaSalida.getText();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+            try {
+
+                Date fechaIngreso = dateFormat.parse(fechaIngresoStr);
+                Date fechaSalida = dateFormat.parse(fechaSalidaStr);
+
+                long difEnMilisegundos = fechaSalida.getTime() - fechaIngreso.getTime();
+                long difDias = TimeUnit.DAYS.convert(difEnMilisegundos, TimeUnit.MILLISECONDS);
+
+                double totalPagar = difDias * selectedHabitacion.getTotal();
+
+                txtTotalPagar.setText(String.valueOf(totalPagar));
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al parsear las fechas. Asegúrate de que las fechas estén en el formato correcto (dd/MM/yyyy).", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            txtTotalPagar.setText("");
+        }
     }//GEN-LAST:event_selectHabitacionActionPerformed
 
 
