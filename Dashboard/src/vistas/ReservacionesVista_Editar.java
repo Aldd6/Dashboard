@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 import raven.datetime.component.date.DatePicker;
 import servicios.EstadoReservacionServicio;
 import servicios.ReservacionServicio;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -21,19 +23,70 @@ import servicios.ReservacionServicio;
 public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
 
     private ReservacionesVista reservacionesVista;
+    private ReservacionServicio tmp;
     private int id;
 
     DatePicker dtIngreso = new DatePicker();
     DatePicker dtSalida = new DatePicker();
+    
+    DateTimeFormatter fFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    LocalDate iniFecha;
+    String siFecha;
+    LocalDate finFecha;
+    String fnFecha;
 
     public ReservacionesVista_Editar(ReservacionesVista reservacionesVista, int id) {
         initComponents();
 
         this.reservacionesVista = reservacionesVista;
         this.id = id;
-
+        dtIngreso.setEditor(txtFechaIngreso);
+        dtSalida.setEditor(txtFechaSalida);
         
+        try {
+            List<ReservacionServicio> habitaciones = ReservacionServicio.obtenerTipoHabitacion();
+            selectHabitacion.removeAllItems();
+            selectHabitacion.addItem("Selecciona una habitación");
 
+            for (ReservacionServicio habitacion : habitaciones) {
+                selectHabitacion.addItem("No. " + habitacion.getNumHab() + " - " + habitacion.getTipo() + " - " + habitacion.getTotal());
+                
+            }
+
+            List<EstadoReservacionServicio> estados = EstadoReservacionServicio.obtenerEstadosReservacion();
+            selectReservacion.removeAllItems();
+            selectReservacion.addItem("Selecciona una habitación");
+
+            for (EstadoReservacionServicio estado : estados) {
+                selectReservacion.addItem(estado.getDetalleEstado());
+            }
+
+        } catch (SQLException | NamingException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al obtener los tipos de habitaciones.");
+        }
+        
+        try{
+            this.tmp = ReservacionServicio.obtenerReservacion(id);
+            
+            iniFecha = LocalDate.parse(tmp.getFechaIngreso(),fFormat);
+            siFecha = iniFecha.format(dtFormat);
+            dtIngreso.setSelectedDate(LocalDate.parse(siFecha,dtFormat));
+            
+            finFecha = LocalDate.parse(tmp.getFechaSalida(),fFormat);
+            fnFecha = finFecha.format(dtFormat);
+            dtSalida.setSelectedDate(LocalDate.parse(fnFecha,dtFormat));
+            
+            txtIdCliente.setText(String.valueOf(tmp.getClienteId()));
+            txtTotalPagar.setText(String.valueOf(tmp.getTotal()));
+            txtObservaciones.setText(tmp.getObservaciones());
+            
+            selectHabitacion.setSelectedIndex(tmp.getNumHab());
+            selectReservacion.setSelectedIndex(tmp.getEstadoReserva());
+        }catch(NamingException | SQLException ex) {
+            ex.printStackTrace();
+        }
         
     }
 

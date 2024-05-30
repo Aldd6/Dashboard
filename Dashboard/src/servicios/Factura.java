@@ -370,7 +370,7 @@ public class Factura {
         List<Factura> facturas = new ArrayList<>();
         try {
             conn = Conexion.getInstance().getConnection();
-            qry = "SELECT id_factura,no_factura,serie_factura,reservacion_id,nombre_cliente,apellido_cliente,descripcion_factura,total_factura"
+            qry = "SELECT id_factura,no_factura,serie_factura,reservacion_id,nombre_cliente,apellido_cliente,direccion_cliente,descripcion_factura,total_factura,estado_factura"
                     +" FROM cliente c INNER JOIN factura f ON c.documento_identificacion = f.cliente_id";
             st = conn.prepareStatement(qry);
             rs = st.executeQuery();
@@ -382,8 +382,10 @@ public class Factura {
                 factura.setIdReservacion(rs.getInt("reservacion_id"));
                 factura.setNombreCliente(rs.getString("nombre_cliente"));
                 factura.setApellidoCliente(rs.getString("apellido_cliente"));
+                factura.setDireccionCliente(rs.getString("direccion_cliente"));
                 factura.setDescripcion(rs.getString("descripcion_factura"));
                 factura.setTotalFactura(rs.getDouble("total_factura"));
+                factura.setEstadoFactura(rs.getBoolean("estado_factura"));
                 facturas.add(factura);
             }
         }catch(NamingException | SQLException ex) {
@@ -399,13 +401,13 @@ public class Factura {
         return facturas;
     }
     
-    public static void cambiarEstadoHabitacion(int habitacion) {
+    public static void cambiarEstadoHabitacion(int habitacion, int estadoSiguiente) {
         int affectedRows = -1;
         try {
             conn = Conexion.getInstance().getConnection();
             qry = "UPDATE habitacion SET estado_habitacion = ? WHERE no_habitacion = ?";
             st = conn.prepareStatement(qry);
-            st.setInt(1, 1);
+            st.setInt(1, estadoSiguiente);
             st.setInt(2, habitacion);
             affectedRows = st.executeUpdate();
             System.out.println("Habitaciones afectadas: " + affectedRows);
@@ -421,15 +423,15 @@ public class Factura {
         }
     }
     
-    public static void cambiarEstadoReservacion(int documento){
+    public static void cambiarEstadoReservacion(int documento, int estadoActual, int estadoSiguiente){
         int affectedRows = -1;
         try {
             conn = Conexion.getInstance().getConnection();
             qry = "UPDATE reservacion SET estado_reservacion_id = ? WHERE cliente_id = ? AND estado_reservacion_id = ?";
             st = conn.prepareStatement(qry);
-            st.setInt(1, 3);
+            st.setInt(1, estadoActual);
             st.setInt(2, documento);
-            st.setInt(3, 1);
+            st.setInt(3, estadoSiguiente);
             affectedRows = st.executeUpdate();
             System.out.println("Reservaciones afectadas: " + affectedRows);
         }catch(NamingException | SQLException ex) {

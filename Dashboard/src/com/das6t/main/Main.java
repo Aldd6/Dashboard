@@ -26,6 +26,7 @@ import vistas.FacturasVista;
 import vistas.HabitacionesVista;
 import vistas.ReservacionesVista;
 import vistas.FacturasVista;
+import vistas.DashboardVista;
 import Session.Session;
 import vistas.ReservacionesVista;
 
@@ -51,12 +52,21 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         this.setBackground(new Color(0, 0, 0, 0));
+        
+        DashboardVista dashboard = new DashboardVista();
+        dashboard.setSize(936,689);
+        dashboard.setLocation(0, 0);
+        showPanel(dashboard);
+        
         EventMenu evt = new EventMenu() {
             @Override
             public void selected(int index) {
                 switch (index) {
                     case 0:
-                        System.out.println("Dashboard");
+                        DashboardVista dashboard = new DashboardVista();
+                        dashboard.setSize(936,689);
+                        dashboard.setLocation(0, 0);
+                        showPanel(dashboard);
                         break;
                     case 1:
                         //[26/05/2024][Inicio][Ivan Hernández][Se agregaron los ventanas de inicio al switch principal]
@@ -90,6 +100,9 @@ public class Main extends javax.swing.JFrame {
                         showPanel(vs);
                         break;
                     //[26/05/2024][Fin][Ivan Hernández]
+                    case 6:
+                        closeApp();
+                        break;
                 }
 
             }
@@ -104,6 +117,10 @@ public class Main extends javax.swing.JFrame {
         contentPane.revalidate();
         contentPane.repaint();
     }
+    
+    private void closeApp() {
+        this.dispose();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -116,7 +133,6 @@ public class Main extends javax.swing.JFrame {
 
         mainPanel = new com.das6t.swing.RoundedPanel();
         header = new com.das6t.component.Header();
-        btnExit = new com.das6t.swing.ButtonBadge();
         btnMinimize = new com.das6t.swing.ButtonBadge();
         menu = new com.das6t.component.Menu();
         contentPane = new javax.swing.JPanel();
@@ -126,14 +142,6 @@ public class Main extends javax.swing.JFrame {
         setUndecorated(true);
 
         mainPanel.setBackground(new java.awt.Color(45, 42, 46));
-
-        btnExit.setBackground(new java.awt.Color(255, 0, 51));
-        btnExit.setRadius(30);
-        btnExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExitActionPerformed(evt);
-            }
-        });
 
         btnMinimize.setBackground(new java.awt.Color(255, 204, 0));
         btnMinimize.setRadius(25);
@@ -150,18 +158,14 @@ public class Main extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnMinimize, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(headerLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnExit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMinimize, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, headerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnMinimize, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         contentPane.setMaximumSize(new java.awt.Dimension(936, 689));
@@ -218,11 +222,6 @@ public class Main extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_btnExitActionPerformed
-
     private void btnMinimizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinimizeActionPerformed
         // TODO add your handling code here:
         this.setState(Frame.ICONIFIED);
@@ -248,7 +247,6 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.das6t.swing.ButtonBadge btnExit;
     private com.das6t.swing.ButtonBadge btnMinimize;
     private javax.swing.JPanel contentPane;
     private com.das6t.component.Header header;
