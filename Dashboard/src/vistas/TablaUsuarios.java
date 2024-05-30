@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JLabel;
 import java.util.List;
+import javax.swing.JOptionPane;
 import servicios.Usuarios;
 
 public class TablaUsuarios extends javax.swing.JInternalFrame {
@@ -127,8 +128,10 @@ public class TablaUsuarios extends javax.swing.JInternalFrame {
 
     private void tblUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsuariosMouseClicked
         int filaSeleccionada = tblUsuarios.getSelectedRow();
+        boolean isDifferentUser = tblUsuarios.getValueAt(filaSeleccionada, 6).equals("Archivado");
+        boolean isValidRow = filaSeleccionada != -1;
         
-        if(filaSeleccionada != -1) {
+        if(isValidRow && !isDifferentUser) {
             int id = Integer.valueOf(tblUsuarios.getValueAt(filaSeleccionada, 0).toString());
             String nombre = tblUsuarios.getValueAt(filaSeleccionada, 1).toString();
             String apellido = tblUsuarios.getValueAt(filaSeleccionada, 2).toString();
@@ -140,6 +143,8 @@ public class TablaUsuarios extends javax.swing.JInternalFrame {
             boolean estadoBool = (estado.equals("Activo"));
             System.out.println(estadoBool);
             usuariosVista.abrirEditar(id, nombre, apellido, usuario, contrasenia, rol, cargo, estadoBool);
+        }else {
+            JOptionPane.showMessageDialog(this, "Los usuarios archivados solo pueden ser restaurados por el administrador del sistema", "Alerta",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_tblUsuariosMouseClicked
 
