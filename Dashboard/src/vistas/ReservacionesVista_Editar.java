@@ -7,6 +7,8 @@ package vistas;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.naming.NamingException;
 import javax.swing.JOptionPane;
@@ -15,6 +17,10 @@ import servicios.EstadoReservacionServicio;
 import servicios.ReservacionServicio;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,13 +34,15 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
 
     DatePicker dtIngreso = new DatePicker();
     DatePicker dtSalida = new DatePicker();
-    
+
     DateTimeFormatter fFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     LocalDate iniFecha;
     String siFecha;
     LocalDate finFecha;
     String fnFecha;
+
+    List<ReservacionServicio> habitaciones;
 
     public ReservacionesVista_Editar(ReservacionesVista reservacionesVista, int id) {
         initComponents();
@@ -43,15 +51,15 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
         this.id = id;
         dtIngreso.setEditor(txtFechaIngreso);
         dtSalida.setEditor(txtFechaSalida);
-        
+
         try {
-            List<ReservacionServicio> habitaciones = ReservacionServicio.obtenerTipoHabitacion();
+            habitaciones = ReservacionServicio.obtenerTipoHabitacion();
             selectHabitacion.removeAllItems();
             selectHabitacion.addItem("Selecciona una habitación");
 
             for (ReservacionServicio habitacion : habitaciones) {
                 selectHabitacion.addItem("No. " + habitacion.getNumHab() + " - " + habitacion.getTipo() + " - " + habitacion.getTotal());
-                
+
             }
 
             List<EstadoReservacionServicio> estados = EstadoReservacionServicio.obtenerEstadosReservacion();
@@ -66,28 +74,28 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al obtener los tipos de habitaciones.");
         }
-        
-        try{
+
+        try {
             this.tmp = ReservacionServicio.obtenerReservacion(id);
-            
-            iniFecha = LocalDate.parse(tmp.getFechaIngreso(),fFormat);
+            txtIdReserva.setText(String.valueOf(id));
+            iniFecha = LocalDate.parse(tmp.getFechaIngreso(), fFormat);
             siFecha = iniFecha.format(dtFormat);
-            dtIngreso.setSelectedDate(LocalDate.parse(siFecha,dtFormat));
-            
-            finFecha = LocalDate.parse(tmp.getFechaSalida(),fFormat);
+            dtIngreso.setSelectedDate(LocalDate.parse(siFecha, dtFormat));
+
+            finFecha = LocalDate.parse(tmp.getFechaSalida(), fFormat);
             fnFecha = finFecha.format(dtFormat);
-            dtSalida.setSelectedDate(LocalDate.parse(fnFecha,dtFormat));
-            
+            dtSalida.setSelectedDate(LocalDate.parse(fnFecha, dtFormat));
+
             txtIdCliente.setText(String.valueOf(tmp.getClienteId()));
-            txtTotalPagar.setText(String.valueOf(tmp.getTotal()));
+            txtPagar.setText(String.valueOf(tmp.getTotal()));
             txtObservaciones.setText(tmp.getObservaciones());
-            
+
             selectHabitacion.setSelectedIndex(tmp.getNumHab());
             selectReservacion.setSelectedIndex(tmp.getEstadoReserva());
-        }catch(NamingException | SQLException ex) {
+        } catch (NamingException | SQLException ex) {
             ex.printStackTrace();
         }
-        
+
     }
 
     /**
@@ -110,7 +118,6 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
         selectReservacion = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtTotalPagar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtObservaciones = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
@@ -120,9 +127,29 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         txtIdReserva = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        lbDiasReservados = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txtPagar = new javax.swing.JTextField();
 
         setMaximumSize(new java.awt.Dimension(916, 629));
         setMinimumSize(new java.awt.Dimension(916, 629));
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                abrirVentan(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Editar Reservación");
@@ -171,13 +198,6 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel4.setText("Total a Pagar");
 
-        txtTotalPagar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtTotalPagar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtTotalPagarKeyTyped(evt);
-            }
-        });
-
         txtObservaciones.setColumns(20);
         txtObservaciones.setLineWrap(true);
         txtObservaciones.setRows(5);
@@ -208,6 +228,17 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel9.setText("Id");
 
+        jLabel10.setText("Días reservados:");
+
+        txtPagar.setEditable(false);
+        txtPagar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtPagar.setEnabled(false);
+        txtPagar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPagarKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -220,11 +251,23 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel10)
+                            .addGap(18, 18, 18)
+                            .addComponent(lbDiasReservados)
+                            .addGap(137, 137, 137)
+                            .addComponent(jLabel9)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtIdReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 844, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txtPagar, javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtTotalPagar, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(selectReservacion, javax.swing.GroupLayout.Alignment.LEADING, 0, 455, Short.MAX_VALUE)
                                 .addComponent(selectHabitacion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtIdCliente, javax.swing.GroupLayout.Alignment.LEADING))
@@ -242,15 +285,7 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
                                     .addGap(92, 92, 92)))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtIdReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 844, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -260,7 +295,9 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtIdReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(lbDiasReservados)
+                    .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
@@ -286,7 +323,7 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -310,7 +347,7 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
             String idCliente = txtIdCliente.getText();
             int habitacion = selectHabitacion.getSelectedIndex();
             int stReservacion = selectReservacion.getSelectedIndex();
-            String total = txtTotalPagar.getText();
+            String total = txtPagar.getText();
             String observaciones = txtObservaciones.getText();
 
             if (habitacion == 0) {
@@ -358,29 +395,55 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtIdClienteKeyTyped
 
-    private void txtTotalPagarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTotalPagarKeyTyped
-        char c = evt.getKeyChar();
-
-        if ((c < '0' || c > '9') && (c != '.' || txtIdCliente.getText().contains("."))) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtTotalPagarKeyTyped
-
     private void selectHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectHabitacionActionPerformed
-        int i = selectHabitacion.getSelectedIndex();
-        String valor = selectHabitacion.getItemAt(i);
-        System.out.println(valor);
+        int selectedIndex = selectHabitacion.getSelectedIndex();
+
+        if (selectedIndex > 0 && !"--/--/----".equals(txtFechaIngreso.getText()) && !"--/--/----".equals(txtFechaSalida.getText())) {
+            ReservacionServicio selectedHabitacion = habitaciones.get(selectedIndex - 1);
+
+            String fechaIngresoStr = txtFechaIngreso.getText();
+            System.out.println(fechaIngresoStr);
+            String fechaSalidaStr = txtFechaSalida.getText();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+            try {
+
+                Date fechaIngreso = dateFormat.parse(fechaIngresoStr);
+                Date fechaSalida = dateFormat.parse(fechaSalidaStr);
+
+                long difEnMilisegundos = fechaSalida.getTime() - fechaIngreso.getTime();
+                long difDias = TimeUnit.DAYS.convert(difEnMilisegundos, TimeUnit.MILLISECONDS);
+                lbDiasReservados.setText(String.valueOf(difDias));
+
+                double totalPagar = difDias * selectedHabitacion.getTotal();
+
+                txtPagar.setText(String.valueOf(totalPagar));
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al parsear las fechas. Asegúrate de que las fechas estén en el formato correcto (dd/MM/yyyy).", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_selectHabitacionActionPerformed
 
     private void txtIdReservaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdReservaKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdReservaKeyTyped
 
+    private void txtPagarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPagarKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPagarKeyTyped
+
+    private void abrirVentan(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_abrirVentan
+        // TODO add your handling code here:
+    }//GEN-LAST:event_abrirVentan
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -391,6 +454,7 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbDiasReservados;
     private javax.swing.JComboBox<String> selectHabitacion;
     private javax.swing.JComboBox<String> selectReservacion;
     private javax.swing.JFormattedTextField txtFechaIngreso;
@@ -398,6 +462,6 @@ public class ReservacionesVista_Editar extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtIdCliente;
     private javax.swing.JTextField txtIdReserva;
     private javax.swing.JTextArea txtObservaciones;
-    private javax.swing.JTextField txtTotalPagar;
+    private javax.swing.JTextField txtPagar;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,11 +7,16 @@ package vistas;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.naming.NamingException;
 import javax.swing.JOptionPane;
 import raven.datetime.component.date.DatePicker;
 import servicios.EstadoReservacionServicio;
+import servicios.Factura;
 import servicios.ReservacionServicio;
 
 /**
@@ -21,6 +26,8 @@ import servicios.ReservacionServicio;
 public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
 
     private ReservacionesVista reservacionesVista;
+    List<ReservacionServicio> habitaciones;
+    List<EstadoReservacionServicio> estados;
 
     DatePicker dtIngreso = new DatePicker();
     DatePicker dtSalida = new DatePicker();
@@ -34,18 +41,18 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
         dtSalida.setEditor(txtFechaSalida);
 
         try {
-            List<ReservacionServicio> habitaciones = ReservacionServicio.obtenerTipoHabitacion();
+            habitaciones = ReservacionServicio.obtenerTipoHabitacion();
             selectHabitacion.removeAllItems();
             selectHabitacion.addItem("Selecciona una habitación");
 
             for (ReservacionServicio habitacion : habitaciones) {
                 selectHabitacion.addItem("No. " + habitacion.getNumHab() + " - " + habitacion.getTipo() + " - " + habitacion.getTotal());
-                
+
             }
 
-            List<EstadoReservacionServicio> estados = EstadoReservacionServicio.obtenerEstadosReservacion();
+            estados = EstadoReservacionServicio.obtenerEstadosReservacion();
             selectReservacion.removeAllItems();
-            selectReservacion.addItem("Selecciona una habitación");
+            selectReservacion.addItem("Selecciona un estado");
 
             for (EstadoReservacionServicio estado : estados) {
                 selectReservacion.addItem(estado.getDetalleEstado());
@@ -85,6 +92,8 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
         txtFechaIngreso = new javax.swing.JFormattedTextField();
         txtFechaSalida = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        lbDiasReservados = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(916, 629));
         setMinimumSize(new java.awt.Dimension(916, 629));
@@ -136,7 +145,9 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel4.setText("Total a Pagar");
 
+        txtTotalPagar.setEditable(false);
         txtTotalPagar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTotalPagar.setEnabled(false);
         txtTotalPagar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtTotalPagarKeyTyped(evt);
@@ -155,11 +166,20 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
         jLabel7.setText("Fecha de Ingreso");
 
         txtFechaIngreso.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtFechaIngreso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFechaIngresoActionPerformed(evt);
+            }
+        });
 
         txtFechaSalida.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel8.setText("Fecha de Salida");
+
+        jLabel9.setText("Días reservados");
+
+        lbDiasReservados.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,43 +188,56 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 844, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtTotalPagar, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(selectReservacion, javax.swing.GroupLayout.Alignment.LEADING, 0, 455, Short.MAX_VALUE)
-                                .addComponent(selectHabitacion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtIdCliente, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnGuardar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnCancelar)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(txtFechaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(45, 45, 45))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 844, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(txtTotalPagar, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(selectReservacion, javax.swing.GroupLayout.Alignment.LEADING, 0, 455, Short.MAX_VALUE)
+                                        .addComponent(selectHabitacion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtIdCliente, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnGuardar)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnCancelar)))
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(92, 92, 92)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(30, Short.MAX_VALUE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(txtFechaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(45, 45, 45))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(92, 92, 92)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(62, 62, 62))))
+                        .addContainerGap(30, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbDiasReservados, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(lbDiasReservados))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
@@ -250,6 +283,7 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
         try {
             String fechaIngreso = txtFechaIngreso.getText();
             String fechaSalida = txtFechaSalida.getText();
+
             String idCliente = txtIdCliente.getText();
             int habitacion = selectHabitacion.getSelectedIndex();
             int stReservacion = selectReservacion.getSelectedIndex();
@@ -275,7 +309,7 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
             double totalPagar = parseDouble(total);
 
             if (ReservacionServicio.crearReservacion(habitacion, id, stReservacion, fechaIngreso, fechaSalida, totalPagar, observaciones)) {
-
+                Factura.cambiarEstadoHabitacion(habitacion, 2);
                 JOptionPane.showMessageDialog(this, "Reservación creada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 reservacionesVista.abrirReservacion();
 
@@ -309,10 +343,41 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtTotalPagarKeyTyped
 
     private void selectHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectHabitacionActionPerformed
-        int i = selectHabitacion.getSelectedIndex();
-        String valor = selectHabitacion.getItemAt(i);
-        System.out.println(valor);
+        int selectedIndex = selectHabitacion.getSelectedIndex();
+
+        if (selectedIndex > 0 && !"--/--/----".equals(txtFechaIngreso.getText()) && !"--/--/----".equals(txtFechaSalida.getText())) {
+            ReservacionServicio selectedHabitacion = habitaciones.get(selectedIndex - 1);
+
+            String fechaIngresoStr = txtFechaIngreso.getText();
+            System.out.println(fechaIngresoStr);
+            String fechaSalidaStr = txtFechaSalida.getText();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+            try {
+
+                Date fechaIngreso = dateFormat.parse(fechaIngresoStr);
+                Date fechaSalida = dateFormat.parse(fechaSalidaStr);
+
+                long difEnMilisegundos = fechaSalida.getTime() - fechaIngreso.getTime();
+                long difDias = TimeUnit.DAYS.convert(difEnMilisegundos, TimeUnit.MILLISECONDS);
+                lbDiasReservados.setText(String.valueOf(difDias));
+
+                double totalPagar = difDias * selectedHabitacion.getTotal();
+
+                txtTotalPagar.setText(String.valueOf(totalPagar));
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al parsear las fechas. Asegúrate de que las fechas estén en el formato correcto (dd/MM/yyyy).", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            txtTotalPagar.setText("");
+        }
     }//GEN-LAST:event_selectHabitacionActionPerformed
+
+    private void txtFechaIngresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaIngresoActionPerformed
+
+    }//GEN-LAST:event_txtFechaIngresoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -326,8 +391,10 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbDiasReservados;
     private javax.swing.JComboBox<String> selectHabitacion;
     private javax.swing.JComboBox<String> selectReservacion;
     private javax.swing.JFormattedTextField txtFechaIngreso;
