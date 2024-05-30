@@ -222,7 +222,7 @@ public class ReservacionServicio {
 
         try {
             conn = Conexion.getInstance().getConnection();
-            String query = "SELECT rs.id_reservacion, hb.no_habitacion, cl.documento_identificacion, cl.nombre_cliente, cl.apellido_cliente, er.detalle_estado, rs.fecha_ingreso, rs.fecha_salida, rs.total_pago, rs.observaciones "
+            String query = "SELECT rs.estado_reservacion_id,rs.id_reservacion, hb.no_habitacion, cl.documento_identificacion, cl.nombre_cliente, cl.apellido_cliente, er.detalle_estado, rs.fecha_ingreso, rs.fecha_salida, rs.total_pago, rs.observaciones "
                 + "FROM reservacion rs "
                 + "JOIN habitacion hb ON rs.habitacion_id = hb.no_habitacion "
                 + "JOIN cliente cl ON rs.cliente_id = cl.documento_identificacion "
@@ -237,7 +237,8 @@ public class ReservacionServicio {
                 reservacion = new ReservacionServicio();
                 reservacion.setId(rs.getInt("id_reservacion"));
                 reservacion.setNumHab(rs.getInt("no_habitacion"));
-                reservacion.setNumHab(rs.getInt("documento_identificacion"));                
+                reservacion.setEstadoReserva(rs.getInt("estado_reservacion_id"));
+                reservacion.setClienteId(rs.getInt("documento_identificacion"));                
                 reservacion.setNomCliente(rs.getString("nombre_cliente"));
                 reservacion.setApeCliente(rs.getString("apellido_cliente"));
                 reservacion.setDetalle(rs.getString("detalle_estado"));

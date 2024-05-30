@@ -45,6 +45,14 @@ public class FacturasVista extends javax.swing.JPanel {
         headerMenu.setViewName("Facturación"); //escriba aqui el nombre de la vista por favor
     }
     
+    public void abrirTablaFacturas() {
+        Observador.closeObservador();
+        TablaFacturas tbl = new TablaFacturas(this);
+        jDesktopPane.add(tbl);
+        tbl.setVisible(true);
+        Observador.initObservador(tbl);
+    }
+    
     public void abrirFacturaNueva(){
         Observador.closeObservador();
         CrearFactura cf = new CrearFactura(this);

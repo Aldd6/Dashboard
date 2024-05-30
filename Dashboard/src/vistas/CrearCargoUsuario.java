@@ -4,6 +4,7 @@
  */
 package vistas;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.Font;
 import javax.swing.table.DefaultTableModel;
@@ -24,25 +25,32 @@ public class CrearCargoUsuario extends javax.swing.JInternalFrame {
     Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
     Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
     DefaultTableModel modeloTabla;
+    private UsuariosVista usuariosVista;
     List<String> cargos;
     DefaultTableCellRenderer render = new DefaultTableCellRenderer();
     
    
-    public CrearCargoUsuario() {
+    public CrearCargoUsuario(UsuariosVista usuariosVista) {
         initComponents();
         render.setHorizontalAlignment(JLabel.CENTER);
+        this.usuariosVista = usuariosVista;
+        int count = 0;
         try{
             cargos = Usuarios.getCargos();
             modeloTabla = (DefaultTableModel)tblCargos.getModel();
             
             for(String cargo:cargos) {
-                modeloTabla.addRow(new Object[] {
-                    cargo
-                });
+                if(count != 0) {
+                        modeloTabla.addRow(new Object[] {
+                        cargo
+                    });
+                }
+                count = 1;
             }
         }catch(NamingException | SQLException ex) {
             ex.printStackTrace();
         }
+        btnGuardar.putClientProperty(FlatClientProperties.STYLE, "hoverBackground:#ffd966");
     }
 
     /**
@@ -76,6 +84,11 @@ public class CrearCargoUsuario extends javax.swing.JInternalFrame {
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
@@ -122,12 +135,11 @@ public class CrearCargoUsuario extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblCargo)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnCancelar)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(btnGuardar))
-                                .addComponent(txtCargo, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtCargo, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnGuardar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCancelar)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30))))
@@ -147,8 +159,8 @@ public class CrearCargoUsuario extends javax.swing.JInternalFrame {
                         .addComponent(txtCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGuardar)
-                            .addComponent(btnCancelar)))
+                            .addComponent(btnCancelar)
+                            .addComponent(btnGuardar)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
@@ -168,16 +180,24 @@ public class CrearCargoUsuario extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        usuariosVista.abrirTabla();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     private void tableDataChanged(){
         render.setHorizontalAlignment(JLabel.CENTER);
+        int count = 0;
         try{
             cargos = Usuarios.getCargos();
             modeloTabla.setRowCount(0);
             tblCargos.revalidate();
             for(String cargo:cargos) {
-                modeloTabla.addRow(new Object[] {
-                    cargo
-                });
+                if(count != 0) {
+                        modeloTabla.addRow(new Object[] {
+                        cargo
+                    });
+                }
+                count = 1;
             }
         }catch(NamingException | SQLException ex) {
             ex.printStackTrace();

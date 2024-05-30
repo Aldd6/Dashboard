@@ -63,12 +63,19 @@ public class ClientesVista extends javax.swing.JPanel {
         tbl.setVisible(true);
         Observador.initObservador(tbl);
     }
-        public void abrirEditar(int id, int Documento, String nit, String nombre, String apellido, String direccion, String correo, String telefono, String fecha) {
+    public void abrirEditar(int id, int Documento, String nit, String nombre, String apellido, String direccion, String correo, String telefono, String fecha) {
         Observador.closeObservador();
         ModClientes md = new ModClientes(this,id, Documento, nit, nombre, apellido, direccion, correo, telefono);
         jDesktopPane.add(md);
         md.setVisible(true);
         Observador.initObservador(md);
+    }
+    public void abrirCrear() {
+        Observador.closeObservador();
+        CrearClientes crear = new CrearClientes(ClientesVista.this);
+        jDesktopPane.add(crear);
+        crear.setVisible(true);
+        Observador.initObservador(crear);
     }
     /**
      * This method is called from within the constructor to initialize the form.

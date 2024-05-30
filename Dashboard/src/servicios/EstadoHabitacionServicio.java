@@ -53,7 +53,7 @@ public class EstadoHabitacionServicio {
 
         try {
             conn = Conexion.getInstance().getConnection();
-            String query = "INSERT INTO Estado_habitacion (Detalle_estado) VALUES (?)";
+            String query = "INSERT INTO Estado_habitacion(Detalle_estado) VALUES (?)";
             stmt = conn.prepareStatement(query);
             stmt.setString(1, detalleEstado);
 

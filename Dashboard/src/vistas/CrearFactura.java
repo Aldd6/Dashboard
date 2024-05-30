@@ -30,6 +30,7 @@ public class CrearFactura extends javax.swing.JInternalFrame {
     public CrearFactura(FacturasVista facturasVista) {
         initComponents();
         this.facturasVista = facturasVista;
+        btnGuardar.putClientProperty(FlatClientProperties.STYLE, "hoverBackground:#ffd966");
     }
 
     /**
@@ -154,6 +155,11 @@ public class CrearFactura extends javax.swing.JInternalFrame {
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
@@ -200,12 +206,12 @@ public class CrearFactura extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(btnCancelar)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnGuardar))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(jLabel9)
-                                        .addGap(171, 171, 171))))))
+                                        .addGap(171, 171, 171))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(btnGuardar)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnCancelar))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
@@ -263,8 +269,8 @@ public class CrearFactura extends javax.swing.JInternalFrame {
                         .addComponent(lblTotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGuardar)
-                            .addComponent(btnCancelar))
+                            .addComponent(btnCancelar)
+                            .addComponent(btnGuardar))
                         .addGap(70, 70, 70))))
         );
 
@@ -273,8 +279,10 @@ public class CrearFactura extends javax.swing.JInternalFrame {
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
         BuscadorCliente bsc = new BuscadorCliente((JFrame)SwingUtilities.getWindowAncestor(this),true);
+        bsc.getFieldToChange(txtDoc);
         bsc.setLocationRelativeTo(this);
         bsc.setVisible(true);
+        txtDoc.requestFocusInWindow();
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
@@ -343,13 +351,17 @@ public class CrearFactura extends javax.swing.JInternalFrame {
             double totalFactura = Double.valueOf(lblTotalPagar.getText());
             System.out.println(idCliente+" "+reservaId+" "+fecha+" "+descFactura+" "+totalFactura+" "+idHabitacion);
             int affectedRows = Factura.crearFactura(idCliente, reservaId, fecha, descFactura, totalFactura);
-            Factura.cambiarEstadoReservacion(idCliente);
-            Factura.cambiarEstadoHabitacion(idHabitacion);
+            Factura.cambiarEstadoReservacion(idCliente,3,1);
+            Factura.cambiarEstadoHabitacion(idHabitacion,1);
             JOptionPane.showMessageDialog(this, "Se ha creado exitosamente "+affectedRows+" registro(s)","Mensaje",JOptionPane.INFORMATION_MESSAGE);
         }else {
             JOptionPane.showMessageDialog(this, "No hay ninguna reservación indicada, por favor ingrese un cliente con una reservacion activa","Alerta",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        facturasVista.abrirTablaFacturas();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
