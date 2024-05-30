@@ -349,6 +349,7 @@ public class ReservacionServicio {
             String query = "SELECT hb.no_habitacion, th.tipo, th.precio_habitacion "
                 + "FROM habitacion hb "
                 + "JOIN tipo_habitacion th ON hb.tipo_habitacion_id = th.id_tipo_habitacion "
+                + "WHERE hb.estado_habitacion = 1"
                 + "ORDER BY hb.no_habitacion ASC;";
             stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();

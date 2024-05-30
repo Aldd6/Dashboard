@@ -12,12 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.naming.NamingException;
 import javax.swing.JOptionPane;
 import raven.datetime.component.date.DatePicker;
 import servicios.EstadoReservacionServicio;
+import servicios.Factura;
 import servicios.ReservacionServicio;
 
 /**
@@ -53,7 +52,7 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
 
             estados = EstadoReservacionServicio.obtenerEstadosReservacion();
             selectReservacion.removeAllItems();
-            selectReservacion.addItem("Selecciona una habitación");
+            selectReservacion.addItem("Selecciona un estado");
 
             for (EstadoReservacionServicio estado : estados) {
                 selectReservacion.addItem(estado.getDetalleEstado());
@@ -310,7 +309,7 @@ public class ReservacionesVista_Crear extends javax.swing.JInternalFrame {
             double totalPagar = parseDouble(total);
 
             if (ReservacionServicio.crearReservacion(habitacion, id, stReservacion, fechaIngreso, fechaSalida, totalPagar, observaciones)) {
-
+                Factura.cambiarEstadoHabitacion(habitacion, 2);
                 JOptionPane.showMessageDialog(this, "Reservación creada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 reservacionesVista.abrirReservacion();
 
