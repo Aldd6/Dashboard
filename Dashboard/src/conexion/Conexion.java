@@ -42,14 +42,14 @@ public class Conexion {
     }
 
     // Este metodo carga las el archivo properties con la configuración
-    /*private void cargarProperties() {
+    private void cargarProperties() {
         try (InputStream in = Files.newInputStream(Path.of("C:\\Programs\\NetBeans\\DashboardRepo\\Dashboard\\src\\conexion\\dbProp.properties"))) {
             props.load(in);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }*/
-    
+    }
+    /*
     private void cargarProperties() {
         try (InputStream in = Files.newInputStream(Path.of("D:\\Documentos del SSD\\Documents\\NetBeansProjects\\DashboardRepo\\Dashboard\\src\\conexion\\dbProp.properties"))) {
             props.load(in);
@@ -57,7 +57,7 @@ public class Conexion {
             ex.printStackTrace();
         }
     }
-
+    */
     // Metodo para obtener una conexion a la base de datos
     public Connection getConnection() throws SQLException, NamingException {
         String dbType = props.getProperty("dbType");
