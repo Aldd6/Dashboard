@@ -6,8 +6,10 @@ package vistas;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import static java.lang.Integer.parseInt;
+import java.text.NumberFormat;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.ImageIcon;
 import servicios.ReservacionServicio;
 
@@ -40,8 +42,11 @@ public class ReservacionesVista_Reservaciones extends javax.swing.JInternalFrame
         try {
             ReservacionServicio reservacion = new ReservacionServicio();
             List<ReservacionServicio> reservaciones = reservacion.obtenerReservaciones();
+            
+            NumberFormat quetzales = NumberFormat.getCurrencyInstance(new Locale("es", "GT"));
 
             for (ReservacionServicio reserva : reservaciones) {
+                String precioFormateado = quetzales.format(reserva.getTotal());
                 modeloTabla.addRow(new Object[]{
                     reserva.getId(),
                     reserva.getNumHab(),
@@ -50,7 +55,7 @@ public class ReservacionesVista_Reservaciones extends javax.swing.JInternalFrame
                     reserva.getDetalle(),
                     reserva.getFechaIngreso(),
                     reserva.getFechaSalida(),
-                    reserva.getTotal(),
+                    precioFormateado,
                     reserva.getObservaciones()
                 });
 
