@@ -29,6 +29,7 @@ import vistas.FacturasVista;
 import vistas.DashboardVista;
 import Session.Session;
 import vistas.ReservacionesVista;
+import vistas.IniSesionVista;
 
 public class Main extends javax.swing.JFrame {
 
@@ -119,7 +120,9 @@ public class Main extends javax.swing.JFrame {
     }
     
     private void closeApp() {
+        IniSesionVista iniSesion = new IniSesionVista();
         this.dispose();
+        iniSesion.setVisible(true);
     }
 
     /**
