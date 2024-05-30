@@ -19,10 +19,10 @@ import javax.naming.NamingException;
 public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
 
     private HabitacionesVista habitacionesVista;
-    
+
     public HabitacionesVista_Crear(HabitacionesVista habitacionesVista) {
         initComponents();
-        
+
         this.habitacionesVista = habitacionesVista;
 
         try {
@@ -170,7 +170,8 @@ public class HabitacionesVista_Crear extends javax.swing.JInternalFrame {
             if (HabitacionServicio.crearHabitacion(iTipoHabi, iEstaHabi)) {
 
                 JOptionPane.showMessageDialog(this, "Habitacion creada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
+                habitacionesVista.abrirInicio();
+                
             } else {
                 JOptionPane.showMessageDialog(this, "No fue posible crear la habitación, consulta con tu administrador de sistemas", "Error", JOptionPane.ERROR_MESSAGE);
             }
