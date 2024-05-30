@@ -22,7 +22,7 @@ public class UsuariosVista extends javax.swing.JPanel {
         initComponents();
         this.setOpaque(false);
         
-        TablaUsuarios tbl = new TablaUsuarios();
+        TablaUsuarios tbl = new TablaUsuarios(this);
         jDesktopPane.add(tbl);
         tbl.setVisible(true);
         Observador.initObservador(tbl);
@@ -35,25 +35,13 @@ public class UsuariosVista extends javax.swing.JPanel {
             public void selected(int index) {
                 switch(index){
                     case 0:
-                        Observador.closeObservador();
-                        CrearUsuarios crear = new CrearUsuarios();
-                        jDesktopPane.add(crear);
-                        crear.setVisible(true);
-                        Observador.initObservador(crear);
+                        abrirCrear();
                         break;
                     case 1:
-                        Observador.closeObservador();
-                        CrearCargoUsuario crearCargo = new CrearCargoUsuario();
-                        jDesktopPane.add(crearCargo);
-                        crearCargo.setVisible(true);
-                        Observador.initObservador(crearCargo);
+                        abrirCrearCargo();
                         break;
                     case 2:
-                        Observador.closeObservador();
-                        CrearRolUsuario crearRol = new CrearRolUsuario();
-                        jDesktopPane.add(crearRol);
-                        crearRol.setVisible(true);
-                        Observador.initObservador(crearRol);
+                        abrirCrearRol();
                         break;
                 }
             }
@@ -64,10 +52,42 @@ public class UsuariosVista extends javax.swing.JPanel {
     
     public void abrirTabla() {
         Observador.closeObservador();
-        TablaUsuarios tbl = new TablaUsuarios();
+        TablaUsuarios tbl = new TablaUsuarios(this);
         jDesktopPane.add(tbl);
         tbl.setVisible(true);
         Observador.initObservador(tbl);
+    }
+    
+    public void abrirEditar(int id, String nombres, String apellidos, String usuario, String contrasenia, String rol, String cargo, boolean estado) {
+        Observador.closeObservador();
+        ModUsuarios md = new ModUsuarios(this,id,nombres,apellidos,usuario,contrasenia,rol,cargo,estado);
+        jDesktopPane.add(md);
+        md.setVisible(true);
+        Observador.initObservador(md);
+    }
+    
+    public void abrirCrear(){
+        Observador.closeObservador();
+        CrearUsuarios crear = new CrearUsuarios(this);
+        jDesktopPane.add(crear);
+        crear.setVisible(true);
+        Observador.initObservador(crear);
+    }
+    
+    public void abrirCrearCargo(){
+        Observador.closeObservador();
+        CrearCargoUsuario crearCargo = new CrearCargoUsuario(this);
+        jDesktopPane.add(crearCargo);
+        crearCargo.setVisible(true);
+        Observador.initObservador(crearCargo);
+    }
+    
+    public void abrirCrearRol() {
+        Observador.closeObservador();
+        CrearRolUsuario crearRol = new CrearRolUsuario(this);
+        jDesktopPane.add(crearRol);
+        crearRol.setVisible(true);
+        Observador.initObservador(crearRol);
     }
 
     /**

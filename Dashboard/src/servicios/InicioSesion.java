@@ -58,13 +58,13 @@ public class InicioSesion {
     public static void cargarSesion(String usuario) {
         try {
             conn = Conexion.getInstance().getConnection();
-            qry = "SELECT nombre_usuario,cargo FROM cargo_empleado c INNER JOIN autenticacion a ON"
-                    + "c.id_cargo = a.cargo_usuario_id WHERE usuario = ?";
+            qry = "SELECT nombre_usuario,rol FROM rol_usuario r INNER JOIN autenticacion a ON"
+                    + " r.id_rol_usuario = a.rol_usuario_id WHERE usuario = ?";
             st = conn.prepareStatement(qry);
             st.setString(1, usuario);
             rs = st.executeQuery();
             while(rs.next()) {
-                Session.setUsuario(usuario, rs.getString("nombre_usuario"), rs.getString("cargo"));
+                Session.setUsuario(rs.getString("nombre_usuario"), usuario, rs.getString("rol"));
             }
         }catch(NamingException | SQLException ex) {
             System.out.println(ex.getMessage());

@@ -8,6 +8,7 @@ import com.das6t.swing.ButtonHeaderMenu;
 import com.das6t.event.EventMenu;
 import java.util.ArrayList;
 import javax.swing.JInternalFrame;
+import servicios.Observador;
 
 /**
  *
@@ -16,19 +17,24 @@ import javax.swing.JInternalFrame;
 public class FacturasVista extends javax.swing.JPanel {
     
     private ArrayList<ButtonHeaderMenu> buttons = new ArrayList<>();
-    JInternalFrame observador = null;
-
-    /**
-     * Creates new form NewJPanel
-     */
+    
     public FacturasVista() {
         initComponents();
         this.setOpaque(false);
+        
+        TablaFacturas tbl = new TablaFacturas(this);
+        jDesktopPane.add(tbl);
+        tbl.setVisible(true);
+        Observador.initObservador(tbl);
+        
+        buttons.add(new ButtonHeaderMenu("Nueva factura"));
+        
         EventMenu evt = new EventMenu() {
             @Override
             public void selected(int index) {
                 switch(index){
                     case 0:
+                        abrirFacturaNueva();
                         break;
                     case 1:
                         break;
@@ -36,7 +42,23 @@ public class FacturasVista extends javax.swing.JPanel {
             }
         };
         headerMenu.initHeaderMenu(evt, buttons);
-        headerMenu.setViewName(""); //escriba aqui el nombre de la vista por favor
+        headerMenu.setViewName("Facturación"); //escriba aqui el nombre de la vista por favor
+    }
+    
+    public void abrirTablaFacturas() {
+        Observador.closeObservador();
+        TablaFacturas tbl = new TablaFacturas(this);
+        jDesktopPane.add(tbl);
+        tbl.setVisible(true);
+        Observador.initObservador(tbl);
+    }
+    
+    public void abrirFacturaNueva(){
+        Observador.closeObservador();
+        CrearFactura cf = new CrearFactura(this);
+        jDesktopPane.add(cf);
+        cf.setVisible(true);
+        Observador.initObservador(cf);
     }
 
     /**

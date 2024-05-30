@@ -6,8 +6,14 @@ package vistas;
 
 import com.das6t.swing.ButtonHeaderMenu;
 import com.das6t.event.EventMenu;
+import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JInternalFrame;
+import servicios.DashboardServicio;
+import servicios.ReservacionServicio;
+import javax.swing.table.DefaultTableModel;
+import servicios.ReservacionServicio;
 
 /**
  *
@@ -16,7 +22,8 @@ import javax.swing.JInternalFrame;
 public class DashboardVista extends javax.swing.JPanel {
     
     private ArrayList<ButtonHeaderMenu> buttons = new ArrayList<>();
-    JInternalFrame observador = null;
+    private List<ReservacionServicio> reservas;
+    private DefaultTableModel modeloTabla;
 
     /**
      * Creates new form NewJPanel
@@ -24,6 +31,19 @@ public class DashboardVista extends javax.swing.JPanel {
     public DashboardVista() {
         initComponents();
         this.setOpaque(false);
+        
+        modeloTabla = (DefaultTableModel)tblReservas.getModel();
+        
+        habDisponibles.setBackgroundRounded(new Color(61,61,61));
+        habDisponibles.setTitulo("Habitaciones disponibles");
+        habDisponibles.setDato(String.valueOf(DashboardServicio.habitacionesDisponibles()));
+        habOcupadas.setBackgroundRounded(new Color(61,61,61));
+        habOcupadas.setTitulo("Habitaciones ocupadas");
+        habOcupadas.setDato(String.valueOf(DashboardServicio.habitacionesOcupadas()));
+        habMantenimiento.setBackgroundRounded(new Color(61,61,61));
+        habMantenimiento.setTitulo("Habitaciones en mantenimiento");
+        habMantenimiento.setDato(String.valueOf(DashboardServicio.habitacionesEnMantenimiento()));
+        
         EventMenu evt = new EventMenu() {
             @Override
             public void selected(int index) {
@@ -36,7 +56,20 @@ public class DashboardVista extends javax.swing.JPanel {
             }
         };
         headerMenu.initHeaderMenu(evt, buttons);
-        headerMenu.setViewName(""); //escriba aqui el nombre de la vista por favor
+        headerMenu.setViewName("Dashboard"); //escriba aqui el nombre de la vista por 
+        llenarTabla();
+    }
+    
+    public void llenarTabla() {
+        reservas = DashboardServicio.reservasActivas();
+        for(ReservacionServicio reserva:reservas) {
+            modeloTabla.addRow(new Object[] {
+                reserva.getNumHab(),
+                reserva.getNomCliente(),
+                reserva.getFechaIngreso(),
+                reserva.getFechaSalida()
+            });
+        }
     }
 
     /**
@@ -51,6 +84,11 @@ public class DashboardVista extends javax.swing.JPanel {
         roundedPanel1 = new com.das6t.swing.RoundedPanel();
         headerMenu = new com.das6t.component.HeaderMenu();
         jDesktopPane = new javax.swing.JDesktopPane();
+        habDisponibles = new com.das6t.component.InfoComponent();
+        habOcupadas = new com.das6t.component.InfoComponent();
+        habMantenimiento = new com.das6t.component.InfoComponent();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblReservas = new javax.swing.JTable();
 
         setMaximumSize(new java.awt.Dimension(936, 690));
         setMinimumSize(new java.awt.Dimension(936, 690));
@@ -65,15 +103,48 @@ public class DashboardVista extends javax.swing.JPanel {
 
         jDesktopPane.setOpaque(false);
 
+        tblReservas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "No. Habitacion", "Cliente", "Fecha ingreso", "Fecha salida"
+            }
+        ));
+        jScrollPane1.setViewportView(tblReservas);
+
+        jDesktopPane.setLayer(habDisponibles, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane.setLayer(habOcupadas, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane.setLayer(habMantenimiento, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout jDesktopPaneLayout = new javax.swing.GroupLayout(jDesktopPane);
         jDesktopPane.setLayout(jDesktopPaneLayout);
         jDesktopPaneLayout.setHorizontalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 916, Short.MAX_VALUE)
+            .addGroup(jDesktopPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jDesktopPaneLayout.createSequentialGroup()
+                        .addComponent(habDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(habOcupadas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(habMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 629, Short.MAX_VALUE)
+            .addGroup(jDesktopPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(habDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(habOcupadas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(habMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout roundedPanel1Layout = new javax.swing.GroupLayout(roundedPanel1);
@@ -100,8 +171,13 @@ public class DashboardVista extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.das6t.component.InfoComponent habDisponibles;
+    private com.das6t.component.InfoComponent habMantenimiento;
+    private com.das6t.component.InfoComponent habOcupadas;
     private com.das6t.component.HeaderMenu headerMenu;
     private javax.swing.JDesktopPane jDesktopPane;
+    private javax.swing.JScrollPane jScrollPane1;
     private com.das6t.swing.RoundedPanel roundedPanel1;
+    private javax.swing.JTable tblReservas;
     // End of variables declaration//GEN-END:variables
 }

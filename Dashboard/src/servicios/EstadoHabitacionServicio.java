@@ -53,7 +53,7 @@ public class EstadoHabitacionServicio {
 
         try {
             conn = Conexion.getInstance().getConnection();
-            String query = "INSERT INTO Estado_habitacion (Detalle_estado) VALUES (?)";
+            String query = "INSERT INTO Estado_habitacion(Detalle_estado) VALUES (?)";
             stmt = conn.prepareStatement(query);
             stmt.setString(1, detalleEstado);
 
@@ -89,7 +89,7 @@ public class EstadoHabitacionServicio {
 
         try {
             conn = Conexion.getInstance().getConnection();
-            String query = "SELECT * FROM Estado_habitacion";
+            String query = "SELECT * FROM Estado_habitacion WHERE estado = True ORDER BY id_estado_habitacion ASC";
             stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
@@ -154,15 +154,16 @@ public class EstadoHabitacionServicio {
     }
 
     // Método para eliminar un estado de habitación
-    public static boolean eliminarEstadoHabitacion(int idEstadoHabitacion) throws SQLException, NamingException {
+    public static boolean eliminarEstadoHabitacion(int idEstadoHabitacion, boolean eliminar) throws SQLException, NamingException {
         Connection conn = null;
         PreparedStatement stmt = null;
 
         try {
             conn = Conexion.getInstance().getConnection();
-            String query = "DELETE FROM Estado_habitacion WHERE id_estado_habitacion = ?";
+            String query = "UPDATE Estado_habitacion SET estado = ? WHERE id_estado_habitacion = ?";
             stmt = conn.prepareStatement(query);
-            stmt.setInt(1, idEstadoHabitacion);
+            stmt.setBoolean(1, eliminar);
+            stmt.setInt(2, idEstadoHabitacion);
 
             int rowsAffected = stmt.executeUpdate();
 

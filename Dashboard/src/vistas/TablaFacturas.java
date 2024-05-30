@@ -4,17 +4,61 @@
  */
 package vistas;
 
+import java.text.NumberFormat;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JLabel;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Locale;
+import servicios.Factura;
+
 /**
  *
- * @author DELL
+ * @author Daniel Aldana(DaS6T)
  */
 public class TablaFacturas extends javax.swing.JInternalFrame {
-
-    /**
-     * Creates new form TablaFacturas
-     */
-    public TablaFacturas() {
+    
+    DefaultTableModel modeloTabla;
+    DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+    List<Factura> tableData;
+    private FacturasVista facturasVista;
+    
+    public TablaFacturas(FacturasVista facturasVista) {
         initComponents();
+        this.facturasVista = facturasVista;
+        
+        render.setHorizontalAlignment(JLabel.CENTER);
+        modeloTabla = (DefaultTableModel)tblFacturas.getModel();
+        llenarTabla();
+    }
+    
+    private void llenarTabla() {
+        tableData = Factura.visualizarFacturas();
+        
+        NumberFormat quetzales = NumberFormat.getCurrencyInstance(new Locale("es", "GT"));
+        String precioFormateado;
+        String estado;
+        
+        for(Factura factura:tableData) {
+            if(factura.isEstadoFactura()){
+                estado = "Emitida";
+            }else {
+                estado = "Anulada";
+            }
+            precioFormateado = quetzales.format(factura.getTotalFactura());
+            modeloTabla.addRow(new Object[] {
+                factura.getIdFactura(),
+                factura.getNoFactura(),
+                factura.getSerieFactura(),
+                factura.getIdReservacion(),
+                factura.getNombreCliente(),
+                factura.getApellidoCliente(),
+                factura.getDireccionCliente(),
+                precioFormateado,
+                estado
+            });
+        }
     }
 
     /**
@@ -26,24 +70,77 @@ public class TablaFacturas extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblFacturas = new javax.swing.JTable();
+
         setMaximumSize(new java.awt.Dimension(916, 629));
         setMinimumSize(new java.awt.Dimension(916, 629));
+
+        tblFacturas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Ref.", "Numero", "Serie", "Reserv.", "Nombres", "Apellidos", "Direccion", "Total", "Estado"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblFacturas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblFacturasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblFacturas);
+        if (tblFacturas.getColumnModel().getColumnCount() > 0) {
+            tblFacturas.getColumnModel().getColumn(0).setPreferredWidth(5);
+            tblFacturas.getColumnModel().getColumn(0).setCellRenderer(render);
+            tblFacturas.getColumnModel().getColumn(1).setPreferredWidth(70);
+            tblFacturas.getColumnModel().getColumn(1).setCellRenderer(render);
+            tblFacturas.getColumnModel().getColumn(2).setPreferredWidth(70);
+            tblFacturas.getColumnModel().getColumn(2).setCellRenderer(render);
+            tblFacturas.getColumnModel().getColumn(3).setPreferredWidth(25);
+            tblFacturas.getColumnModel().getColumn(3).setCellRenderer(render);
+            tblFacturas.getColumnModel().getColumn(4).setCellRenderer(render);
+            tblFacturas.getColumnModel().getColumn(5).setCellRenderer(render);
+            tblFacturas.getColumnModel().getColumn(7).setPreferredWidth(50);
+            tblFacturas.getColumnModel().getColumn(7).setCellRenderer(render);
+            tblFacturas.getColumnModel().getColumn(8).setPreferredWidth(20);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 904, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 884, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 593, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tblFacturasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFacturasMouseClicked
+        
+    }//GEN-LAST:event_tblFacturasMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblFacturas;
     // End of variables declaration//GEN-END:variables
 }

@@ -20,12 +20,14 @@ public class TablaUsuarios extends javax.swing.JInternalFrame {
     DefaultTableModel modeloTabla;
     List<Usuarios> tableData;
     DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+    private UsuariosVista usuariosVista;
 
     /**
      * Creates new form TablaUsuarios
      */
-    public TablaUsuarios() {
+    public TablaUsuarios(UsuariosVista usuariosVista) {
         initComponents();
+        this.usuariosVista = usuariosVista;
         
         render.setHorizontalAlignment(JLabel.CENTER);
         modeloTabla = (DefaultTableModel)tblUsuarios.getModel();
@@ -34,6 +36,7 @@ public class TablaUsuarios extends javax.swing.JInternalFrame {
     
     private void llenarTabla() {
         String estado;
+        int count = 0;
         tableData = Usuarios.visualizarUsuarios();
         for(Usuarios usuario:tableData) {
             if(usuario.isEstadoUsuario()){
@@ -41,15 +44,18 @@ public class TablaUsuarios extends javax.swing.JInternalFrame {
             }else {
                 estado = "Archivado";
             }
-            modeloTabla.addRow(new Object[] {
-                usuario.getIdUsuario(),
-                usuario.getNombres(),
-                usuario.getApellidos(),
-                usuario.getUsuario(),
-                usuario.getCargo(),
-                usuario.getRol(),
-                estado
-            });
+            if(count != 0) {
+                modeloTabla.addRow(new Object[] {
+                    usuario.getIdUsuario(),
+                    usuario.getNombres(),
+                    usuario.getApellidos(),
+                    usuario.getUsuario(),
+                    usuario.getCargo(),
+                    usuario.getRol(),
+                    estado
+                });
+            }
+            count = 1;
         }
     }
 
@@ -84,20 +90,19 @@ public class TablaUsuarios extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblUsuariosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblUsuarios);
         if (tblUsuarios.getColumnModel().getColumnCount() > 0) {
             tblUsuarios.getColumnModel().getColumn(0).setPreferredWidth(10);
             tblUsuarios.getColumnModel().getColumn(0).setCellRenderer(render);
-            tblUsuarios.getColumnModel().getColumn(1).setCellRenderer(null);
-            tblUsuarios.getColumnModel().getColumn(2).setCellRenderer(null);
             tblUsuarios.getColumnModel().getColumn(3).setPreferredWidth(20);
-            tblUsuarios.getColumnModel().getColumn(3).setCellRenderer(null);
             tblUsuarios.getColumnModel().getColumn(4).setPreferredWidth(30);
-            tblUsuarios.getColumnModel().getColumn(4).setCellRenderer(null);
             tblUsuarios.getColumnModel().getColumn(5).setPreferredWidth(20);
-            tblUsuarios.getColumnModel().getColumn(5).setCellRenderer(null);
             tblUsuarios.getColumnModel().getColumn(6).setPreferredWidth(20);
-            tblUsuarios.getColumnModel().getColumn(6).setCellRenderer(null);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -119,6 +124,24 @@ public class TablaUsuarios extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsuariosMouseClicked
+        int filaSeleccionada = tblUsuarios.getSelectedRow();
+        
+        if(filaSeleccionada != -1) {
+            int id = Integer.valueOf(tblUsuarios.getValueAt(filaSeleccionada, 0).toString());
+            String nombre = tblUsuarios.getValueAt(filaSeleccionada, 1).toString();
+            String apellido = tblUsuarios.getValueAt(filaSeleccionada, 2).toString();
+            String usuario = tblUsuarios.getValueAt(filaSeleccionada, 3).toString();
+            String contrasenia = Usuarios.getContrasenia(id);
+            String cargo = tblUsuarios.getValueAt(filaSeleccionada, 4).toString();
+            String rol = tblUsuarios.getValueAt(filaSeleccionada, 5).toString();
+            String estado = tblUsuarios.getValueAt(filaSeleccionada, 6).toString();
+            boolean estadoBool = (estado.equals("Activo"));
+            System.out.println(estadoBool);
+            usuariosVista.abrirEditar(id, nombre, apellido, usuario, contrasenia, rol, cargo, estadoBool);
+        }
+    }//GEN-LAST:event_tblUsuariosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
