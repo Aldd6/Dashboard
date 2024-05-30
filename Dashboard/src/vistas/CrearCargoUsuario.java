@@ -81,6 +81,11 @@ public class CrearCargoUsuario extends javax.swing.JInternalFrame {
         lblCargo.setText("Nombre de nuevo cargo");
 
         txtCargo.setPreferredSize(new java.awt.Dimension(68, 30));
+        txtCargo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCargoKeyTyped(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -175,6 +180,7 @@ public class CrearCargoUsuario extends javax.swing.JInternalFrame {
             int affectedRows = Usuarios.crearCargo(txtCargo.getText());
             JOptionPane.showMessageDialog(this, "Se han insertado " + affectedRows + " registro(s)","Mensaje",JOptionPane.INFORMATION_MESSAGE);
             tableDataChanged();
+            usuariosVista.abrirTabla();
         }else {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos","Alerta",JOptionPane.WARNING_MESSAGE);
         }
@@ -183,6 +189,11 @@ public class CrearCargoUsuario extends javax.swing.JInternalFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         usuariosVista.abrirTabla();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtCargoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCargoKeyTyped
+        char key = evt.getKeyChar();
+        if(!Character.isLetter(key)&&key!=' ') {evt.consume();};
+    }//GEN-LAST:event_txtCargoKeyTyped
 
     private void tableDataChanged(){
         render.setHorizontalAlignment(JLabel.CENTER);

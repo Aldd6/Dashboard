@@ -8,7 +8,6 @@ package vistas;
  *
  * @author Daniel Aldana(DaS6T)
  */
-
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Font;
@@ -19,14 +18,14 @@ import javax.swing.JOptionPane;
 import servicios.Usuarios;
 import java.util.List;
 
-
 public class CrearUsuarios extends javax.swing.JInternalFrame {
-    
+
     Font robotoPlain = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13);
     Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
     private UsuariosVista usuariosVista;
     int idCargo;
     int idRol;
+
     /**
      * Creates new form CrearUsuarios
      */
@@ -40,13 +39,13 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
             List<String> cargosUsuarios = Usuarios.getCargos();
             cmbCargos.removeAllItems();
             cmbCargos.addItem("Seleccione un cargo de usuario");
-            for(String cargo:cargosUsuarios) {
-                if(count != 0) {
+            for (String cargo : cargosUsuarios) {
+                if (count != 0) {
                     cmbCargos.addItem(cargo);
                 }
                 count = 1;
             }
-        }catch(NamingException | SQLException ex) {
+        } catch (NamingException | SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al obtener los cargos.");
         }
@@ -54,10 +53,10 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
             List<String> rolesUsuarios = Usuarios.getRoles();
             cmbRoles.removeAllItems();
             cmbRoles.addItem("Seleccione un rol de usuario");
-            for(String rol:rolesUsuarios) {
+            for (String rol : rolesUsuarios) {
                 cmbRoles.addItem(rol);
             }
-        }catch(NamingException | SQLException ex) {
+        } catch (NamingException | SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al obtener los roles.");
         }
@@ -95,8 +94,18 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
         jLabel1.setText("Nuevo Usuario");
 
         txtNombres.setPreferredSize(new java.awt.Dimension(68, 30));
+        txtNombres.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombresKeyTyped(evt);
+            }
+        });
 
         txtApellidos.setPreferredSize(new java.awt.Dimension(68, 30));
+        txtApellidos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidosKeyTyped(evt);
+            }
+        });
 
         jLabel3.setFont(robotoPlain);
         jLabel3.setText("Nombres");
@@ -245,59 +254,40 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        boolean fieldName = (
-                (!(txtNombres.getText().isEmpty())) && (!(txtApellidos.getText().isEmpty())) &&
-                (txtNombres.getText().matches("^[a-zA-Z\\s]+$")) && (txtApellidos.getText().matches("^[a-zA-Z\\s]+$"))
-        );
-        boolean fieldUser = (
-                (!(txtUsuario.getText().isEmpty())) && (txtUsuario.getText().matches("^[a-zA-Z0-9_.]+$"))
-        );
-        boolean fieldPass = (
-                (txtContrasenia.getPassword().length != 0)
-        );
+        boolean fieldName = ((!(txtNombres.getText().isEmpty())) && (!(txtApellidos.getText().isEmpty()))
+                && (txtNombres.getText().matches("^[a-zA-Z\\s]+$")) && (txtApellidos.getText().matches("^[a-zA-Z\\s]+$")));
+        boolean fieldUser = ((!(txtUsuario.getText().isEmpty())) && (txtUsuario.getText().matches("^[a-zA-Z0-9_.]+$")));
+        boolean fieldPass = ((txtContrasenia.getPassword().length != 0));
         boolean fieldCargo = (idCargo != 0);
         boolean fieldRol = (idRol != 0);
         int affectedRows = -1;
-        
-        if(fieldName && fieldUser && fieldPass && fieldCargo && fieldRol) {
+
+        if (fieldName && fieldUser && fieldPass && fieldCargo && fieldRol) {
             affectedRows = Usuarios.crearUsuario(idRol, idCargo, txtUsuario.getText(), String.valueOf(txtContrasenia.getPassword()), txtNombres.getText(), txtApellidos.getText());
-            JOptionPane.showMessageDialog(this, "Se han insertado " + affectedRows + " registro(s)","Mensaje",JOptionPane.INFORMATION_MESSAGE);
-        }else {
-            if(!fieldName){
-                txtNombres.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
-                txtApellidos.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
-            }else {
-                txtNombres.putClientProperty(FlatClientProperties.OUTLINE, null);
-                txtApellidos.putClientProperty(FlatClientProperties.OUTLINE, null);
-            }
-            if(!fieldUser){
-                txtUsuario.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
-            }else {
-                txtUsuario.putClientProperty(FlatClientProperties.OUTLINE, null);
-            }
-            if(!fieldPass){
-                txtContrasenia.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
-            }else {
-                txtContrasenia.putClientProperty(FlatClientProperties.OUTLINE, null);
-            }
-            if(!fieldCargo){
-                cmbCargos.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
-            }else {
-                cmbCargos.putClientProperty(FlatClientProperties.OUTLINE, null);
-            }
-            if(!fieldRol){
-                cmbRoles.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
-            }else {
-                cmbRoles.putClientProperty(FlatClientProperties.OUTLINE, null);
-            }
-            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos","Alerta",JOptionPane.WARNING_MESSAGE);
-            System.out.println(fieldName +" "+ fieldUser +" "+fieldPass+" "+ fieldCargo + " " + fieldRol);
+            JOptionPane.showMessageDialog(this, "Se han insertado " + affectedRows + " registro(s)", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Alerta", JOptionPane.WARNING_MESSAGE);
+            usuariosVista.abrirTabla();
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         usuariosVista.abrirTabla();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombresKeyTyped
+        char key = evt.getKeyChar();
+        if (!Character.isLetter(key) && key != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombresKeyTyped
+
+    private void txtApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidosKeyTyped
+        char key = evt.getKeyChar();
+        if (!Character.isLetter(key) && key != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtApellidosKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
