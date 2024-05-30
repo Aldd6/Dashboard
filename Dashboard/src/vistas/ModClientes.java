@@ -52,7 +52,7 @@ public class ModClientes extends javax.swing.JInternalFrame {
         txtDocIdent.setText(Integer.toString(documento));
         txtNombres.setText(nombre);
         txtApellidos.setText(apellido);
-        txtDireccion1.setText(direccion);
+        txtDireccion.setText(direccion);
         txtTelefono.setText(telefono);
         
 
@@ -85,7 +85,7 @@ public class ModClientes extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        txtDireccion1 = new javax.swing.JTextField();
+        txtDireccion = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(916, 609));
         setVisible(true);
@@ -95,6 +95,11 @@ public class ModClientes extends javax.swing.JInternalFrame {
 
         txtDocIdent.setMinimumSize(new java.awt.Dimension(68, 30));
         txtDocIdent.setPreferredSize(new java.awt.Dimension(68, 30));
+        txtDocIdent.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDocIdentKeyTyped(evt);
+            }
+        });
 
         txtNit.setPreferredSize(new java.awt.Dimension(68, 30));
 
@@ -128,9 +133,19 @@ public class ModClientes extends javax.swing.JInternalFrame {
 
         txtNombres.setMinimumSize(new java.awt.Dimension(68, 30));
         txtNombres.setPreferredSize(new java.awt.Dimension(68, 30));
+        txtNombres.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombresKeyTyped(evt);
+            }
+        });
 
         txtApellidos.setMinimumSize(new java.awt.Dimension(68, 30));
         txtApellidos.setPreferredSize(new java.awt.Dimension(68, 30));
+        txtApellidos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidosKeyTyped(evt);
+            }
+        });
 
         jLabel5.setText("Telefono");
 
@@ -141,11 +156,16 @@ public class ModClientes extends javax.swing.JInternalFrame {
 
         txtTelefono.setMinimumSize(new java.awt.Dimension(68, 30));
         txtTelefono.setPreferredSize(new java.awt.Dimension(68, 30));
+        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyTyped(evt);
+            }
+        });
 
         jLabel8.setText("Direccion");
 
-        txtDireccion1.setMinimumSize(new java.awt.Dimension(68, 30));
-        txtDireccion1.setPreferredSize(new java.awt.Dimension(68, 30));
+        txtDireccion.setMinimumSize(new java.awt.Dimension(68, 30));
+        txtDireccion.setPreferredSize(new java.awt.Dimension(68, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,22 +181,18 @@ public class ModClientes extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel5)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancelar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnGuardar))
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(274, 274, 274))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtDocIdent, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDireccion1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(274, 274, 274)))
+                                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8))
+                                .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(passwordVerify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNit, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -186,11 +202,12 @@ public class ModClientes extends javax.swing.JInternalFrame {
                             .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel4))
                 .addContainerGap(36, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(40, 40, 40)
-                    .addComponent(jLabel8)
-                    .addContainerGap(814, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancelar)
+                .addGap(18, 18, 18)
+                .addComponent(btnGuardar)
+                .addGap(44, 44, 44))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,9 +221,7 @@ public class ModClientes extends javax.swing.JInternalFrame {
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                         .addComponent(jLabel2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3)))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDocIdent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -220,7 +235,9 @@ public class ModClientes extends javax.swing.JInternalFrame {
                     .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
-                .addComponent(jLabel6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel8))
                 .addGap(18, 18, 18)
                 .addComponent(passwordVerify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -230,20 +247,15 @@ public class ModClientes extends javax.swing.JInternalFrame {
                         .addGap(17, 17, 17)
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnGuardar)
-                                .addComponent(btnCancelar))
-                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(191, Short.MAX_VALUE))
+                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnGuardar)
+                            .addComponent(btnCancelar))
+                        .addContainerGap(159, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtDireccion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(227, 227, 227)
-                    .addComponent(jLabel8)
-                    .addContainerGap(349, Short.MAX_VALUE)))
         );
 
         pack();
@@ -255,20 +267,71 @@ public class ModClientes extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
-            int accept = (JOptionPane.showConfirmDialog(this, "Esta a punto de alterar el registro actual ¿Esta seguro que desea continuar?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE));
-            if(accept==0) {
+        boolean isValidNit = Cliente.esNitValido(txtNit.getText());
+        boolean fieldCorreo = Cliente.esCorreoValido(txtCorreo.getText());
+        boolean flagNit = false, flagCorreo = false;
+        boolean isAllFilled = (
+                !(txtNombres.getText().isEmpty())&&!(txtApellidos.getText().isEmpty())&&
+                !(txtDocIdent.getText().isEmpty())&&!(txtDireccion.getText().isEmpty())&&
+                !(txtCorreo.getText().isEmpty())&&!(txtTelefono.getText().isEmpty())&&
+                !(txtNit.getText().isEmpty())
+        );
+
+        int accept = (JOptionPane.showConfirmDialog(this, "Esta a punto de alterar el registro actual ¿Esta seguro que desea continuar?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE));
+        if(accept==0) {
+            if(isValidNit){
+                flagNit = true;
+            }
+
+            if(fieldCorreo) {
+                flagCorreo = true;
+            }
+
+            if(isAllFilled&&flagNit&&flagCorreo) {
                 this.documento = Integer.parseInt(txtDocIdent.getText());
                 this.nit = txtNit.getText();
                 this.nombre = txtNombres.getText();
                 this.apellido = txtApellidos.getText();
-                this.direccion = txtDireccion1.getText();
+                this.direccion = txtDireccion.getText();
                 this.correo = txtCorreo.getText();
                 this.telefono = txtTelefono.getText();
                 int affectedRows = Cliente.modificarCliente(id, documento, nit, nombre, apellido, direccion, correo, telefono);
                 JOptionPane.showMessageDialog(this, "Se han alterado " + affectedRows + " registro(s)","Mensaje",JOptionPane.INFORMATION_MESSAGE);
                 clientesVista.abrirTabla();
+            }else {
+                if(!isAllFilled) {
+                    JOptionPane.showMessageDialog(this, "Por favor, llene todos los campos","Alerta",JOptionPane.WARNING_MESSAGE);
+                }else{
+                    if(!flagNit){
+                    JOptionPane.showMessageDialog(this, "Por favor, ingrese un NIT valido","Alerta",JOptionPane.WARNING_MESSAGE);
+                    }
+                    if(!flagCorreo) {
+                        JOptionPane.showMessageDialog(this, "Por favor, ingrese un correo valido","Alerta",JOptionPane.WARNING_MESSAGE);
+                    }
+                }
             }
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void txtDocIdentKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDocIdentKeyTyped
+        char key = evt.getKeyChar();
+        if(Character.isLetter(key)||key==' ') {evt.consume();}
+    }//GEN-LAST:event_txtDocIdentKeyTyped
+
+    private void txtNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombresKeyTyped
+        char key = evt.getKeyChar();
+        if(!Character.isLetter(key)&&key!=' ') {evt.consume();}
+    }//GEN-LAST:event_txtNombresKeyTyped
+
+    private void txtApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidosKeyTyped
+        char key = evt.getKeyChar();
+        if(!Character.isLetter(key)&&key!=' ') {evt.consume();}
+    }//GEN-LAST:event_txtApellidosKeyTyped
+
+    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+        char key = evt.getKeyChar();
+        if(Character.isLetter(key)||key==' ') {evt.consume();}
+    }//GEN-LAST:event_txtTelefonoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -286,7 +349,7 @@ public class ModClientes extends javax.swing.JInternalFrame {
     private com.das6t.component.PasswordVerify passwordVerify;
     private javax.swing.JTextField txtApellidos;
     private javax.swing.JTextField txtCorreo;
-    private javax.swing.JTextField txtDireccion1;
+    private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtDocIdent;
     private javax.swing.JTextField txtNit;
     private javax.swing.JTextField txtNombres;

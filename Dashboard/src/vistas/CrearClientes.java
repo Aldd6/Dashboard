@@ -69,8 +69,18 @@ public class CrearClientes extends javax.swing.JInternalFrame {
         jLabel1.setText("Nuevo Cliente");
 
         txtNombres.setPreferredSize(new java.awt.Dimension(68, 30));
+        txtNombres.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombresKeyTyped(evt);
+            }
+        });
 
         txtApellidos.setPreferredSize(new java.awt.Dimension(68, 30));
+        txtApellidos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidosKeyTyped(evt);
+            }
+        });
 
         jLabel3.setFont(robotoPlain);
         jLabel3.setText("Nombres");
@@ -85,6 +95,11 @@ public class CrearClientes extends javax.swing.JInternalFrame {
         jLabel5.setText("Direccion");
 
         txtTelefono.setPreferredSize(new java.awt.Dimension(68, 30));
+        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyTyped(evt);
+            }
+        });
 
         jLabel6.setFont(robotoPlain);
         jLabel6.setText("Documento de Identificacion");
@@ -111,6 +126,11 @@ public class CrearClientes extends javax.swing.JInternalFrame {
         txtCorreo.setPreferredSize(new java.awt.Dimension(68, 30));
 
         txtDocIdent.setPreferredSize(new java.awt.Dimension(68, 30));
+        txtDocIdent.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDocIdentKeyTyped(evt);
+            }
+        });
 
         txtDireccion.setPreferredSize(new java.awt.Dimension(68, 30));
 
@@ -134,23 +154,23 @@ public class CrearClientes extends javax.swing.JInternalFrame {
                                     .addComponent(txtNombres, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtCorreo, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE))
                                 .addComponent(jLabel3)))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel7))
-                                .addGap(492, 492, 492))
                             .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btnGuardar)
                                         .addGap(18, 18, 18)
-                                        .addComponent(btnCancelar))
-                                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(btnCancelar)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(passwordVerify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(passwordVerify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 18, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel7))
+                                .addGap(492, 492, 492))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
@@ -177,9 +197,9 @@ public class CrearClientes extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -202,60 +222,84 @@ public class CrearClientes extends javax.swing.JInternalFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGuardar)
-                            .addComponent(btnCancelar)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(193, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnCancelar))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-        Documento = Integer.parseInt(txtDocIdent.getText());
-        boolean fieldName = (
-                (!(txtNombres.getText().isEmpty())) && (!(txtApellidos.getText().isEmpty())) &&
-                (txtNombres.getText().matches("^[a-zA-Z\\s]+$")) && (txtApellidos.getText().matches("^[a-zA-Z\\s]+$"))
-        );
-        boolean fieldTel = (
-                (!(txtTelefono.getText().isEmpty())) && (txtTelefono.getText().matches("^[a-zA-Z0-9_.]+$"))
-        );
-        boolean fieldDoc = (
-                (!(txtDocIdent.getText().isEmpty())) && (txtDocIdent.getText().matches("^[0-9_.]+$"))
+
+        boolean isValidNit = Cliente.esNitValido(txtNit.getText());
+        boolean fieldCorreo = Cliente.esCorreoValido(txtCorreo.getText());
+        boolean flagNit = false, flagCorreo = false;
+        boolean isAllFilled = (
+                !(txtNombres.getText().isEmpty())&&!(txtApellidos.getText().isEmpty())&&
+                !(txtDocIdent.getText().isEmpty())&&!(txtDireccion.getText().isEmpty())&&
+                !(txtCorreo.getText().isEmpty())&&!(txtTelefono.getText().isEmpty())&&
+                !(txtNit.getText().isEmpty())
         );
 
         int affectedRows = -1;
         
-        if(fieldName && fieldTel && fieldDoc) {
+        if(isValidNit){
+            flagNit = true;
+        }
+        
+        if(fieldCorreo) {
+            flagCorreo = true;
+        }
+        
+        if(isAllFilled&&flagNit&&flagCorreo) {
+            Documento = Integer.parseInt(txtDocIdent.getText());
             affectedRows = Cliente.crearCliente(Documento, txtNit.getText(), txtNombres.getText(), txtApellidos.getText(), txtDireccion.getText(), txtCorreo.getText(), txtTelefono.getText());
             JOptionPane.showMessageDialog(this, "Se han insertado " + affectedRows + " registro(s)","Mensaje",JOptionPane.INFORMATION_MESSAGE);
             clientesVista.abrirTabla();
         }else {
-            if(!fieldName){
-                txtNombres.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
-                txtApellidos.putClientProperty(FlatClientProperties.OUTLINE, FlatClientProperties.OUTLINE_WARNING);
-            }else {
-                txtNombres.putClientProperty(FlatClientProperties.OUTLINE, null);
-                txtApellidos.putClientProperty(FlatClientProperties.OUTLINE, null);
+            if(!isAllFilled) {
+                JOptionPane.showMessageDialog(this, "Por favor, llene todos los campos","Alerta",JOptionPane.WARNING_MESSAGE);
+            }else{
+                if(!flagNit){
+                JOptionPane.showMessageDialog(this, "Por favor, ingrese un NIT valido","Alerta",JOptionPane.WARNING_MESSAGE);
+                }
+                if(!flagCorreo) {
+                    JOptionPane.showMessageDialog(this, "Por favor, ingrese un correo valido","Alerta",JOptionPane.WARNING_MESSAGE);
+                }
             }
-
-            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos","Alerta",JOptionPane.WARNING_MESSAGE);
-            System.out.println(fieldName +" "+ fieldTel);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         clientesVista.abrirTabla();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombresKeyTyped
+        char key = evt.getKeyChar();
+        if(!Character.isLetter(key)&&key!=' ') {evt.consume();}
+    }//GEN-LAST:event_txtNombresKeyTyped
+
+    private void txtApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidosKeyTyped
+        char key = evt.getKeyChar();
+        if(!Character.isLetter(key)&&key!=' ') {evt.consume();}
+    }//GEN-LAST:event_txtApellidosKeyTyped
+
+    private void txtDocIdentKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDocIdentKeyTyped
+        char key = evt.getKeyChar();
+        if(Character.isLetter(key)||key==' ') {evt.consume();}
+    }//GEN-LAST:event_txtDocIdentKeyTyped
+
+    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+        char key = evt.getKeyChar();
+        if(Character.isLetter(key)||key==' ') {evt.consume();}
+    }//GEN-LAST:event_txtTelefonoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

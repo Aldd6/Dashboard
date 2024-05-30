@@ -201,6 +201,7 @@ public class CrearFactura extends javax.swing.JInternalFrame {
         jLabel8.setText("Detalle");
 
         txtDetalle.setColumns(20);
+        txtDetalle.setLineWrap(true);
         txtDetalle.setRows(5);
         jScrollPane1.setViewportView(txtDetalle);
 
