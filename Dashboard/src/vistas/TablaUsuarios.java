@@ -36,6 +36,7 @@ public class TablaUsuarios extends javax.swing.JInternalFrame {
     
     private void llenarTabla() {
         String estado;
+        int count = 0;
         tableData = Usuarios.visualizarUsuarios();
         for(Usuarios usuario:tableData) {
             if(usuario.isEstadoUsuario()){
@@ -43,15 +44,18 @@ public class TablaUsuarios extends javax.swing.JInternalFrame {
             }else {
                 estado = "Archivado";
             }
-            modeloTabla.addRow(new Object[] {
-                usuario.getIdUsuario(),
-                usuario.getNombres(),
-                usuario.getApellidos(),
-                usuario.getUsuario(),
-                usuario.getCargo(),
-                usuario.getRol(),
-                estado
-            });
+            if(count != 0) {
+                modeloTabla.addRow(new Object[] {
+                    usuario.getIdUsuario(),
+                    usuario.getNombres(),
+                    usuario.getApellidos(),
+                    usuario.getUsuario(),
+                    usuario.getCargo(),
+                    usuario.getRol(),
+                    estado
+                });
+            }
+            count = 1;
         }
     }
 

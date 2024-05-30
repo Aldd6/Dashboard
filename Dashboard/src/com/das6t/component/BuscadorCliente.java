@@ -8,14 +8,68 @@ package com.das6t.component;
  *
  * @author Daniel Aldana(DaS6T)
  */
+
+import servicios.Cliente;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import com.das6t.swing.SearchRowFilter;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import com.formdev.flatlaf.FlatClientProperties;
+import java.awt.Font;
+import javax.swing.ImageIcon;
+import javax.swing.JTextField;
+
 public class BuscadorCliente extends javax.swing.JDialog {
 
     /**
-     * Creates new form BuscadorCliente
+     * @return the noDoc
      */
+    public int getNoDoc() {
+        return noDoc;
+    }
+
+    /**
+     * @param aNoDoc the noDoc to set
+     */
+    public void setNoDoc(int aNoDoc) {
+        noDoc = aNoDoc;
+    }
+    
+    Font robotoBold = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
+    ImageIcon iconBuscar = new FlatSVGIcon("com/das6t/icons/buscar.svg", 16, 16);
+    
+    List<Cliente> tableData;
+    DefaultTableModel modeloTabla;
+    TableRowSorter sorter;
+    JTextField field;
+    public int noDoc;
+    
     public BuscadorCliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        modeloTabla = (DefaultTableModel)tblCliente.getModel();
+        sorter = new TableRowSorter(modeloTabla);
+        tblCliente.setRowSorter(sorter);
+        btnBuscar.putClientProperty(FlatClientProperties.STYLE, "hoverBackground:#ffd966");
+        llenarTabla();
+        
+    }
+    
+    public void getFieldToChange(JTextField field) {
+        this.field = field;
+    }
+    
+    public void llenarTabla() {
+        tableData = Cliente.visualizarClientes();
+        for(Cliente cliente:tableData) {
+            modeloTabla.addRow(new Object[] {
+                cliente.getDocIdent(),
+                cliente.getNombre(),
+                cliente.getApellido()
+            });
+        }
     }
 
     /**
@@ -28,13 +82,15 @@ public class BuscadorCliente extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblCliente = new javax.swing.JTable();
         txtBuscador = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
+        lblTitulo = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setResizable(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -42,11 +98,26 @@ public class BuscadorCliente extends javax.swing.JDialog {
                 "Documento", "Nombres", "Apellidos"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClienteMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblCliente);
 
         txtBuscador.setMaximumSize(new java.awt.Dimension(77, 30));
         txtBuscador.setMinimumSize(new java.awt.Dimension(77, 30));
         txtBuscador.setPreferredSize(new java.awt.Dimension(77, 30));
+
+        btnBuscar.setIcon(iconBuscar);
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        lblTitulo.setFont(robotoBold);
+        lblTitulo.setText("Buscar cliente");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -55,29 +126,52 @@ public class BuscadorCliente extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(166, 166, 166)
                         .addComponent(txtBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+                            .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator1))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(74, Short.MAX_VALUE)
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(lblTitulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtBuscador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtBuscador, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                     .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String searchText = txtBuscador.getText();
+        sorter.setRowFilter(new SearchRowFilter(searchText,1));
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void tblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClienteMouseClicked
+        int rowSelected = tblCliente.getSelectedRow();
+        if(rowSelected != -1) {
+            setNoDoc(Integer.parseInt(tblCliente.getValueAt(rowSelected, 0).toString()));
+            System.out.println(getNoDoc());
+            field.setText(String.valueOf(getNoDoc()));
+            
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_tblClienteMouseClicked
 
     /**
      * @param args the command line arguments
@@ -124,7 +218,9 @@ public class BuscadorCliente extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JTable tblCliente;
     private javax.swing.JTextField txtBuscador;
     // End of variables declaration//GEN-END:variables
 }

@@ -33,6 +33,7 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
     public CrearUsuarios(UsuariosVista usuariosVista) {
         initComponents();
         this.usuariosVista = usuariosVista;
+        int count = 0;
         txtContrasenia.putClientProperty(FlatClientProperties.STYLE, "" + "showRevealButton:true");
         passwordVerify.initPassListener(txtContrasenia);
         try {
@@ -40,7 +41,10 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
             cmbCargos.removeAllItems();
             cmbCargos.addItem("Seleccione un cargo de usuario");
             for(String cargo:cargosUsuarios) {
-                cmbCargos.addItem(cargo);
+                if(count != 0) {
+                    cmbCargos.addItem(cargo);
+                }
+                count = 1;
             }
         }catch(NamingException | SQLException ex) {
             ex.printStackTrace();
@@ -158,10 +162,6 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 844, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnGuardar)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnCancelar))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel3)
@@ -183,7 +183,11 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel2)
                                 .addComponent(txtContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                                 .addComponent(jLabel7)
-                                .addComponent(cmbRoles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(cmbRoles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnCancelar)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnGuardar))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -219,11 +223,11 @@ public class CrearUsuarios extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbCargos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbRoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnCancelar))
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
 
         pack();

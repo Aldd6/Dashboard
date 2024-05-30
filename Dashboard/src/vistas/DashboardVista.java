@@ -8,8 +8,11 @@ import com.das6t.swing.ButtonHeaderMenu;
 import com.das6t.event.EventMenu;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JInternalFrame;
 import servicios.DashboardServicio;
+import servicios.ReservacionServicio;
+import javax.swing.table.DefaultTableModel;
 import servicios.ReservacionServicio;
 
 /**
@@ -19,7 +22,8 @@ import servicios.ReservacionServicio;
 public class DashboardVista extends javax.swing.JPanel {
     
     private ArrayList<ButtonHeaderMenu> buttons = new ArrayList<>();
-    JInternalFrame observador = null;
+    private List<ReservacionServicio> reservas;
+    private DefaultTableModel modeloTabla;
 
     /**
      * Creates new form NewJPanel
@@ -27,6 +31,8 @@ public class DashboardVista extends javax.swing.JPanel {
     public DashboardVista() {
         initComponents();
         this.setOpaque(false);
+        
+        modeloTabla = (DefaultTableModel)tblReservas.getModel();
         
         habDisponibles.setBackgroundRounded(new Color(61,61,61));
         habDisponibles.setTitulo("Habitaciones disponibles");
@@ -50,7 +56,20 @@ public class DashboardVista extends javax.swing.JPanel {
             }
         };
         headerMenu.initHeaderMenu(evt, buttons);
-        headerMenu.setViewName("Dashboard"); //escriba aqui el nombre de la vista por favor
+        headerMenu.setViewName("Dashboard"); //escriba aqui el nombre de la vista por 
+        llenarTabla();
+    }
+    
+    public void llenarTabla() {
+        reservas = DashboardServicio.reservasActivas();
+        for(ReservacionServicio reserva:reservas) {
+            modeloTabla.addRow(new Object[] {
+                reserva.getNumHab(),
+                reserva.getNomCliente(),
+                reserva.getFechaIngreso(),
+                reserva.getFechaSalida()
+            });
+        }
     }
 
     /**
@@ -69,7 +88,7 @@ public class DashboardVista extends javax.swing.JPanel {
         habOcupadas = new com.das6t.component.InfoComponent();
         habMantenimiento = new com.das6t.component.InfoComponent();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblReservas = new javax.swing.JTable();
 
         setMaximumSize(new java.awt.Dimension(936, 690));
         setMinimumSize(new java.awt.Dimension(936, 690));
@@ -84,18 +103,15 @@ public class DashboardVista extends javax.swing.JPanel {
 
         jDesktopPane.setOpaque(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblReservas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "No. Habitacion", "Cliente", "Fecha ingreso", "Fecha salida"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblReservas);
 
         jDesktopPane.setLayer(habDisponibles, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane.setLayer(habOcupadas, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -161,7 +177,7 @@ public class DashboardVista extends javax.swing.JPanel {
     private com.das6t.component.HeaderMenu headerMenu;
     private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private com.das6t.swing.RoundedPanel roundedPanel1;
+    private javax.swing.JTable tblReservas;
     // End of variables declaration//GEN-END:variables
 }
