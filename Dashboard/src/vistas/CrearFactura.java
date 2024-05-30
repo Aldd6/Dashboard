@@ -8,10 +8,14 @@ import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Font;
 import com.das6t.component.BuscadorCliente;
+import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import raven.datetime.component.date.DatePicker;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
 import servicios.Factura;
 
 /**
@@ -31,6 +35,59 @@ public class CrearFactura extends javax.swing.JInternalFrame {
         initComponents();
         this.facturasVista = facturasVista;
         btnGuardar.putClientProperty(FlatClientProperties.STYLE, "hoverBackground:#ffd966");
+        txtDoc.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
+        txtDoc.getActionMap().put("enter", new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(txtDoc.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(thisFactura(), "Por favor ingrese el no. de documento del cliente","Alerta",JOptionPane.WARNING_MESSAGE);
+                    if(!txtNombre.getText().isEmpty()) {
+                        txtNombre.setEnabled(false);
+                        txtNombre.setText(null);
+                        txtApellido.setEnabled(false);
+                        txtApellido.setText(null);
+                        txtDireccion.setEnabled(false);
+                        txtDireccion.setText(null);
+                        txtDetalle.setEnabled(false);
+                        txtDetalle.setText(null);
+                        lblTotalPagar.setText(null);
+                        lblIdReservacion.setText(null);
+                        txtFecha.setEnabled(false);
+                        dt.setEditor(null);
+                    }
+                }else {
+                    temp = Factura.reservacionAfacturar(Integer.valueOf(txtDoc.getText()));
+                    if(temp.getNombreCliente() != null){
+                        txtNombre.setEnabled(true);
+                        txtNombre.setText(temp.getNombreCliente());
+                        txtApellido.setEnabled(true);
+                        txtApellido.setText(temp.getApellidoCliente());
+                        txtDireccion.setEnabled(true);
+                        txtDireccion.setText(temp.getDireccionCliente());
+                        txtDetalle.setEnabled(true);
+                        txtDetalle.setText(temp.getDescripcion());
+                        lblTotalPagar.setText(String.valueOf(temp.getTotalFactura()));
+                        lblIdReservacion.setText(String.valueOf(temp.getIdReservacion()));
+                        txtFecha.setEnabled(true);
+                        dt.setEditor(txtFecha);
+                    }else {
+                        JOptionPane.showMessageDialog(thisFactura(), "El cliente indicado no existe o no tiene una reservación activa","Alerta",JOptionPane.WARNING_MESSAGE);
+                        txtNombre.setEnabled(false);
+                        txtNombre.setText(null);
+                        txtApellido.setEnabled(false);
+                        txtApellido.setText(null);
+                        txtDireccion.setEnabled(false);
+                        txtDireccion.setText(null);
+                        txtDetalle.setEnabled(false);
+                        txtDetalle.setText(null);
+                        lblTotalPagar.setText(null);
+                        lblIdReservacion.setText(null);
+                        txtFecha.setEnabled(false);
+                        dt.setEditor(null);
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -92,9 +149,9 @@ public class CrearFactura extends javax.swing.JInternalFrame {
         jLabel2.setText("No. Documuento de indetificación");
 
         txtDoc.setPreferredSize(new java.awt.Dimension(68, 30));
-        txtDoc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDocActionPerformed(evt);
+        txtDoc.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtDocFocusGained(evt);
             }
         });
 
@@ -277,6 +334,10 @@ public class CrearFactura extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private CrearFactura thisFactura() {
+        return this;
+    }
+    
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
         BuscadorCliente bsc = new BuscadorCliente((JFrame)SwingUtilities.getWindowAncestor(this),true);
         bsc.getFieldToChange(txtDoc);
@@ -293,56 +354,6 @@ public class CrearFactura extends javax.swing.JInternalFrame {
         txtFecha.setEnabled(false);
     }//GEN-LAST:event_formInternalFrameOpened
 
-    private void txtDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDocActionPerformed
-        if(txtDoc.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor ingrese el no. de documento del cliente","Alerta",JOptionPane.WARNING_MESSAGE);
-            if(!txtNombre.getText().isEmpty()) {
-                txtNombre.setEnabled(false);
-                txtNombre.setText(null);
-                txtApellido.setEnabled(false);
-                txtApellido.setText(null);
-                txtDireccion.setEnabled(false);
-                txtDireccion.setText(null);
-                txtDetalle.setEnabled(false);
-                txtDetalle.setText(null);
-                lblTotalPagar.setText(null);
-                lblIdReservacion.setText(null);
-                txtFecha.setEnabled(false);
-                dt.setEditor(null);
-            }
-        }else {
-            temp = Factura.reservacionAfacturar(Integer.valueOf(txtDoc.getText()));
-            if(temp.getNombreCliente() != null){
-                txtNombre.setEnabled(true);
-                txtNombre.setText(temp.getNombreCliente());
-                txtApellido.setEnabled(true);
-                txtApellido.setText(temp.getApellidoCliente());
-                txtDireccion.setEnabled(true);
-                txtDireccion.setText(temp.getDireccionCliente());
-                txtDetalle.setEnabled(true);
-                txtDetalle.setText(temp.getDescripcion());
-                lblTotalPagar.setText(String.valueOf(temp.getTotalFactura()));
-                lblIdReservacion.setText(String.valueOf(temp.getIdReservacion()));
-                txtFecha.setEnabled(true);
-                dt.setEditor(txtFecha);
-            }else {
-                JOptionPane.showMessageDialog(this, "El cliente indicado no existe o no tiene una reservación activa","Alerta",JOptionPane.WARNING_MESSAGE);
-                txtNombre.setEnabled(false);
-                txtNombre.setText(null);
-                txtApellido.setEnabled(false);
-                txtApellido.setText(null);
-                txtDireccion.setEnabled(false);
-                txtDireccion.setText(null);
-                txtDetalle.setEnabled(false);
-                txtDetalle.setText(null);
-                lblTotalPagar.setText(null);
-                lblIdReservacion.setText(null);
-                txtFecha.setEnabled(false);
-                dt.setEditor(null);
-            }
-        }
-    }//GEN-LAST:event_txtDocActionPerformed
-
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if(txtNombre.isEnabled()) {
             int idCliente = Integer.valueOf(txtDoc.getText()), reservaId = Integer.valueOf(lblIdReservacion.getText());
@@ -354,6 +365,7 @@ public class CrearFactura extends javax.swing.JInternalFrame {
             Factura.cambiarEstadoReservacion(idCliente,3,1);
             Factura.cambiarEstadoHabitacion(idHabitacion,1);
             JOptionPane.showMessageDialog(this, "Se ha creado exitosamente "+affectedRows+" registro(s)","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+            facturasVista.abrirTablaFacturas();
         }else {
             JOptionPane.showMessageDialog(this, "No hay ninguna reservación indicada, por favor ingrese un cliente con una reservacion activa","Alerta",JOptionPane.WARNING_MESSAGE);
         }
@@ -362,6 +374,10 @@ public class CrearFactura extends javax.swing.JInternalFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         facturasVista.abrirTablaFacturas();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtDocFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDocFocusGained
+        txtDoc.postActionEvent();
+    }//GEN-LAST:event_txtDocFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -76,6 +76,11 @@ public class CrearRolUsuario extends javax.swing.JInternalFrame {
         lblCargo.setText("Nombre de nuevo rol");
 
         txtRol.setPreferredSize(new java.awt.Dimension(68, 30));
+        txtRol.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRolKeyTyped(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -170,6 +175,7 @@ public class CrearRolUsuario extends javax.swing.JInternalFrame {
             int affectedRows = Usuarios.crearRol(txtRol.getText());
             JOptionPane.showMessageDialog(this, "Se han insertado " + affectedRows + " registro(s)","Mensaje",JOptionPane.INFORMATION_MESSAGE);
             tableDataChanged();
+            usuariosVista.abrirTabla();
         }else {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos","Alerta",JOptionPane.WARNING_MESSAGE);
         }
@@ -178,6 +184,11 @@ public class CrearRolUsuario extends javax.swing.JInternalFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         usuariosVista.abrirTabla();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtRolKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRolKeyTyped
+        char key = evt.getKeyChar();
+        if(!Character.isLetter(key)&&key!=' ') {evt.consume();}
+    }//GEN-LAST:event_txtRolKeyTyped
 
     private void tableDataChanged(){
         render.setHorizontalAlignment(JLabel.CENTER);
